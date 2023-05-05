@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BLL.Educational_entities
+﻿namespace BLL.Educational_entities
 {
     public class Mark
     {
+        public int Id { get; set; }
+        public int Value { get; set; }
     }
 }
