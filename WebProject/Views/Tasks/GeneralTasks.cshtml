@@ -1,0 +1,39 @@
+﻿<div class="editor-task-container">
+    <div class="task-description">
+        <h4>Objective</h4>
+        In this challenge, you will learn the usage of the for loop, which is a programming language statement which allows code to be executed until a terminal condition is met. They can even repeat forever if the terminal condition is never met.
+    </div>
+
+    <div class="editor-info">
+        <div class="editor-upper-menu">
+            <div></div>
+            <a href="#"> #Theme </a>
+            <a href="#"> #Language </a>
+            <div> </div>
+            <div class="editor-upper-buttons">
+               <button>1</button> 
+               <button>1</button> 
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div id="editor">//Hello</div>
+        </div>
+        <div>
+           <button>ONE</button>
+           <button>ONE</button>
+        </div>
+    </div>
+</div>
+
+
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ace.js" integrity="sha512-SW4evx3QqQEkHMJWqXaoYJYoVQZaMPc/5ZBwcwBprOWexxVa/izjqIaw+SwrGdp6hckpyxIWgPq8ZX45H3viAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ 
+ <script>
+    let editor = document.querySelector('#editor');
+    ace.edit(editor, {
+      theme: 'ace/theme/dreamwaver',
+      mode: "ace/mode/csharp",
+    });
+ </script>

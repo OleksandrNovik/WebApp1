@@ -10,10 +10,28 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+//TODO: Вибрати представлення для показу головної сторінки зареєстрованим користувачам
+#region Authenticated-User-Return-View
+//app.MapGet("/", context =>
+//{
+//    var isAuthenticated = context.User.Identity?.IsAuthenticated ?? false;
+//    if (!isAuthenticated)
+//    {
+//        context.Response.Redirect("/Home/Index");
+//	}
+//    else
+//    {
+//		context.Response.Redirect("/***/Home");
+//	}
+//	return Task.CompletedTask;
+//});
+#endregion
 
 app.UseAuthorization();
 

@@ -16,3 +16,58 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.left-menu{
+    border: 1px solid black;
+    position:absolute;
+}
+
+/*
+=======================================================
+                      Editor style
+=======================================================
+*/
+.editor-task-container {
+    margin-top: 80px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+}
+.editor-info{
+    display: flex;
+    flex-direction: column;
+}
+.task-description {
+    width: 700px;
+    overflow-y: scroll;
+    border: 2px solid black;
+    padding: 25px 20px;
+}
+.editor-upper-menu{
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
+    padding: 8px 3px;
+}
+.editor-upper-buttons{
+    display: flex;
+    padding-left: 40px;
+    justify-content: space-evenly;
+}
+.editor-container {
+    width: 900px;
+    height: 500px;
+    position: relative;
+    border: 2px solid black;
+}
+
+#editor {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    font-size: 18px;
+}
