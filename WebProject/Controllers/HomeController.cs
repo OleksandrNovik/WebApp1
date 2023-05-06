@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebProject.Models;
+using BLL.Other_models;
 
 namespace WebProject.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -14,7 +14,7 @@ namespace WebProject.Controllers
         }
         public IActionResult Index()
         {
-            return View("Index");
+            return View();
         }
 
         public IActionResult Privacy()
