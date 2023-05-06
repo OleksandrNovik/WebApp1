@@ -15,6 +15,7 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #f9f9f9;
 }
 
 .left-menu{
@@ -27,29 +28,37 @@ body {
                       Editor style
 =======================================================
 */
-.editor-task-container {
-    margin-top: 80px;
+.editor-task-container, #editor {
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
+}
+.editor-task-container {
+    margin-top: 80px;
     display: flex;
 }
-.editor-info{
+.editor-info {
     display: flex;
     flex-direction: column;
 }
 .task-description {
     width: 700px;
     overflow-y: scroll;
-    border: 2px solid black;
     padding: 25px 20px;
+    margin: 0 18px 0 10px;
+    background-color: white;
 }
-.editor-upper-menu{
+.editor-upper-menu, .editor-lower-menu {
+    background-color: #e8eded;
+}
+.editor-upper-menu {
     display: grid;
     grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
-    padding: 8px 3px;
+    padding: 8px 6px;
+    height: 60px;
+    align-items: center;
 }
 .editor-upper-buttons{
     display: flex;
@@ -60,14 +69,13 @@ body {
     width: 900px;
     height: 500px;
     position: relative;
-    border: 2px solid black;
 }
-
 #editor {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
     font-size: 18px;
+    box-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+.editor-lower-menu {
+    display: flex;
+    justify-content: end;
+    padding: 15px 26px;
 }
