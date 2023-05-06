@@ -1,4 +1,5 @@
-﻿using BLL.Person_entities;
+﻿using BLL.Educational_entities.Education;
+using BLL.Person_entities;
 
 namespace BLL.Educational_entities.Organization
 {
@@ -10,5 +11,6 @@ namespace BLL.Educational_entities.Organization
 		public decimal Rating { get; set; } = 0;
 		public Mentor Author { get; set; }
 		public Group? Group { get; set; }
+		public ICollection<Topic>? Topics { get; set; }
 	}
 }
