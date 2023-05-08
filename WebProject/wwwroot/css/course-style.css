@@ -1,0 +1,58 @@
+﻿/*
+====================================================================
+                    Фільтр характеристик курсу
+====================================================================
+*/
+.courses-content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    column-gap: 24px;
+    padding: 17px 5px 0 30px;
+}
+.courses-filter {
+    background-color: #eeeeee;
+    width: 400px;
+    padding: 19px 30px;
+    margin-bottom: 17px;
+}
+.courses-filter-header{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+.courses-filer-checkbox {
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.courses-checkbox-container {
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.courses-filter-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 250px;
+    height: 50px;
+}
+b{
+    margin-bottom: 6px;
+}
+.courses-show {
+    overflow-y: scroll;
+    height: 570px;
+    background-color: white;
+    padding: 17px 30px;
+}
+.courses-header-search {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.courses-sort-and-ordering{
+    background-color: red;
+}

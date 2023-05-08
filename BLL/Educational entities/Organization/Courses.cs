@@ -8,9 +8,9 @@ namespace BLL.Educational_entities.Organization
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string? Description { get; set; }
-		public decimal Rating { get; set; } = 0;
 		public Mentor Author { get; set; }
 		public Group? Group { get; set; }
+		public DateTime CreationData { get; set; }
 		public ICollection<Topic>? Topics { get; set; }
 	}
 }

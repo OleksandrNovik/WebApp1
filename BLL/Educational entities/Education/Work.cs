@@ -12,7 +12,7 @@ namespace BLL.Educational_entities.Education
 	{
 		public int Id { get; set; }
 		public WorkStatus Status { get; set; }
-		public Task OnTask { get; set; }
+		public Assignment OnTask { get; set; }
 		public Student WorkAuthor { get; set; }
 		public Mark? Assessment { get; set; }
 	}

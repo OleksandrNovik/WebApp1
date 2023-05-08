@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Assignment>
+@{
+	ViewData["Title"] = "Assignmants";
+	Layout = "/Views/Shared/CourseLayout.cshtml";
+}
+
+<h1> All assignments for this topic </h1>
+
+<ul>
+	@foreach(var assignment in Model)
+	{
+		<dl>
+			<dt> @assignment.Name </dt>
+			<dd> @assignment.Description </dd>
+		</dl>
+	}
+</ul>

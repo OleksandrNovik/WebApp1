@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BLL.Educational_entities.Education;
+using DAL.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebProject.Controllers
 {
     public class TasksController : BaseController
     {
-        public IActionResult General()
+        public IActionResult Index()
         {
-            return View("GeneralTasks");
+            return View(SampleData.sampleTasks);
+        }
+        public IActionResult CodeEditorTask(int? assignmentID)
+        {
+            return View("CodeEditor");
         }
         public IActionResult Error()
         {

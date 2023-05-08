@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Injections\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
