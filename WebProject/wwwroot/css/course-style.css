@@ -1,14 +1,31 @@
 ﻿/*
 ====================================================================
-                    Фільтр характеристик курсу
+                             Спільне
 ====================================================================
 */
-.courses-content {
+.courses-view-grid {
     display: grid;
     grid-template-columns: 400px 1fr;
     column-gap: 24px;
-    padding: 17px 5px 0 30px;
 }
+.content {
+    padding: 0 5px 0 30px;
+}
+b {
+    margin-bottom: 6px;
+}
+.courses-show {
+    overflow-y: scroll;
+    height: 570px;
+    background-color: white;
+    padding: 17px 30px;
+}
+
+/*
+====================================================================
+                    Фільтр характеристик курсу
+====================================================================
+*/
 .courses-filter {
     background-color: #eeeeee;
     width: 400px;
@@ -39,20 +56,42 @@
     width: 250px;
     height: 50px;
 }
-b{
-    margin-bottom: 6px;
+/*
+====================================================================
+             Верхня частина з пошуком та впорядкуванням
+====================================================================
+*/
+.courses-search {
+    flex: 1;
 }
-.courses-show {
-    overflow-y: scroll;
-    height: 570px;
-    background-color: white;
-    padding: 17px 30px;
+.courses-search-input {
+    flex: 1;
+    max-width: 880px;
 }
-.courses-header-search {
+.courses-form {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
 }
-.courses-sort-and-ordering{
-    background-color: red;
+.courses-search-bar {
+    padding-left: 10px;
+    font-size: 17px;
+    width: 100%;
+}
+.courses-search-options {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    height: 70px;
+    padding: 0 10px 0 30px;
+    background-color: white;
+}
+.courses-ordering {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+}
+.courses-ordering-actions{
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
 }

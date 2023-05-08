@@ -7,24 +7,31 @@
 	Layout = "/Views/Shared/_CourseLayout.cshtml";
 }
 
-<div class="courses-header-search">
-    <h1> @ViewData["Title"] </h1>
-    <div class="courses-sort">
-        <form>
-            <input type="text"/>
-            <button type="submit"> Submit </button>
-        </form>
-    </div>
-    <div class="courses-ordering">
-        <span> Впорядкування за </span>
-        <a href="#"> Назва </a>
-        <a href="#"> Нікнейм автора </a>
-        <a href="#"> Кількість тем </a>
+<div class="content">
+	<div class="courses-header-search courses-view-grid">
+    <h1 style="margin-left: 30px;"> @ViewData["Title"] </h1>
+    <div class="courses-search-options boder-solid-2p-light">
+        <div class="courses-search">
+            <form class="courses-form">
+                <div class="courses-search-input">
+                    <input class="courses-search-bar" type="text"/>
+                </div>
+                <button type="submit"> Submit </button>
+            </form>
+        </div>
+        <div class="courses-ordering">
+            <span> Впорядкування за: </span>
+            <div class="courses-ordering-actions">
+                <a href="#"> Назва </a>
+                <a href="#"> Нікнейм автора </a>
+                <a href="#"> Кількість тем </a>
+            </div>
+        </div>
     </div>
 </div>
 
 
-<div class="courses-content">
+<div class="courses-content courses-view-grid">
 	<div class="courses-filter boder-solid-2p-light">
         <div class="courses-filter-header">
             <h4> Фільтр </h4>
@@ -107,5 +114,6 @@
             }
         }
     </div>
+</div>
 </div>
 
