@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
         public int Value {  get; set; }
-        public (int MinValue, int MaxValue) Range { get; set; }
+        public int MinValue { get; set; }
+        public int MaxValue { get; set; }
+        public ICollection<Work> Works { get; set; } = new List<Work>();
     }
 }

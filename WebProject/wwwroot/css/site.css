@@ -16,9 +16,15 @@ html {
 body {
   background-color: #f9f9f9;
 }
+
 .box-shadow {
     box-shadow: 1px 1px 7px rgba(1, 1, 1, 0.15);
 }
+
 .boder-solid-2p-light {
     border: solid 2px #dee2e6;
+}
+
+.ace_content{
+    font-size: 20px;
 }

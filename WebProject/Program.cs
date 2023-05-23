@@ -1,6 +1,10 @@
+using BLL.Injections;
+using DAL.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<ICourseControllerHelper, CourseControllerHelper>();
 
 var app = builder.Build();
 

@@ -12,5 +12,6 @@ namespace BLL.Educational_entities.Organization
 		public Group? Group { get; set; }
 		public DateTime CreationData { get; set; }
 		public ICollection<Topic>? Topics { get; set; }
-	}
+		public CourseOptions Options { get; set; }
+    }
 }

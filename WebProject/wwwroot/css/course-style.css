@@ -3,6 +3,16 @@
                              Спільне
 ====================================================================
 */
+.bg-light {
+    background-color: #faf9f7;
+}
+.gap7 {
+    gap: 7px;
+}
+.details-style {
+    width: 340px;
+    justify-content: space-between;
+}
 .courses-view-grid {
     display: grid;
     grid-template-columns: 400px 1fr;
@@ -20,7 +30,9 @@ b {
     background-color: white;
     padding: 17px 30px;
 }
-
+.line{
+    margin: 10px 0;
+}
 /*
 ====================================================================
                     Фільтр характеристик курсу
@@ -94,4 +106,171 @@ b {
     display: flex;
     flex: 1;
     justify-content: space-evenly;
+}
+.courses-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 18px 18px 28px 18px;
+}
+.courses-additional-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 0;
+}
+/*
+.course-info-layout{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}*/
+.course-post-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.course-author-content {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+/*
+====================================================================
+                   Стилізація характеристик курсу 
+====================================================================
+*/
+.course-charact {
+    border: none;
+    background-color: #ededed;
+    padding: 5px 0 5px 10px;
+    font-size: 15px;
+    flex-grow: 1;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: 0.25s;
+}
+.course-level-border{
+    border: 1px solid;
+}
+.author-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 30px;
+}
+.author-info{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    font-size: 18px;
+}
+/*
+====================================================================
+       Складність курсу (уся стилізація міні-блоку складності) 
+====================================================================
+*/
+.Beginner {
+    background-color: rgba(172, 232, 177, 0.4);
+    border-color: #4cb054;
+}
+.Beginner:hover {
+    background-color: rgba(172, 232, 177, 0.5);
+}
+.Intermediate {
+    background-color: rgba(235, 211, 155, 0.4);
+    border-color: #c79a30;
+}
+.Intermediate:hover {
+    background-color: rgba(235, 211, 155, 0.5);
+}
+.Advanced {
+    background-color: rgba(234, 187, 240, 0.4);
+    border-color: #b630c7;
+}
+.Advanced:hover {
+    background-color: rgba(234, 187, 240, 0.5);
+}
+.Programming {
+    background-color: #fce7cf;
+}
+    .Programming:hover {
+        background-color: #fce5c2;
+    }
+.Language {
+    background-color: #cfe3fc;
+}
+    .Language:hover {
+        background-color: #cbe0f7;
+    }
+.Historical {
+    background-color: #e5defc;
+}
+    .Historical:hover {
+        background-color: #dbd2f7;
+    }
+.Geographical {
+    background-color: #d2fad3;
+}
+    .Geographical:hover {
+        background-color: #cbf5cf;
+    }
+.Calculus {
+    background-color: #fad4cf;
+}
+    .Calculus:hover {
+        background-color: #f7ccc6;
+    }
+.other-characters:hover {
+    background-color: #e3e3e3;
+}
+.c-red{
+   background-color: red;
+}
+/*
+====================================================================
+              Стилізацію інформації про вибраний курс 
+====================================================================
+*/
+.one-course-container{
+    display: flex;
+}
+.one-course-general-info {
+    width: 610px;
+    height: 640px;
+    padding: 20px 15px 10px 15px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.course-description-container{
+    overflow-y: scroll;
+    padding: 10px 12px;
+    flex: 1;
+}
+.course-buttons-container{
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+.course-topic-container {
+    background-color: #eeeeee;
+    flex: 1;
+    padding: 25px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: scroll;
+    height: 640px;
+}
+.topic-info-container{
+    border-radius: 12px;
+    padding: 25px 17px;
+}
+.topic-title{
+    font-weight: bold;
+    margin-bottom: 16px;
+    font-size: 18px;
 }

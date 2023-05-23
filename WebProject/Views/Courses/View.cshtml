@@ -1,0 +1,67 @@
+﻿@using BLL.Educational_entities.Organization;
+@using BLL.ViewModels;
+@model CourseInfoViewModel
+
+@{
+    ViewData["Title"] = Model.CourseInfo.Name;
+	Layout = "/Views/Shared/_CourseLayout.cshtml";
+}
+
+<div class="one-course-container">
+	<div class="one-course-general-info boder-solid-2p-light bg-light">
+		<h3> @Model.CourseInfo.Name </h3>
+		<div class="courses-additional-info gap7">
+			<div class="course-charact @Model.Options.Level.ToString() course-level-border"> @Model.Options.Level </div>
+            <div class="course-charact @Model.Options.Type.ToString()"> @Model.Options.Type </div>
+                                
+			@if (Model.Options.AdditionalInfo is not null)
+			{
+				foreach (var info in Model.Options.AdditionalInfo)
+				{
+					<div class="course-charact other-characters w100"> @info </div>
+				}
+			}
+		</div>
+		<div class="course-author-content">
+            <div>
+				<img src="~/resources/TestPhoto.png" class="author-thumbnail" />
+            </div>
+            <div class="author-info">
+				<a href="#"> @Model.AuthorNickName </a>
+			</div>
+        </div>
+		<div class="course-description-container"> 
+			@Model.CourseInfo.Description 
+		</div>
+		@* TODO: При створенні юзерів додати так, щоб показувало відвідувати лише тоді, 
+			коли користувач не відвідав курс *@
+		<div class="course-buttons-container">
+			<a href="#"> Відвідати </a>
+		</div>
+		@*<div> Кількість занять: @Model.CourseInfo.Topics?.Count </div>
+		@{
+			var privacy = Model.Options.IsPublic ? "Публічний" : "Приватний";
+			<div> Доступність: @privacy </div>
+		}*@
+	</div>
+	<div class="course-topic-container">
+		@if (Model.CourseInfo.Topics?.Count() == 0)
+		{
+			<div> No topics</div>
+		}
+		else
+		{
+			foreach(var topic in Model.CourseInfo.Topics)
+			{
+				<div class="topic-info-container bg-light">
+					<div class="topic-title"> 
+						<a href="#"> @topic.Title </a>
+					</div>
+					<div> @topic.Description </div>
+					<hr class="line" />
+					<div> Кількість завдань в темі: @topic.Tasks?.Count() </div>
+				</div>
+			}
+		}
+	</div>
+</div>
