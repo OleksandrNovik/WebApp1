@@ -28,7 +28,14 @@ namespace DAL.Data
                 Description = "Цей курс пропонує повний набір матеріалів та ресурсів для вивчення мови програмування Python. Він розрахований на тих, хто має мінімальний досвід у програмуванні або навіть для абсолютних початківців. Курс включає п'ять основних тем, які охоплюють широкий спектр концепцій та навичок.\nПереваги курсу:\r\n\r\nЧіткі та лаконічні пояснення концепцій\r\nБагато практичних вправ та завдань для закріплення матеріалу\r\nІнтерактивні приклади та демонстрації коду\r\nПідтримка від кваліфікованого інструктора та спільноти студентів\r\nГнучкий графік навчання та доступ до матеріалів у будь-який зручний час\r\nПриєднуйтесь до курсу \"Вивчення Python\" і розкрийте свій потенціал у світі програмування!",
                 Options = new CourseOptions
                 {
-                    Id = 2, IsPublic = true, Level = CourseLevel.Beginner, Type = CourseType.Programming, AdditionalInfo = new string[] { "Основи програмування", "Базами даних", "Info1", "Лекції та практичні заняття" }
+                    Id = 2, IsPublic = true, Level = CourseLevel.Beginner, Type = CourseType.Programming, 
+                    AdditionalInfo = new List<CourseAdditionalCharacteristics> 
+                    { 
+                        new CourseAdditionalCharacteristics { Name = "Основи програмування" },
+                        new CourseAdditionalCharacteristics { Name =  "Базами даних"},
+                        new CourseAdditionalCharacteristics { Name = "Лекції та практичні заняття"},
+                        new CourseAdditionalCharacteristics { Name = "Info1"},
+                    }
                 },
                 Topics = new List<Topic>
                 {
@@ -65,7 +72,12 @@ namespace DAL.Data
                 Description = "Історія України - це курс, який допоможе вам дізнатися більше про історію вашої країни. Ви дізнаєтеся про найважливіші події, які вплинули на розвиток України, від давніх часів до сьогодення. На цьому курсі ви дізнаєтеся про історію української культури, національних традицій та звичаїв.",
                 Options = new CourseOptions
                 {
-                    Id = 3, IsPublic = true, Level = CourseLevel.Intermediate, Type = CourseType.Historical, AdditionalInfo = new string[] { "Info1", "Info1" }
+                    Id = 3, IsPublic = true, Level = CourseLevel.Intermediate, Type = CourseType.Historical, 
+                    AdditionalInfo = new List<CourseAdditionalCharacteristics>
+                    {
+                        new CourseAdditionalCharacteristics { Name = "Info1" },
+                        new CourseAdditionalCharacteristics { Name =  "Info2"},
+                    }
                 }
             },
             new Courses {
@@ -73,7 +85,13 @@ namespace DAL.Data
                 Name = "Test course",
                 Options = new CourseOptions
                 {
-                    Id = 4, IsPublic = true, Level = CourseLevel.Intermediate, Type = CourseType.Geographical, AdditionalInfo = new string[] { "Info1", "Info1", "Info1" }
+                    Id = 4, IsPublic = true, Level = CourseLevel.Intermediate, Type = CourseType.Geographical, 
+                    AdditionalInfo = new List <CourseAdditionalCharacteristics> 
+                    {
+                        new CourseAdditionalCharacteristics { Name = "Info1" },
+                        new CourseAdditionalCharacteristics { Name = "Info2"},
+                        new CourseAdditionalCharacteristics { Name = "Info3"},
+                    }
                 }
             }
         };

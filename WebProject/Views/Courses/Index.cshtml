@@ -110,10 +110,10 @@
                                 <div class="course-charact @courseInfo.Options.Level.ToString() course-level-border"> @courseInfo.Options.Level </div>
                                 <div class="course-charact @courseInfo.Options.Type.ToString()"> @courseInfo.Options.Type </div>
                                 @if (courseInfo.Options.AdditionalInfo is not null)
-                                {
+                                {      
                                     foreach(var info in courseInfo.Options.AdditionalInfo)
                                     {
-                                        <div class="course-charact other-characters"> @info </div>
+                                        <div class="course-charact other-characters"> @info.Name </div>
                                     }
                                 }
                             </div>

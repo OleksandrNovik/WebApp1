@@ -21,7 +21,6 @@
 		public bool IsPublic { get; set; }
 		public CourseLevel Level { get; set; }
 		public CourseType Type { get; set; }
-		//TODO: Змінити формат
-		public string[]? AdditionalInfo { get; set; }
+		public List<CourseAdditionalCharacteristics>? AdditionalInfo { get; set; }
 	}
 }
