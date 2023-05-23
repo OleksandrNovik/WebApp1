@@ -1,4 +1,5 @@
 ﻿@using BLL.Educational_entities.Organization;
+@using BLL.Injections;
 @using BLL.ViewModels;
 @model CourseInfoViewModel
 
@@ -35,11 +36,7 @@
 				string htmlList = "";
 				if (Model.CourseInfo.Description is not null)
 				{
-					var rawLinesList = Model.CourseInfo.Description
-										.Split(new string[] { "\n\t", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-					var listItems = string.Join("", rawLinesList
-												.Select(line => line.Contains('-') ? $"<li class=\"description-list-item\">{line.Replace('-', ' ')}</li>" : $"<div>{line}</div>"));
-					htmlList = $"<ul style=\"padding: 0;\">{listItems}</ul>";
+					htmlList = HelperHTML.GenerateUnorderedList(Model.CourseInfo.Description);
 				}
 			}
 			@Html.Raw(htmlList)
