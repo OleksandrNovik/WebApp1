@@ -274,3 +274,7 @@ b {
     margin-bottom: 16px;
     font-size: 18px;
 }
+.description-list-item {
+    margin: 7px 0 7px 30px;
+    
+}

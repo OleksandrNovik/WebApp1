@@ -31,18 +31,24 @@
 			</div>
         </div>
 		<div class="course-description-container"> 
-			@Model.CourseInfo.Description 
+			@{
+				string htmlList = "";
+				if (Model.CourseInfo.Description is not null)
+				{
+					var rawLinesList = Model.CourseInfo.Description
+										.Split(new string[] { "\n\t", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+					var listItems = string.Join("", rawLinesList
+												.Select(line => line.Contains('-') ? $"<li class=\"description-list-item\">{line.Replace('-', ' ')}</li>" : $"<div>{line}</div>"));
+					htmlList = $"<ul style=\"padding: 0;\">{listItems}</ul>";
+				}
+			}
+			@Html.Raw(htmlList)
 		</div>
 		@* TODO: При створенні юзерів додати так, щоб показувало відвідувати лише тоді, 
 			коли користувач не відвідав курс *@
 		<div class="course-buttons-container">
 			<a href="#"> Відвідати </a>
 		</div>
-		@*<div> Кількість занять: @Model.CourseInfo.Topics?.Count </div>
-		@{
-			var privacy = Model.Options.IsPublic ? "Публічний" : "Приватний";
-			<div> Доступність: @privacy </div>
-		}*@
 	</div>
 	<div class="course-topic-container">
 		@if (Model.CourseInfo.Topics?.Count() == 0)

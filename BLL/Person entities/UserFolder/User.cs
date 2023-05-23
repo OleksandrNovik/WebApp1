@@ -1,6 +1,4 @@
-﻿using BLL.Person_entities;
-
-namespace BLL.Other_models.UserFolder
+﻿namespace BLL.Person_entities.UserFolder
 {
     public class User
     {

@@ -1,4 +1,4 @@
-﻿namespace BLL.Other_models.UserFolder
+﻿namespace BLL.Person_entities.UserFolder
 {
     public enum UserRole
     {
