@@ -15,7 +15,7 @@
 }
 .courses-view-grid {
     display: grid;
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 11fr 30fr;
     column-gap: 24px;
 }
 .content {
@@ -40,7 +40,6 @@ b {
 */
 .courses-filter {
     background-color: #eeeeee;
-    width: 400px;
     padding: 19px 30px;
     margin-bottom: 17px;
 }
@@ -154,11 +153,11 @@ b {
     border: 1px solid;
 }
 .author-thumbnail {
-    width: 50px;
-    height: 50px;
     object-fit: contain;
     object-position: center;
     border-radius: 30px;
+    width: 50px;
+    height: 50px;
 }
 .author-info{
     display: flex;
@@ -234,10 +233,10 @@ b {
 ====================================================================
 */
 .one-course-container{
-    display: flex;
+    display: grid;
+    grid-template-columns: 11fr 17fr;
 }
 .one-course-general-info {
-    width: 610px;
     height: 640px;
     padding: 20px 15px 10px 15px;
     margin-left: 20px;
@@ -257,7 +256,6 @@ b {
 }
 .course-topic-container {
     background-color: #eeeeee;
-    flex: 1;
     padding: 25px 12px;
     display: flex;
     flex-direction: column;
@@ -265,11 +263,11 @@ b {
     overflow-y: scroll;
     height: 640px;
 }
-.topic-info-container{
+.topic-info-container {
     border-radius: 12px;
     padding: 25px 17px;
 }
-.topic-title{
+.topic-title {
     font-weight: bold;
     margin-bottom: 16px;
     font-size: 18px;

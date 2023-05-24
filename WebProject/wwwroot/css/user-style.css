@@ -1,0 +1,30 @@
+﻿/*
+====================================================================
+                             Спільне
+====================================================================
+*/
+
+/*
+====================================================================
+                           Показ профіля
+====================================================================
+*/
+.profile-info-container {
+    display: flex;
+    padding: 0 60px 0 20px;
+    display: grid;
+    grid-template-columns: 12fr 30fr;
+}
+.profile-photo-description {
+    background-color: gray;
+}
+.courses-other-info{
+    background-color: lightgray;
+}
+.profile-thumbnail {
+    object-fit: contain;
+    object-position: center;
+    border-radius: 200px;
+    width: 280px;
+    height: 280px;
+}

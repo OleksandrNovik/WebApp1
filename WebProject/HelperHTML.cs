@@ -1,4 +1,4 @@
-﻿namespace BLL.Injections
+﻿namespace WebProject
 {
 	public static class HelperHTML
 	{
