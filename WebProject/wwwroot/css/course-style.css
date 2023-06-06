@@ -1,0 +1,187 @@
+﻿/*
+====================================================================
+                             Спільне
+====================================================================
+*/
+.details-style {
+    width: 340px;
+    justify-content: space-between;
+}
+.courses-view-grid {
+    display: grid;
+    grid-template-columns: 11fr 30fr;
+    column-gap: 24px;
+}
+.content {
+    padding: 0 5px 0 30px;
+}
+b {
+    margin-bottom: 6px;
+}
+.courses-show {
+    overflow-y: scroll;
+    height: 570px;
+    background-color: white;
+    padding: 17px 30px;
+}
+.line{
+    margin: 10px 0;
+}
+/*
+====================================================================
+                    Фільтр характеристик курсу
+====================================================================
+*/
+.courses-filter {
+    background-color: #eeeeee;
+    padding: 19px 30px;
+    margin-bottom: 17px;
+}
+.courses-filter-header{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+.courses-filer-checkbox {
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.courses-checkbox-container {
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.courses-filter-actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 250px;
+    height: 50px;
+}
+/*
+====================================================================
+             Верхня частина з пошуком та впорядкуванням
+====================================================================
+*/
+.courses-search {
+    flex: 1;
+}
+.courses-search-input {
+    flex: 1;
+    max-width: 880px;
+}
+.courses-form {
+    display: flex;
+    justify-content: space-between;
+}
+.courses-search-bar {
+    padding-left: 10px;
+    font-size: 17px;
+    width: 100%;
+}
+.courses-search-options {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    height: 70px;
+    padding: 0 10px 0 30px;
+    background-color: white;
+}
+.courses-ordering {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+}
+.courses-ordering-actions{
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+}
+.courses-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 18px 18px 28px 18px;
+}
+
+.course-post-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.course-author-content {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+/*
+====================================================================
+                   Стилізація характеристик курсу 
+====================================================================
+*/
+.author-thumbnail {
+    object-fit: contain;
+    object-position: center;
+    border-radius: 30px;
+    width: 50px;
+    height: 50px;
+}
+.author-info{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    font-size: 18px;
+}
+
+.c-red{
+   background-color: red;
+}
+/*
+====================================================================
+              Стилізацію інформації про вибраний курс 
+====================================================================
+*/
+.one-course-container{
+    display: grid;
+    grid-template-columns: 11fr 17fr;
+}
+.one-course-general-info {
+    height: 640px;
+    padding: 20px 15px 10px 15px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.course-description-container{
+    overflow-y: scroll;
+    padding: 10px 12px;
+    flex: 1;
+}
+.course-buttons-container{
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+.course-topic-container {
+    background-color: #eeeeee;
+    padding: 25px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: scroll;
+    height: 640px;
+}
+.topic-info-container {
+    border-radius: 12px;
+    padding: 25px 17px;
+}
+.topic-title {
+    font-weight: bold;
+    margin-bottom: 16px;
+    font-size: 18px;
+}

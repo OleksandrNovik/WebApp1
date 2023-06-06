@@ -1,0 +1,97 @@
+﻿@using BLL.ViewModels;
+@model UserViewModel
+
+@{
+    ViewData["Title"] = Model.ShownUser.UserName;
+	Layout = "/Views/Shared/_UserInfoLayout.cshtml";
+	///TODO: Зробити деякі візуальні доповнення
+}
+
+<div class="profile-info-container">
+	<div class="profile-photo-description">
+		<div class="profile-picture">
+			<img src="~/resources/TestPhoto.png" class="profile-thumbnail" />
+		</div>
+		<div class="user-name"> @Model.ShownUser.UserName </div>
+		<div class="user-action-container">
+			@if (Model.EditProfile)
+			{
+				<a href="#"> Редагувати </a>
+			}
+			else
+			{
+				<a href="#"> Стежити </a>
+			}
+		</div>
+	</div>
+	<div class="courses-other-info bg-light-programe boder-solid-2p-light">
+		<div>
+			@{
+				string htmlElement = "";
+				if (Model.UserMentor.About is not null)
+				{
+					<h2> Про мене </h2>
+					htmlElement = HelperHTML.GenerateUnorderedList(Model.UserMentor.About);
+				}
+			}
+			@Html.Raw(htmlElement)
+		</div>
+		<h2> Публічні курси </h2>
+		@{
+			if (Model.UserMentor is null || Model.UserMentor.Courses is null)
+			{
+				<div> No courses </div>
+			}
+			else
+			{
+				<div class="courses-grid">
+					@foreach(var course in Model.UserMentor.Courses)
+					{
+						<div class="course-container-in-grid boder-solid-2p-light">
+							@Html.ActionLink(course.Name, "View", "Courses", new { id = course.Id }, new { @class = "user-course-name" })
+							<div class="courses-additional-info gap7"> 
+								@{
+									<div class="course-charact @course.Options.Level.ToString() course-level-border optional-info"> @course.Options.Level </div>
+									<div class="course-charact @course.Options.Type.ToString() optional-info"> @course.Options.Type </div>
+									if (course.Options.AdditionalInfo is not null)
+									{
+										foreach(var characteristic in course.Options.AdditionalInfo)
+										{
+											<div class="course-charact other-characters w100 optional-info"> @characteristic.Name </div>
+										}
+									}
+								}
+							</div>
+						</div>	
+						}
+				</div>
+			}
+			/// Показ спільних з цим ментором курсів, якщо такі є
+			if (Model.CommonCourses is not null)
+			{
+				<h2> Спільні курси </h2>
+				<div class="courses-grid">
+					@foreach(var commonCourse in Model.CommonCourses)
+					{
+						<div class="course-container-in-grid boder-solid-2p-light">
+							@Html.ActionLink(commonCourse.Name, "View", "Courses", new { id = commonCourse.Id }, new { @class = "user-course-name" })
+							<div class="courses-additional-info gap7"> 
+								@{
+									<div class="course-charact @commonCourse.Options.Level.ToString() course-level-border optional-info"> @commonCourse.Options.Level </div>
+									<div class="course-charact @commonCourse.Options.Type.ToString() optional-info"> @commonCourse.Options.Type </div>
+									if (commonCourse.Options.AdditionalInfo is not null)
+									{
+										foreach(var characteristic in commonCourse.Options.AdditionalInfo)
+										{
+											<div class="course-charact other-characters w100 optional-info"> @characteristic.Name </div>
+										}
+									}
+								}
+							</div>
+						</div>	
+					}
+				</div>
+			}
+		}
+	</div>
+</div>

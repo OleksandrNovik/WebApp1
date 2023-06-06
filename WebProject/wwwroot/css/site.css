@@ -14,5 +14,136 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  background-color: #f9f9f9;
+}
+
+.box-shadow {
+    box-shadow: 1px 1px 7px rgba(1, 1, 1, 0.15);
+}
+
+.boder-solid-2p-light {
+    border: solid 2px #dee2e6;
+}
+
+.ace_content{
+    font-size: 20px;
+}
+
+.description-list-item {
+    margin: 7px 0 7px 30px;
+}
+
+.gap7 {
+    gap: 7px;
+}
+
+.bg-light-programe {
+    background-color: #faf9f7;
+}
+
+.code-piece {
+    padding: 12px 20px;
+    font-family: Consolas;
+    background-color: #edf2f2;
+    border-radius: 8px;
+    margin: 0;
+}
+.code-line{
+    margin: 4px 0;
+}
+/*
+====================================================================
+       Складність курсу (уся стилізація міні-блоку складності) 
+====================================================================
+*/
+.course-charact {
+    border: none;
+    background-color: #ededed;
+    padding: 5px 10px 5px 10px;
+    font-size: 15px;
+    flex-grow: 1;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: 0.25s;
+}
+
+.course-level-border {
+    border: 1px solid;
+}
+
+.Beginner {
+    background-color: rgba(172, 232, 177, 0.4);
+    border-color: #4cb054;
+}
+
+    .Beginner:hover {
+        background-color: rgba(172, 232, 177, 0.5);
+    }
+
+.Intermediate {
+    background-color: rgba(235, 211, 155, 0.4);
+    border-color: #c79a30;
+}
+
+    .Intermediate:hover {
+        background-color: rgba(235, 211, 155, 0.5);
+    }
+
+.Advanced {
+    background-color: rgba(234, 187, 240, 0.4);
+    border-color: #b630c7;
+}
+
+    .Advanced:hover {
+        background-color: rgba(234, 187, 240, 0.5);
+    }
+
+.Programming {
+    background-color: #fce7cf;
+}
+
+    .Programming:hover {
+        background-color: #fce5c2;
+    }
+
+.Language {
+    background-color: #cfe3fc;
+}
+
+    .Language:hover {
+        background-color: #cbe0f7;
+    }
+
+.Historical {
+    background-color: #e5defc;
+}
+
+    .Historical:hover {
+        background-color: #dbd2f7;
+    }
+
+.Geographical {
+    background-color: #d2fad3;
+}
+
+    .Geographical:hover {
+        background-color: #cbf5cf;
+    }
+
+.Calculus {
+    background-color: #fad4cf;
+}
+
+    .Calculus:hover {
+        background-color: #f7ccc6;
+    }
+
+.other-characters:hover {
+    background-color: #e3e3e3;
+}
+
+.courses-additional-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 0;
 }

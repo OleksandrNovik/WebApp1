@@ -1,0 +1,64 @@
+﻿@model Assignment
+@{
+    Layout =  "/Views/Shared/_EditorLayout.cshtml";
+    string selectedLanguage = "ace/mode/" + (string.IsNullOrEmpty(Model.ProgramingLanguage) ? "csharp" : Model.ProgramingLanguage);
+    ///TODO: зробити мапу (назва мови) -> (опція ace/mode/language)
+}
+
+<div class="editor-task-container">
+    <div class="task-description boder-solid-2p-light">
+        @{
+            <h4>Завдання</h4>
+            string rawCodeLines = HelperHTML.GenerateCodeLines(Model.MainTask);
+            string htmlElement = HelperHTML.GenerateUnorderedList(rawCodeLines);
+            string htmlList = "";
+            if (Model.Description is not null)
+            {
+                htmlList = HelperHTML.GenerateUnorderedList(Model.Description);   
+            }
+        }
+        @Html.Raw(htmlElement)
+        <h4>Опис</h4>
+        @Html.Raw(htmlList)
+    </div>
+
+    <div class="editor-info">
+        <div class="editor-upper-menu boder-solid-2p-light">
+            <div></div>
+            <a href="#"> #Theme </a>
+            <a href="#"> #Language </a>
+            <div> </div>
+            <div class="editor-upper-buttons">
+               <a href="#"> #Cr </a> 
+               <a href="#"> #Os </a> 
+            </div>
+        </div>
+        <div class="editor-container">
+            <div id="editor">@(
+                string.IsNullOrEmpty(Model.StarterCode) ? "" : Model.StarterCode
+            )</div>
+        </div>
+        <div class="editor-lower-menu">
+           <a href="#"> #Submit </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ace.js" integrity="sha512-SW4evx3QqQEkHMJWqXaoYJYoVQZaMPc/5ZBwcwBprOWexxVa/izjqIaw+SwrGdp6hckpyxIWgPq8ZX45H3viAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ext-language_tools.min.js" integrity="sha512-+Ttimfp41T7n7OqGBac2sbnV999KBsqR48DfkjLSJHAo6yMaAq9HodpM54dYLnkO45dTGsDWQ3TYtl8qXEQxFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+<script>
+    ///TODO: зробити весь функціонал (очистити змінити стиль і тд) на кнопках і використати js для простоти кнопка відправити - це форма
+      //Задаю стартові дані для редактора (щоб використовував доповнення коду)
+      ace.require("ace/ext/language_tools");
+      // Вибираю у змінну редактор коду, щоб його конфігурувати
+      var editor = ace.edit("editor");
+      //Вибирається стартову мову (яку задав викладач)
+      var language = "@selectedLanguage";
+      editor.session.setMode(language);
+      // Задаю наалштування для редактора (автодоповнення, показ можливих фраз, та скорочення написання коду)
+      editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true
+      });
+</script>

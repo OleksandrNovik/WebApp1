@@ -1,0 +1,145 @@
+﻿@using BLL.Educational_entities.Organization;
+@using BLL.ViewModels;
+@model IEnumerable<CourseInfoViewModel>
+
+@{
+    ViewData["Title"] = "My Courses";
+	Layout = "/Views/Shared/_CourseLayout.cshtml";
+}
+
+<div class="content">
+	<div class="courses-header-search courses-view-grid">
+    <h1 style="margin-left: 30px;"> @ViewData["Title"] </h1>
+    <div class="courses-search-options boder-solid-2p-light">
+        <div class="courses-search">
+            <form class="courses-form">
+                <div class="courses-search-input">
+                    <input class="courses-search-bar" type="text"/>
+                </div>
+                <button type="submit"> Submit </button>
+            </form>
+        </div>
+        <div class="courses-ordering">
+            <span> Впорядкування за: </span>
+            <div class="courses-ordering-actions">
+                <a href="#"> Назва </a>
+                <a href="#"> Нікнейм автора </a>
+                <a href="#"> Кількість тем </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="courses-content courses-view-grid">
+	<div class="courses-filter boder-solid-2p-light">
+        <div class="courses-filter-header">
+            <h4> Фільтр </h4>
+            <a href="#"> Повний список </a>
+        </div>
+        <form method="post" asp-action="FilterCourses" asp-controller="Courses" class="courses-filer-checkbox">
+            <div class="courses-checkbox-container">
+                @{
+                    <b> Складність </b>
+                    /// Дістаю усі рівні складності курсу
+                    var courseLevels = Enum.GetValues(typeof(CourseLevel)).Cast<CourseLevel>();
+                    foreach(var level in courseLevels)
+                    {
+                        /// Створюю для них checkbox, щоб можна було вибрати фільтрацію по рівню складності
+                        var levelStr = level.ToString();
+                        <div>
+                            <input type="checkbox" name="filterByLevel" id="@levelStr" value="@levelStr">
+                            <label for="@levelStr"> @levelStr </label>
+                        </div>
+                    }
+                    <hr />
+                    <b> Тип </b>
+                    /// Таким же чином дістаю тип курсу
+                    var courseType = Enum.GetValues(typeof(CourseType)).Cast<CourseType>();
+                    foreach (var type in courseType)
+                    {
+                        var typeStr = type.ToString();
+                        <div>
+                            <input type="checkbox" name="filterByType" id="@typeStr" value="@typeStr">
+                            <label for="@typeStr"> @typeStr </label>
+                        </div>
+                    }
+                    <hr />
+                    <b> К-сть уроків </b>
+                    <div>
+                        <input type="checkbox" name="filterByLessons" id="0 - 4" value="0 - 4">
+                        <lable for="0 - 4"> 0 - 4 </lable>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="filterByLessons" id="5 - 16" value="5 - 16">
+                        <lable for="5 - 16"> 5 - 16 </lable>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="filterByLessons" id="16+" value="16+">
+                        <lable for="16+"> 16+ </lable>
+                    </div>
+                }
+            </div>
+            <div class="courses-filter-actions">
+                <button type="submit"> Фільтрувати </button>
+                <a href="#"> Очистити фільтр </a>
+            </div>
+        </form>
+	</div>
+    <div class="courses-show boder-solid-2p-light">
+        @{
+            /// Виведення інформації про курси
+            if (Model.Count() == 0)
+            {
+                /// TODO: Зробити нормальний показ, коли немає курсів
+                <div>
+                    Курсів нема
+                </div>
+            }
+            else{
+                <div class="course-post-info">
+                    @foreach(var courseInfo in Model)
+                    {
+                       <div class="courses-info-container bg-light-programe">
+                            <div class="courses-additional-info details-style">
+                                <h4> @courseInfo.CourseInfo.Name </h4>
+                                @Html.ActionLink("Детальніше", "View", "Courses", new { id = courseInfo.CourseInfo.Id  })
+                                <a href="#"> Відвідати </a>
+                            </div>
+                            <div class="courses-additional-info gap7">
+                                <div class="course-charact @courseInfo.Options.Level.ToString() course-level-border"> @courseInfo.Options.Level </div>
+                                <div class="course-charact @courseInfo.Options.Type.ToString()"> @courseInfo.Options.Type </div>
+                                @if (courseInfo.Options.AdditionalInfo is not null)
+                                {      
+                                    foreach(var info in courseInfo.Options.AdditionalInfo)
+                                    {
+                                        <div class="course-charact other-characters"> @info.Name </div>
+                                    }
+                                }
+                            </div>
+                            <div class="course-author-content">
+                                <div>
+                                    <img src="~/resources/TestPhoto.png" class="author-thumbnail" />
+                                </div>
+                                <div class="author-info">
+                                    <a href="#"> @courseInfo.AuthorNickName </a>
+                                </div>
+                            </div>
+                            <div> 
+                                    @{
+                                        string htmlList = "";
+                                        if (courseInfo.CourseInfo.Description is not null)
+                                        {
+                                            htmlList = HelperHTML.GenerateUnorderedList(courseInfo.CourseInfo.Description);
+                                        }
+                                    }
+                                    @Html.Raw(htmlList)
+                            </div>
+                        </div> 
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
+</div>
+

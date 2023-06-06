@@ -1,0 +1,62 @@
+﻿/*
+====================================================================
+                             Спільне
+====================================================================
+*/
+.courses-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 14px;
+    row-gap: 14px;
+}
+.optional-info {
+    font-size: 14px;
+}
+/*
+====================================================================
+                           Показ профіля
+====================================================================
+*/
+.user-name{
+    margin-top: 7px;
+    font-weight: 400;
+    font-size: 26px;
+}
+.profile-info-container {
+    display: grid;
+    grid-template-columns: 10fr 25fr;
+    padding: 10px 40px 30px 40px;
+}
+.profile-photo-description {
+    display: flex;
+    flex-direction: column;
+    padding: 19px;
+}
+.courses-other-info{
+    padding: 20px;
+}
+.profile-thumbnail {
+    object-fit: contain;
+    object-position: center;
+    border-radius: 200px;
+    width: 280px;
+    height: 280px;
+}
+.course-container-in-grid {
+    padding: 12px;
+    height: 180px;
+    border-radius: 12px;
+    transition: 0.25s;
+}
+.course-container-in-grid:hover {
+    border-color: #c8c8c8;
+}
+.user-course-name {
+    font-size: 18px;
+}
+.user-action-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
