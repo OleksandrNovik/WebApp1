@@ -9,5 +9,6 @@ namespace BLL.Educational_entities.Education
 		public string? Description { get; set; }
 		public Courses Course { get; set; }
 		public ICollection<Assignment>? Tasks { get; set; }
+		public ICollection<Test>? Tests { get; set; }
 	}
 }

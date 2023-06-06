@@ -6,6 +6,7 @@
         public int Value {  get; set; }
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
-        public ICollection<Work> Works { get; set; } = new List<Work>();
+        public ICollection<Work>? Works { get; set; }
+        public ICollection<StudentAnswer>? TestAnswers { get; set; }
     }
 }

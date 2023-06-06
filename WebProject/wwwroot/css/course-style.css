@@ -3,12 +3,6 @@
                              Спільне
 ====================================================================
 */
-.bg-light {
-    background-color: #faf9f7;
-}
-.gap7 {
-    gap: 7px;
-}
 .details-style {
     width: 340px;
     justify-content: space-between;
@@ -112,17 +106,7 @@ b {
     justify-content: space-evenly;
     padding: 18px 18px 28px 18px;
 }
-.courses-additional-info {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 5px 0;
-}
-/*
-.course-info-layout{
-    display: flex;
-    justify-content: space-between;
-    padding-right: 20px;
-}*/
+
 .course-post-info {
     display: flex;
     flex-direction: column;
@@ -139,19 +123,6 @@ b {
                    Стилізація характеристик курсу 
 ====================================================================
 */
-.course-charact {
-    border: none;
-    background-color: #ededed;
-    padding: 5px 0 5px 10px;
-    font-size: 15px;
-    flex-grow: 1;
-    font-weight: 500;
-    border-radius: 12px;
-    transition: 0.25s;
-}
-.course-level-border{
-    border: 1px solid;
-}
 .author-thumbnail {
     object-fit: contain;
     object-position: center;
@@ -165,65 +136,7 @@ b {
     flex: 1;
     font-size: 18px;
 }
-/*
-====================================================================
-       Складність курсу (уся стилізація міні-блоку складності) 
-====================================================================
-*/
-.Beginner {
-    background-color: rgba(172, 232, 177, 0.4);
-    border-color: #4cb054;
-}
-.Beginner:hover {
-    background-color: rgba(172, 232, 177, 0.5);
-}
-.Intermediate {
-    background-color: rgba(235, 211, 155, 0.4);
-    border-color: #c79a30;
-}
-.Intermediate:hover {
-    background-color: rgba(235, 211, 155, 0.5);
-}
-.Advanced {
-    background-color: rgba(234, 187, 240, 0.4);
-    border-color: #b630c7;
-}
-.Advanced:hover {
-    background-color: rgba(234, 187, 240, 0.5);
-}
-.Programming {
-    background-color: #fce7cf;
-}
-    .Programming:hover {
-        background-color: #fce5c2;
-    }
-.Language {
-    background-color: #cfe3fc;
-}
-    .Language:hover {
-        background-color: #cbe0f7;
-    }
-.Historical {
-    background-color: #e5defc;
-}
-    .Historical:hover {
-        background-color: #dbd2f7;
-    }
-.Geographical {
-    background-color: #d2fad3;
-}
-    .Geographical:hover {
-        background-color: #cbf5cf;
-    }
-.Calculus {
-    background-color: #fad4cf;
-}
-    .Calculus:hover {
-        background-color: #f7ccc6;
-    }
-.other-characters:hover {
-    background-color: #e3e3e3;
-}
+
 .c-red{
    background-color: red;
 }
@@ -271,8 +184,4 @@ b {
     font-weight: bold;
     margin-bottom: 16px;
     font-size: 18px;
-}
-.description-list-item {
-    margin: 7px 0 7px 30px;
-    
 }

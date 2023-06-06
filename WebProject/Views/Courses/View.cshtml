@@ -8,7 +8,7 @@
 }
 
 <div class="one-course-container">
-	<div class="one-course-general-info boder-solid-2p-light bg-light">
+	<div class="one-course-general-info boder-solid-2p-light bg-light-programe">
 		<h3> @Model.CourseInfo.Name </h3>
 		<div class="courses-additional-info gap7">
 			<div class="course-charact @Model.Options.Level.ToString() course-level-border"> @Model.Options.Level </div>
@@ -55,9 +55,9 @@
 		{
 			foreach(var topic in Model.CourseInfo.Topics)
 			{
-				<div class="topic-info-container bg-light">
+				<div class="topic-info-container bg-light-programe">
 					<div class="topic-title"> 
-						<a href="#"> @topic.Title </a>
+						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id })
 					</div>
 					<div> @topic.Description </div>
 					<hr class="line" />

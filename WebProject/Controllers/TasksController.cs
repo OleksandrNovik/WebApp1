@@ -10,9 +10,14 @@ namespace WebProject.Controllers
         {
             return View(SampleData.sampleTasks);
         }
-        public IActionResult CodeEditorTask(int? assignmentID)
+        public IActionResult CodeEditor(int assignmentID)
         {
-            return View("CodeEditor");
+            var assignment = SampleData.sampleTasks.FirstOrDefault(assign => assign.Id == assignmentID);
+            if (assignment == default(Assignment))
+            {
+                return Error();
+            }
+            return View("CodeEditor", assignment);
         }
         public IActionResult Error()
         {

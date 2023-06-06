@@ -50,6 +50,7 @@ namespace WebProject.Controllers
 		public IActionResult FilterCourses(string[] filterByLevel, string[] filterByType, string[] filterByLessons)
 		{
 			//TODO: Зробити так, щоб при фільтрації chechbox, які попередньо були нажаті зберігали статус того, що вони є нажаті
+			ViewBag.fileter = filterByLevel;
 			return Ok(new {filterByLevel, filterByType, filterByLessons });
 			//return View("Index", _helper.SetModel(SampleData.sampleCourses));
 		}

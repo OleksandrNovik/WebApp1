@@ -1,0 +1,82 @@
+﻿@using BLL.ViewModels
+@model TopicViewModel
+
+@{
+	ViewData["Title"] = Model.TopicTitle;
+	Layout = "/Views/Shared/_TopicLayout.cshtml";
+}
+
+<div class="topic-container">
+	<div class="topic-general-info bg-light-programe boder-solid-2p-light">
+		<h1> @Model.CourseName </h1>
+		<hr />
+		<h2 style="margin-bottom: 15px;"> @Model.TopicTitle </h2>
+			<div style="margin-bottom: 25px;">
+				@{
+					string htmlElement = "";
+					if (Model.TopicDescription is not null)
+					{
+						htmlElement = HelperHTML.GenerateUnorderedList(Model.TopicDescription);
+					}
+				}
+				@Html.Raw(htmlElement)
+			</div>
+			<div class="task-block">
+				@{
+					if (Model.Assignments is not null)
+					{
+						<h3>Практичні завдання</h3>
+						<div class="topic-task-grid">
+							@foreach(var task in Model.Assignments)
+							{
+								<div class="task-holder boder-solid-2p-light">
+									<div class="name-and-characteristics">
+										<div class="task-name-link">
+											@Html.ActionLink(@task.Name, "CodeEditor", "Tasks", new { assignmentID = task.Id })
+										</div>
+										<div class="task-characteristics-holder gap7">
+											<div class="course-charact @task.Type">@task.Type</div>
+											<div class="course-charact other-characters border-task-char">@task.ProgramingLanguage</div>
+										</div>
+									</div>
+									<div> @task.Description </div>
+								</div>
+							}
+						</div>
+					}
+					else
+					{
+					<div> No tasks</div>
+				}
+			}
+		</div>
+		<div>
+			@{
+				if (Model.Tests is not null)
+				{
+					<h3>Тести</h3>
+					<div class="topic-task-grid">
+							@foreach(var test in Model.Tests)
+							{
+								<div class="task-holder boder-solid-2p-light">
+									<div class="name-and-characteristics">
+										<div class="task-name-link">
+											@Html.ActionLink(@test.Name, "CodeEditor", "Tasks", new { assignmentID = test.Id })
+										</div>
+										<div class="test-holder">
+											<div class="course-charact @test.Type">@test.Type</div>
+										</div>
+									</div>
+									<div> @test.Description </div>
+								</div>
+							}
+						</div>
+				}
+				else
+				{
+					
+				}
+			}
+		</div>
+	</div>
+</div>

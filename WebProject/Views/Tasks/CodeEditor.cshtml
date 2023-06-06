@@ -1,11 +1,25 @@
-﻿@{
+﻿@model Assignment
+@{
     Layout =  "/Views/Shared/_EditorLayout.cshtml";
+    string selectedLanguage = "ace/mode/" + (string.IsNullOrEmpty(Model.ProgramingLanguage) ? "csharp" : Model.ProgramingLanguage);
+    ///TODO: зробити мапу (назва мови) -> (опція ace/mode/language)
 }
 
 <div class="editor-task-container">
     <div class="task-description boder-solid-2p-light">
-        <h4>Objective</h4>
-        In this challenge, you will learn the usage of the for loop, which is a programming language statement which allows code to be executed until a terminal condition is met. They can even repeat forever if the terminal condition is never met.
+        @{
+            <h4>Завдання</h4>
+            string rawCodeLines = HelperHTML.GenerateCodeLines(Model.MainTask);
+            string htmlElement = HelperHTML.GenerateUnorderedList(rawCodeLines);
+            string htmlList = "";
+            if (Model.Description is not null)
+            {
+                htmlList = HelperHTML.GenerateUnorderedList(Model.Description);   
+            }
+        }
+        @Html.Raw(htmlElement)
+        <h4>Опис</h4>
+        @Html.Raw(htmlList)
     </div>
 
     <div class="editor-info">
@@ -20,7 +34,9 @@
             </div>
         </div>
         <div class="editor-container">
-            <div id="editor">//Hello</div>
+            <div id="editor">@(
+                string.IsNullOrEmpty(Model.StarterCode) ? "" : Model.StarterCode
+            )</div>
         </div>
         <div class="editor-lower-menu">
            <a href="#"> #Submit </a>
@@ -32,9 +48,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ext-language_tools.min.js" integrity="sha512-+Ttimfp41T7n7OqGBac2sbnV999KBsqR48DfkjLSJHAo6yMaAq9HodpM54dYLnkO45dTGsDWQ3TYtl8qXEQxFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
 <script>
     ///TODO: зробити весь функціонал (очистити змінити стиль і тд) на кнопках і використати js для простоти кнопка відправити - це форма
-     ace.require("ace/ext/language_tools");
+      //Задаю стартові дані для редактора (щоб використовував доповнення коду)
+      ace.require("ace/ext/language_tools");
+      // Вибираю у змінну редактор коду, щоб його конфігурувати
       var editor = ace.edit("editor");
-      editor.session.setMode("ace/mode/csharp");
+      //Вибирається стартову мову (яку задав викладач)
+      var language = "@selectedLanguage";
+      editor.session.setMode(language);
+      // Задаю наалштування для редактора (автодоповнення, показ можливих фраз, та скорочення написання коду)
       editor.setOptions({
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
