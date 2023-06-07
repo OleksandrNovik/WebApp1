@@ -1,4 +1,4 @@
-﻿using BLL.Person_entities;
+﻿using BLL.Person_entities.UserFolder;
 
 namespace BLL.Educational_entities.Organization
 {
@@ -7,6 +7,6 @@ namespace BLL.Educational_entities.Organization
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public Courses Course { get; set; }
-		public ICollection<Student> Students { get; set; } = new List<Student>();
+		public ICollection<User> Students { get; set; }
 	}
 }

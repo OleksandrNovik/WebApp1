@@ -1,4 +1,4 @@
-﻿using BLL.Person_entities;
+﻿using BLL.Person_entities.UserFolder;
 
 namespace BLL.Educational_entities.Education
 {
@@ -13,7 +13,7 @@ namespace BLL.Educational_entities.Education
 		public int Id { get; set; }
 		public WorkStatus Status { get; set; }
 		public Assignment OnTask { get; set; }
-		public Student WorkAuthor { get; set; }
+		public User WorkAuthor { get; set; }
 		public Mark? Assessment { get; set; }
 		public string Code { get; set; }
 	}
