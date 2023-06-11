@@ -24,10 +24,10 @@
 		</div>
 		<div class="course-author-content">
             <div>
-				<img src="~/resources/TestPhoto.png" class="thumbnail author-thumbnail" />
+				<img src="/avatar" class="thumbnail author-thumbnail" />
             </div>
             <div class="author-info">
-				<a href="#"> @Model.AuthorNickName </a>
+				@Html.ActionLink(Model.AuthorNickName, "View", "User", new {id = Model.AuthorId, isViewMode = false })
 			</div>
         </div>
 		<div class="course-description-container"> 
@@ -47,13 +47,13 @@
 		</div>
 	</div>
 	<div class="course-topic-container">
-		@if (Model.CourseInfo.Topics?.Count() == 0)
+		@if (Model.Topics is null)
 		{
 			<div> No topics</div>
 		}
 		else
 		{
-			foreach(var topic in Model.CourseInfo.Topics)
+			foreach(var topic in Model.Topics)
 			{
 				<div class="topic-info-container bg-light-programe">
 					<div class="topic-title"> 

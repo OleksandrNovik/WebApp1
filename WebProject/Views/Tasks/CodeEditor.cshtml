@@ -1,10 +1,15 @@
 ﻿@model Assignment
 @{
+    ViewData["Title"] = Model.Name;
     Layout =  "/Views/Shared/_EditorLayout.cshtml";
-    string selectedLanguage = "ace/mode/" + (string.IsNullOrEmpty(Model.ProgramingLanguage) ? "csharp" : Model.ProgramingLanguage);
+    string setLanguage = "ace/mode/";
+    var allowedLanguages = Model.ProgramingLanguages?.ToLower().Split(new char[]
+	{
+        ' ', ',', '.', ';', ':', '\t'
+    }).Where(str => !string.IsNullOrEmpty(str)).ToArray();
     ///TODO: зробити мапу (назва мови) -> (опція ace/mode/language)
 }
-
+<a asp-action="Index" asp-controller="Home"> To Index </a>
 <div class="editor-task-container">
     <div class="task-description boder-solid-2p-light">
         @{
@@ -23,14 +28,37 @@
     </div>
 
     <div class="editor-info">
-        <div class="editor-upper-menu boder-solid-2p-light">
+        <div class="editor-upper-menu">
             <div></div>
-            <a href="#"> #Theme </a>
-            <a href="#"> #Language </a>
+            <select id="dropdown-themes">
+                <option value="textmate"> TextMate (Стандартна) </option>
+                <option value="chrome"> Chrome (Світла) </option>
+                <option value="dawn"> Dawn (Світла) </option>
+                <option value="eclipse"> Eclipse (Світла) </option>
+                <option value="iplastic"> IPlastic (Світла) </option>
+                <option value="xcode"> XCode (Світла) </option>
+
+                <option value="dracula"> Dracula (Темна) </option>
+                <option value="gruvbox"> Gruvbox (Темна) </option>
+                <option value="idle_fingers"> idle Fingers (Темна) </option>
+                <option value="monokai"> Monokai (Темна) </option>
+                <option value="nord_dark"> Nord Dark (Темна) </option>
+                <option value="one_dark"> One Dark (Темна) </option>
+                <option value="pastel_on_dark"> Pastel On Dark (Темна) </option>
+                <option value="solarized_dark"> Solarized Dark (Темна) </option>
+                <option value="tomorrow_night_eighties"> Tomorrow Night 80s (Темна) </option>
+
+            </select>
+            <select id="dropdown-languages">
+                @{
+                    var languages = HelperHTML.SetAllowedLanguages(allowedLanguages);
+                }
+                @Html.Raw(languages)
+
+            </select>
             <div> </div>
             <div class="editor-upper-buttons">
-               <a href="#"> #Cr </a> 
-               <a href="#"> #Os </a> 
+               <button onclick="G()"> Очистити </button>
             </div>
         </div>
         <div class="editor-container">
@@ -48,17 +76,83 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ext-language_tools.min.js" integrity="sha512-+Ttimfp41T7n7OqGBac2sbnV999KBsqR48DfkjLSJHAo6yMaAq9HodpM54dYLnkO45dTGsDWQ3TYtl8qXEQxFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
 <script>
     ///TODO: зробити весь функціонал (очистити змінити стиль і тд) на кнопках і використати js для простоти кнопка відправити - це форма
-      //Задаю стартові дані для редактора (щоб використовував доповнення коду)
-      ace.require("ace/ext/language_tools");
-      // Вибираю у змінну редактор коду, щоб його конфігурувати
-      var editor = ace.edit("editor");
-      //Вибирається стартову мову (яку задав викладач)
-      var language = "@selectedLanguage";
-      editor.session.setMode(language);
-      // Задаю наалштування для редактора (автодоповнення, показ можливих фраз, та скорочення написання коду)
-      editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: true
-      });
+    //Задаю стартові дані для редактора (щоб використовував доповнення коду)
+    ace.require("ace/ext/language_tools");
+    
+    // Вибираю у змінну редактор коду, щоб його конфігурувати
+    var editor = ace.edit("editor");
+
+    //Вибирається стартову мову (яку задав викладач)
+    SetNewLanguage("@HelperHTML.SetFirstLanguage(allowedLanguages)");
+
+    // Задаю наалштування для редактора (автодоповнення, показ можливих фраз, та скорочення написання коду)
+    editor.setOptions({
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true,
+      enableSnippets: true
+    });
+
+    // Список тем та event listener на зміну теми у списку
+    var themeList = document.getElementById("dropdown-themes");
+    console.log(themeList);
+    themeList.addEventListener("change", () => {
+      // Отримуэться вибрана тему для редактора
+      let selectedTheme = themeList.options[themeList.selectedIndex]; 
+      // Дістаю з неї значення 
+      let themeName = selectedTheme.value; 
+      // Змінюю тему на нову
+      SetNewTheme(themeName);
+    });
+
+    // Список мов та event listener на зміну мови у списку
+    var languageList = document.getElementById("dropdown-languages");
+    languageList.addEventListener("change", () => {
+      // Отримуэться вибрана мова
+      let selectedLanguage = languageList.options[languageList.selectedIndex]; 
+      // Дістаю з неї значення 
+      let selectedText = selectedLanguage.value; 
+      // Змінюю мову відповідно на нову
+      SetNewLanguage(selectedText);
+    });
+
+    // Функція зміни мови на нову
+    function SetNewLanguage(selectLanguage){
+        let newLanguage = "@setLanguage" + selectLanguage;
+        editor.session.setMode(newLanguage);
+    }
+    // Функція зміни теми для редактора
+    function SetNewTheme(selectTheme){
+        let newTheme = "ace/theme/" + selectTheme;
+        console.log(newTheme);
+        editor.setTheme(newTheme);
+    }
+    function G(){
+        let editorText = document.querySelector('.ace_content').innerText;
+        console.log(editorText);
+    }
+
+    //window.addEventListener('beforeunload', () => {
+    //    // Зберігаю обрану тему редактора
+    //    let selectedTheme = document.getElementById("dropdown-themes").value;
+    //    // Зберігаю код у редакторі
+    //    let editorText = document.querySelector('.ace_content').innerText;
+    //    //
+    //    let selectedLanguage = document.getElementById('dropdown-languages').value;
+
+    //    $.ajax({
+    //      url: '/Controller/Action',
+    //      method: 'POST',
+    //      data: { 
+    //          selectedTheme: selectedTheme
+    //          editor: editorText
+    //          language: selectedLanguage
+    //      },
+    //      success: function(response) {
+    //        // Обробка успішної відповіді
+    //      },
+    //      error: function(xhr, status, error) {
+    //        // Обробка помилки
+    //      }
+    //    });
+    //});
 </script>

@@ -13,6 +13,8 @@
 		public string? StarterCode { get; set; }
 		public ICollection<Work>? StudentWorks { get; set; }
 		public AssignmentType Type { get; set; } = AssignmentType.Code;
-		public string? ProgramingLanguage { get; set; }
+		public Topic OnTopic { get; set; }
+		public string? ProgramingLanguages { get; set; }
+		public string? LinkForInfo { get; set; }
 	}
 }

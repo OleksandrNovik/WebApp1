@@ -5,6 +5,60 @@ namespace WebProject
 {
 	public static class HelperHTML
 	{
+		private static readonly Dictionary<string, string> Languages = new Dictionary<string, string>
+		{
+			{ "javascript", "<option value=\"javascript\"> JavaScript </option>" },
+            { "html",		"<option value=\"html\"> HTML </option>" },
+			{ "css",		"<option value=\"css\"> CSS </option>" },
+			{ "python",		"<option value=\"python\"> Python </option>"},
+			{ "c#",			"<option value=\"csharp\"> C# </option>" },
+			{ "c++",		"<option value=\"c_cpp\"> C++ </option>" },
+			{ "java",		"<option value=\"java\"> Java </option>" },
+			{ "sql",		"<option value=\"sql\"> SQL </option>" },
+			{ "swift",		"<option value=\"swift\"> Swift </option>" },
+			{ "typescript", "<option value=\"typescript\"> TypeScript </option>" },
+			{ "kotlin",		"<option value=\"kotlin\"> Kotlin </option>" },
+            { "rust",       "<option value=\"rust\"> Rust </option>" },
+            { "c",			"<option value=\"c_cpp\"> C </option>" },
+            { "go",			"<option value=\"golang\"> Go </option>" },
+			{ "ruby",		"<option value=\"ruby\"> Ruby </option>" },
+            { "lua",		"<option value=\"lua\"> Lua </option>" },
+            { "php",		"<option value=\"php\"> PHP </option>" },
+        };
+		public static string SetFirstLanguage(string[]? allowed)
+		{
+			// Немає обмежень на мови
+			if (allowed == null || allowed.Length == 0)
+				return Languages["javasript"].Split('\"')[1];
+
+			string? item;
+			Languages.TryGetValue(allowed[0], out item);
+
+			// Не змогли знайти відповідної мови
+			if (item == null)
+                return Languages["javasript"].Split('\"')[1];
+
+			// Таким чином я виділяю частину, що треба вказати редактору як вибрану мову
+            return item.Split('\"')[1];
+        }
+        public static string SetAllowedLanguages(string[]? allowed)
+		{
+			// Якщо обмежень на використання мов не задано - повертаю зразу ж усі
+			if (allowed == null || allowed.Length == 0)
+				return string.Join("\n", Languages.Values);
+			
+			// Дозіолено лише 1 мову
+			if (allowed.Length == 1)
+				return Languages.GetValueOrDefault(allowed[0]) ?? "";
+
+			var HTMLbuilder = new StringBuilder();
+
+			foreach (var allowedLanguage in allowed) 
+			{
+				HTMLbuilder.Append(Languages.GetValueOrDefault(allowedLanguage) ?? "");
+			}
+            return HTMLbuilder.ToString();
+		}
 		public static string GenerateUnorderedList(string value)
 		{
 			// Виділяю усі лінії з тексту

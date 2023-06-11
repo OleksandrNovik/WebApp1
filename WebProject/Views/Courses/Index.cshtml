@@ -7,6 +7,8 @@
 	Layout = "/Views/Shared/_CourseLayout.cshtml";
 }
 
+<a asp-controller="Account" asp-action="LogOut">LogOut</a>
+
 <div class="content">
 	<div class="courses-header-search courses-view-grid">
     <h1 style="margin-left: 30px;"> @ViewData["Title"] </h1>
@@ -118,10 +120,10 @@
                             </div>
                             <div class="course-author-content">
                                 <div>
-                                    <img src="~/resources/TestPhoto.png" class="author-thumbnail" />
+                                    <img src="/avatar" class="author-thumbnail" />
                                 </div>
                                 <div class="author-info">
-                                    <a href="#"> @courseInfo.AuthorNickName </a>
+                                    @Html.ActionLink(courseInfo.AuthorNickName, "View", "User", new {id = courseInfo.AuthorId, isViewMode = false })
                                 </div>
                             </div>
                             <div> 

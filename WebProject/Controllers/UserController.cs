@@ -2,26 +2,49 @@
 using BLL.ViewModels;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebProject.Controllers
 {
 	public class UserController : BaseController
 	{
-		public IActionResult View(int id)
+		private readonly ILogger<UserController> _logger;
+		private readonly DbContextProject _dbContext;
+
+		public UserController(ILogger<UserController> logger, DbContextProject dbContext) 
+		{
+			_logger = logger;
+			_dbContext = dbContext;
+		}
+		/// <summary>
+		/// Показ інформації про користувача
+		/// </summary>
+		/// <param name="id"> id користувача інформацію про якого ми дивимось </param>
+		/// <param name="isViewMode"> 
+		/// Чи це є просто показ, або ж налаштування профіля
+		/// При значенні true буде виведено розширене view з редагуванням профіля
+		/// Для користувачів, що переглядають свій профіль
+		/// </param>
+		/// <returns> Відповідне представлення </returns>
+		public async Task<IActionResult> View(int id, bool isViewMode = false)
 		{
 			var viewModel = new UserViewModel();
-			var user = new User
+			var user = await _dbContext.Users
+				.Include(u => u.UserPhoto)
+				.Include(u => u.Mentor)
+				.ThenInclude(m => m.Courses)
+				.ThenInclude(c => c.Options)
+				.ThenInclude(o => o.AdditionalInfo)
+				.FirstOrDefaultAsync(us => us.Id == id);
+
+			if (user == null)
 			{
-				UserName = "primeMentor",
-				Mentor = new BLL.Person_entities.Mentor
-				{
-					About = "Ласкаво просимо на профіль розробників нашої платформи!У нас є багато цікавих курсів, які допоможуть вам вивчити нові навички та розширити свої знання у світі програмування та розробки. Відкриті для всіх, ці курси створені з метою надати вам можливість поглибитися у своїх інтересах і розвинути свій потенціал.\r\n\r\nПерегляньте наш профіль розробників, де ви знайдете різноманітні курси, які підійдуть для початківців і досвідчених розробників. Захоплюючі проекти та практичні завдання допоможуть вам набути необхідні навички та застосувати їх на практиці.\r\n\r\nПриєднуйтеся до нашого профілю розробників і досліджуйте світ програмування разом з нами. Ви знайдете безліч викликів та можливостей для саморозвитку. Почніть свою подорож з нашими захоплюючими курсами вже сьогодні!",
-					Courses = SampleData.sampleCourses,
-				}
-			};
+				return NotFound();
+			}
+
 			viewModel.ShownUser = user;
 			viewModel.UserMentor = user.Mentor;
-			viewModel.EditProfile = false;
+			viewModel.EditProfile = isViewMode;
 			/*
 			 * TODO:
 			 * viewModel.CommonCourses = user.Mentor.Courses
@@ -30,6 +53,40 @@ namespace WebProject.Controllers
 												.Any(stud => stud.User.UserName == User.Identity.Name));
 			 */
 			return View(viewModel);
+		}
+		/// <summary>
+		/// Метод який повертає фото для тегу <img> при запиті
+		/// </summary>
+		/// <param name="userId"> Аватар якого користувача вибрати </param>
+		/// <returns> Фото користувача </returns>
+		[HttpGet("/avatar")]
+		public IActionResult GetUserPhoto()
+		{
+			var userId = (int?)ViewData["UserId"];
+			_logger.LogInformation($"Було задано id користувача для якого буде прогружено фото id {userId}");
+			if (userId == null)
+			{
+				_logger.LogError($"Помилка у {nameof(GetUserPhoto)}!\n{nameof(userId)} == null!");
+				return NotFound();
+			}
+			_logger.LogInformation($"Пошук користувача за id = {userId}.");
+			var user = _dbContext.Users
+				.Include(u => u.UserPhoto)
+				.FirstOrDefault(u => u.Id == userId);
+			if (user == null)
+			{
+				_logger.LogError($"Помилка у {nameof(GetUserPhoto)}!\nКористувача не знайдено!");
+				return NotFound();
+			}
+			_logger.LogInformation($"Виявлено користувача за id = {userId}.");
+			if (user.UserPhoto == null)
+			{
+				_logger.LogInformation("Користувач не поставив собі аватар, тому взято стандартну картинку.");
+				return File("~/resources/TestPhoto.png", "image/png");
+			}
+			var imageType = "image/" + user.UserPhoto.FileType.ToString();
+			_logger.LogInformation($"У користувача є аватар, з розширенням \"{imageType}\".");
+			return File(user.UserPhoto.PhotoByteCode, imageType);
 		}
 	}
 }

@@ -8,11 +8,11 @@
 	}
 	public enum CourseType
 	{
-		Programming,
-		Language,
-		Historical,
-		Geographical,
-		Calculus
+		Desktop,
+		Web,
+		Mobile,
+		Game,
+		Database	
 	}
 	public class CourseOptions
 	{
@@ -21,6 +21,6 @@
 		public bool IsPublic { get; set; }
 		public CourseLevel Level { get; set; }
 		public CourseType Type { get; set; }
-		public List<CourseAdditionalCharacteristics>? AdditionalInfo { get; set; }
+		public ICollection<CourseAdditionalCharacteristics>? AdditionalInfo { get; set; }
 	}
 }

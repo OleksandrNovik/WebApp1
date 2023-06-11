@@ -22,14 +22,14 @@
 }
 
 .task-description {
-    width: 700px;
+    width: 1200px;
     overflow-y: scroll;
     padding: 25px 20px;
     margin: 0 18px 0 10px;
     background-color: white;
 }
 
-.editor-upper-menu, .editor-lower-menu {
+.editor-upper-menu, .editor-lower-menu, .right-pane {
     background-color: #e8eded;
 }
 
@@ -56,8 +56,8 @@
 #editor {
     font-size: 20px;
     box-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
 }
-
 .editor-lower-menu {
     display: flex;
     justify-content: end;

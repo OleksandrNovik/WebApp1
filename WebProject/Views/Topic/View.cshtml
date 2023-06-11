@@ -36,7 +36,28 @@
 										</div>
 										<div class="task-characteristics-holder gap7">
 											<div class="course-charact @task.Type">@task.Type</div>
-											<div class="course-charact other-characters border-task-char">@task.ProgramingLanguage</div>
+											@{
+												var allowed = task.ProgramingLanguages?.Split(new char[]
+												{
+													' ', ',', '.', ';', ':', '\t'
+												}).Where(str => !string.IsNullOrEmpty(str)).ToArray();
+											}
+											<div class="course-charact other-characters border-task-char"> 
+												@if (allowed is not null)
+												{
+													if (allowed.Length == 1)
+													{
+														<div> @allowed[0]</div>
+													}
+													else
+													{
+														<div> 
+															@allowed.Length
+															мови на вибір
+														</div>
+													}
+											}
+											</div>
 										</div>
 									</div>
 									<div> @task.Description </div>

@@ -98,45 +98,45 @@ body {
         background-color: rgba(234, 187, 240, 0.5);
     }
 
-.Programming {
+.Desktop {
     background-color: #fce7cf;
 }
 
-    .Programming:hover {
+    .Desktop:hover {
         background-color: #fce5c2;
     }
 
-.Language {
+.Web {
     background-color: #cfe3fc;
 }
 
-    .Language:hover {
+    .Web:hover {
         background-color: #cbe0f7;
     }
 
-.Historical {
+.Database {
     background-color: #e5defc;
 }
 
-    .Historical:hover {
+    .Database:hover {
         background-color: #dbd2f7;
     }
 
-.Geographical {
+.Mobile {
     background-color: #d2fad3;
 }
 
-    .Geographical:hover {
+    .Mobile:hover {
         background-color: #cbf5cf;
     }
 
-.Calculus {
+.Game {
     background-color: #fad4cf;
 }
 
-    .Calculus:hover {
-        background-color: #f7ccc6;
-    }
+.Game:hover {
+    background-color: #f7ccc6;
+}
 
 .other-characters:hover {
     background-color: #e3e3e3;
