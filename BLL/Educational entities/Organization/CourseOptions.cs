@@ -11,7 +11,7 @@
 		Desktop,
 		Web,
 		Mobile,
-		Game,
+		Gamedev,
 		Database	
 	}
 	public class CourseOptions

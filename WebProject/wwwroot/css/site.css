@@ -36,6 +36,9 @@ body {
 .gap7 {
     gap: 7px;
 }
+.gap15{
+    gap: 15px;
+}
 
 .bg-light-programe {
     background-color: #faf9f7;
@@ -51,6 +54,7 @@ body {
 .code-line{
     margin: 4px 0;
 }
+
 /*
 ====================================================================
        Складність курсу (уся стилізація міні-блоку складності) 
@@ -130,13 +134,13 @@ body {
         background-color: #cbf5cf;
     }
 
-.Game {
+.Gamedev {
     background-color: #fad4cf;
 }
 
-.Game:hover {
-    background-color: #f7ccc6;
-}
+    .Gamedev:hover {
+        background-color: #f7ccc6;
+    }
 
 .other-characters:hover {
     background-color: #e3e3e3;
@@ -146,4 +150,96 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin: 5px 0;
+}
+/*
+================================================================
+                Спільне навігаційне меню
+================================================================
+*/
+.upper-menu-container {
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    padding: 0 10px;
+}
+.nav-links-flex {
+    display: flex;
+    justify-content: space-evenly;
+}
+.sub-menu {
+    display: none;
+    opacity: 0;
+    background-color: rgb(255, 255, 255);
+}
+.nav-bar-proj ul {
+    list-style: none;
+}
+.nav-bar-proj ul li:hover .sub-menu {
+    display: block;
+    position: absolute;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.1);
+    animation: fadeIn 0.7s 1;
+    animation-fill-mode: forwards;
+}
+.nav-bar-proj ul li:hover .sub-menu ul{
+    display: block;
+    margin: 10px;
+}
+.nav-item-hv {
+    font-size: 17px;
+}
+.menu-item {
+    padding: 0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 3px;
+    border-bottom: 3px rgba(0, 0, 0, 0) solid;
+    transition: border-bottom 0.35s;
+}
+.link-item {
+    margin: 0;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+.nav-item-hv:hover .menu-item, .menu-item:hover {
+    border-bottom: 3px red solid;
+}
+/*
+================================================================
+         Непоодинокі елементи навігаційного посилання
+================================================================
+*/
+.hover-item {
+    width: 200px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+hover-item .arrow {
+    background-color: red;
+    margin-right: 1rem;
+    height: 1.2rem;
+    width: 1.2rem;
+}
+
+.hover-item:hover {
+    background-color: #faf9f7;
+    animation: hover-item-animation 0.5s ease forwards;
+}
+@keyframes hover-item-animation {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(0.5rem);
+    }
 }

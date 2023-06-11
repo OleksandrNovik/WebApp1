@@ -4,7 +4,8 @@
 
 @{
     ViewData["Title"] = "My Courses";
-	Layout = "/Views/Shared/_CourseLayout.cshtml";
+    Layout = "/Views/Shared/_CourseLayout.cshtml";
+    string avatarRoute = ""; // Таким чином буду формувати маршрут для прогрузки аватару
 }
 
 <a asp-controller="Account" asp-action="LogOut">LogOut</a>
@@ -101,7 +102,8 @@
                 <div class="course-post-info">
                     @foreach(var courseInfo in Model)
                     {
-                       <div class="courses-info-container bg-light-programe">
+                           avatarRoute = "/avatar/" + courseInfo.AuthorId;
+                            <div class="courses-info-container bg-light-programe">
                             <div class="courses-additional-info details-style">
                                 <h4> @courseInfo.CourseInfo.Name </h4>
                                 @Html.ActionLink("Детальніше", "View", "Courses", new { id = courseInfo.CourseInfo.Id  })
@@ -120,7 +122,7 @@
                             </div>
                             <div class="course-author-content">
                                 <div>
-                                    <img src="/avatar" class="author-thumbnail" />
+                                    <img src="@avatarRoute" class="author-thumbnail" />
                                 </div>
                                 <div class="author-info">
                                     @Html.ActionLink(courseInfo.AuthorNickName, "View", "User", new {id = courseInfo.AuthorId, isViewMode = false })
@@ -144,4 +146,10 @@
     </div>
 </div>
 </div>
+
+<div class="course-charact @CourseType.Database.ToString()">  @CourseType.Database  </div>
+<div class="course-charact @CourseType.Gamedev.ToString()">  @CourseType.Gamedev  </div>
+<div class="course-charact @CourseType.Mobile.ToString()">  @CourseType.Mobile  </div>
+<div class="course-charact @CourseType.Web.ToString()">  @CourseType.Web  </div>
+
 

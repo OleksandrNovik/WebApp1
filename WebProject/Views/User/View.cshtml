@@ -4,14 +4,14 @@
 @{
 	ViewData["Title"] = Model.ShownUser.UserName;
 	Layout = "/Views/Shared/_UserInfoLayout.cshtml";
-	ViewData["UserId"] = Model.ShownUser.Id;
+	string avatarRoute = "/avatar/" +  Model.ShownUser.Id;
 	///TODO: Зробити деякі візуальні доповнення
 }
 
 <div class="profile-info-container">
 	<div class="profile-photo-description">
 		<div class="profile-picture">
-			<img src="/avatar" class="profile-thumbnail" />
+			<img src="@avatarRoute" class="profile-thumbnail" />
 		</div>
 		<div class="user-name"> @Model.ShownUser.UserName </div>
 		<div class="user-action-container">

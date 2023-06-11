@@ -57,18 +57,10 @@ namespace WebProject.Controllers
 		/// <summary>
 		/// Метод який повертає фото для тегу <img> при запиті
 		/// </summary>
-		/// <param name="userId"> Аватар якого користувача вибрати </param>
 		/// <returns> Фото користувача </returns>
-		[HttpGet("/avatar")]
-		public IActionResult GetUserPhoto()
+		[HttpGet("/avatar/{userId}")]
+		public IActionResult GetUserPhoto(int userId)
 		{
-			var userId = (int?)ViewData["UserId"];
-			_logger.LogInformation($"Було задано id користувача для якого буде прогружено фото id {userId}");
-			if (userId == null)
-			{
-				_logger.LogError($"Помилка у {nameof(GetUserPhoto)}!\n{nameof(userId)} == null!");
-				return NotFound();
-			}
 			_logger.LogInformation($"Пошук користувача за id = {userId}.");
 			var user = _dbContext.Users
 				.Include(u => u.UserPhoto)

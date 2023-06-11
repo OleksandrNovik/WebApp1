@@ -22,6 +22,8 @@ namespace WebProject.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var list = await _dbContext.Courses
+				//.Include(c => c.Author)
+				//.ThenInclude(m => m.User)
 				.Include(c => c.Options)
 				.ThenInclude(o => o.AdditionalInfo)
 				.ToListAsync();

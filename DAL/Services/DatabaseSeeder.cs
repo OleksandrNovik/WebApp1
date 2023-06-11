@@ -23,7 +23,7 @@ namespace DAL.Services
 			{
 				IsPublic = true,
 				Level = CourseLevel.Beginner,
-				Type = CourseType.Programming,
+				Type = CourseType.Desktop,
 				Course = course,
 			};
 			course.Options = options;
