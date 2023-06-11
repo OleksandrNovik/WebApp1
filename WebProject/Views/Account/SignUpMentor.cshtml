@@ -1,0 +1,62 @@
+﻿@using BLL.ViewModels;
+@model SignUpViewModel;
+
+@{
+	ViewData["Title"] = "Реєстрація";
+	Layout =  "/Views/Shared/_Layout.cshtml";
+    //ViewData["Role"] = BLL.Person_entities.UserFolder.UserRole.Mentor;
+}
+<h1> Реєстрація </h1>
+
+<div class="role-choice">
+	<a asp-action="SignUpStud"> Я студент </a>
+	<a> Я викладач </a>
+</div>
+
+<form asp-action="SignUp">
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <div>
+        <h3> Дані користувача </h3>
+        <div class="form-group">
+            <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
+            <input asp-for="UserName" class="form-control" type="text" style="width: 350px" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label"> Пароль </label>
+            <input asp-for="Password" class="form-control" type="text" style="width: 350px" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ComfirmPassword" class="control-label"> Підтвердіть пароль </label>
+            <input asp-for="ComfirmPassword" class="form-control" type="text" style="width: 350px" />
+            <span asp-validation-for="ComfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"> Електронна пошта </label>
+            <input asp-for="Email" class="form-control" type="text" style="width: 350px" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <h3> Дані викладача </h3>
+        <div class="form-group">
+            <label asp-for="FirstName" class="control-label"> Ваше ім'я </label>
+            <input asp-for="FirstName" class="form-control" type="text" style="width: 350px" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="control-label"> Ваше прізвище </label>
+            <input asp-for="LastName" class="form-control" type="text" style="width: 350px" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="About" class="control-label"> Інформація про себе (Необов'язкова) </label>
+            @Html.EditorFor(m => m.About)
+        </div>
+        <div>
+            <input asp-for="Role" class="form-control" type="hidden" value="1"/>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Зареєструватись" class="btn btn-primary"/> 
+        </div>
+    </div>
+</form>

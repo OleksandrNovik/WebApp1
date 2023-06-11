@@ -157,13 +157,19 @@ body {
 ================================================================
 */
 .upper-menu-container {
+    flex: 1;
     display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-columns: 10fr 128fr;
     padding: 0 10px;
 }
 .nav-links-flex {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+}
+.menu-items-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
 }
 .sub-menu {
     display: none;
@@ -208,26 +214,26 @@ body {
     }
 }
 .nav-item-hv:hover .menu-item, .menu-item:hover {
-    border-bottom: 3px red solid;
+    border-bottom: 3px #40d669 solid;
 }
+
+.login-signup{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
 /*
 ================================================================
          Непоодинокі елементи навігаційного посилання
 ================================================================
 */
 .hover-item {
-    width: 200px;
+    width: 220px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     transition: all 0.5s ease;
-}
-
-hover-item .arrow {
-    background-color: red;
-    margin-right: 1rem;
-    height: 1.2rem;
-    width: 1.2rem;
 }
 
 .hover-item:hover {

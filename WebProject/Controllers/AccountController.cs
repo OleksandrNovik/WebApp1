@@ -79,7 +79,7 @@ namespace WebProject.Controllers
 			};
 			// Ідентифікація користувача
 			var id = new ClaimsIdentity(
-				claims, 
+				claims,
 				"ApplicationCookie",
 				ClaimsIdentity.DefaultNameClaimType,
 				ClaimsIdentity.DefaultRoleClaimType
@@ -88,11 +88,21 @@ namespace WebProject.Controllers
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
 		}
 		/// <summary>
-		/// Виведення форми реєстрації
+		/// Виведення форми реєстрації як студента
 		/// </summary>
 		/// <returns> Перехід до форми реєстрації </returns>
+		//[HttpGet]
+		//public IActionResult SignUp()
+		//{
+		//	return View("SignUpStud");
+		//}
 		[HttpGet]
-		public IActionResult SignUp()
+		public IActionResult SignUpStud()
+		{
+			return View();
+		}
+		[HttpGet]
+		public IActionResult SignUpMentor()
 		{
 			return View();
 		}
@@ -105,12 +115,13 @@ namespace WebProject.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> SignUp(SignUpViewModel model)
 		{
+			string view = model.Role == 0 ? "SignUpStud" : "SignUpMentor";
 			if (ModelState.IsValid)
 			{
 				var user = await _dbContext.Users
 					.FirstOrDefaultAsync(u => u.UserName == model.UserName);
 				// Користувача під нікнеймом не існує
-				if (user == null) 
+				if (user == null)
 				{
 					// Можна додавати новго користувача
 					var newUser = new User
@@ -154,11 +165,12 @@ namespace WebProject.Controllers
 					await _dbContext.Users.AddAsync(newUser);
 					await _dbContext.UsersInfo.AddAsync(info);
 					await _dbContext.SaveChangesAsync();
+					await Authenticate(newUser);
 					return RedirectToAction("Index", "Courses");
 				}
 				ModelState.AddModelError("", $"Користувач під іменем {model.UserName} вже існує");
 			}
-			return View(model);
+			return View(view, model);
 		}
 		/// <summary>
 		/// Вихід з акаунта

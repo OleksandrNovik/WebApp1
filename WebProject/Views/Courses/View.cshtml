@@ -4,7 +4,8 @@
 
 @{
 	ViewData["Title"] = Model.CourseInfo.Name;
-	Layout = "/Views/Shared/_CourseLayout.cshtml";
+	Layout = "/Views/Shared/_Layout.cshtml";
+	string avatarRoute = "/avatar/" + Model.AuthorId;
 }
 
 <div class="one-course-container">
@@ -24,7 +25,7 @@
 		</div>
 		<div class="course-author-content">
             <div>
-				<img src="/avatar" class="thumbnail author-thumbnail" />
+				<img src="@avatarRoute" class="thumbnail author-thumbnail" />
             </div>
             <div class="author-info">
 				@Html.ActionLink(Model.AuthorNickName, "View", "User", new {id = Model.AuthorId, isViewMode = false })

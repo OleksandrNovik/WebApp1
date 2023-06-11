@@ -1,79 +1,155 @@
-﻿<!DOCTYPE html>
+﻿@using BLL.Person_entities.UserFolder;
+@{
+    bool IsAuthorized = User.Identity != null && User.Identity.IsAuthenticated;
+    bool CanCreateCourses = User.IsInRole(UserRole.Admin.ToString()) || User.IsInRole(UserRole.Mentor.ToString());
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebProject</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home-page.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebProject.styles.css" asp-append-version="true" />
+    
+    
+    <link rel="stylesheet" href="~/css/course-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/editor-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/topic-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user-style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/sign-up-log-in.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="upper-menu-container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebProject</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SkillUp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="nav-links-flex">
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between nav-bar-proj">
-                        <ul class="navbar-nav flex-grow-1 gap15">
-                            <li class="navbar-item nav-item-hv">
-                                <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="navbar-item nav-item-hv">
-                                <div class="nav-link text-dark menu-item"> Курси </div>
-                                <div class="sub-menu">
-                                    <ul style="padding: 0;">
-                                        <li class="hover-item">
-                                            <div class="arrow">a</div>
-                                            @Html.ActionLink("Мої курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
-                                        </li>
-                                         <li class="hover-item">
-                                            <div class="arrow">a</div>
-                                            @Html.ActionLink("Інші", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="navbar-item nav-item-hv">
-                                <div class="nav-link text-dark menu-item"> Завдання </div>
-                                <div class="sub-menu">
-                                    <ul style="padding: 0;">
-                                        <li class="hover-item">
-                                            <div class="arrow">a</div>
-                                            @Html.ActionLink("Незавершені", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
-                                        </li>
-                                         <li class="hover-item">
-                                            <div class="arrow">a</div>
-                                            @Html.ActionLink("Завершені", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="navbar-item nav-item-hv">
-                                <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                                                        <li class="navbar-item nav-item-hv">
-                                <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                                                        <li class="navbar-item nav-item-hv">
-                                <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
+                <div class="menu-items-container">
+                    <div class="nav-links-flex">
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between nav-bar-proj">
+                            <ul class="navbar-nav flex-grow-1 gap15">
+                                <li class="navbar-item nav-item-hv">
+                                    <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Index"> Головна </a>
+                                </li>
+                                <li class="navbar-item nav-item-hv">
+                                    @*Користувач є авторизованим*@
+                                    @if (IsAuthorized)
+                                    {
+                                        <div class="nav-link text-dark menu-item"> Курси </div>
+                                        <div class="sub-menu">
+                                            <ul style="padding: 0;">
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Відвідані курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Публічні курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                @*Контент для менторів та адміністраторів*@
+                                                @if (User.IsInRole(UserRole.Admin.ToString()) || User.IsInRole(UserRole.Mentor.ToString()))
+                                                {
+                                                    <li class="hover-item">
+                                                        <i class="fas fa-caret-right"></i>
+                                                        @Html.ActionLink("Мої курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                    </li>
+                                                    <li class="hover-item">
+                                                        <i class="fas fa-caret-right"></i>
+                                                        @Html.ActionLink("Створити курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Публічні курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark menu-item" })
+                                    }
+                                </li>
+                                @*Якщо користувач не є зареєстрованим, то він і не може переглядати завдання*@
+                                @if (IsAuthorized)
+                                {
+                                    <li class="navbar-item nav-item-hv">
+                                        <div class="nav-link text-dark menu-item"> Завдання </div>
+                                        <div class="sub-menu">
+                                            <ul style="padding: 0;">
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Незавершені завдання", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Завдання на виконання", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Завершені завдання", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                @if(IsAuthorized && CanCreateCourses)
+                                                {
+                                                    <li class="hover-item">
+                                                        <i class="fas fa-caret-right"></i>
+                                                        @Html.ActionLink("Завдання на перевірку", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                                @*Те ж саме і про успішність*@
+                                @if (IsAuthorized)
+                                {
+                                    <li class="navbar-item nav-item-hv">
+                                        <div class="nav-link text-dark menu-item"> Успішність </div>
+                                        <div class="sub-menu">
+                                            <ul style="padding: 0;">
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Моя успішність", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                @if (CanCreateCourses)
+                                                {
+                                                <li class="hover-item">
+                                                    <i class="fas fa-caret-right"></i>
+                                                    @Html.ActionLink("Успішність студентів", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                                @*Для адмінів*@
+                                @if (IsAuthorized && User.IsInRole(UserRole.Admin.ToString()))
+                                {
+                                    <li class="navbar-item nav-item-hv">
+                                        <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy"> Користувачі </a>
+                                    </li>
+                                }
+                                <li class="navbar-item nav-item-hv">
+                                    <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy"> Приватність </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="login-signup">
-
+                    <div class="login-signup">
+                        <div> Приєднайтесь до нас: </div>
+                        <a asp-controller="Account" asp-action="LogIn">LogIn</a>
+                        <a asp-controller="Account" asp-action="SignUpStud">SignUp</a>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

@@ -1,7 +1,7 @@
 ﻿@model Assignment
 @{
     ViewData["Title"] = Model.Name;
-    Layout =  "/Views/Shared/_EditorLayout.cshtml";
+    Layout =  "/Views/Shared/_Layout.cshtml";
     string setLanguage = "ace/mode/";
     var allowedLanguages = Model.ProgramingLanguages?.ToLower().Split(new char[]
 	{

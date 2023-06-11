@@ -15,7 +15,10 @@ namespace BLL.ViewModels
 		public string LastName { get; set; }
 		
 		[Required]
+		[DataType(DataType.EmailAddress)]
 		public string Email { get; set; }
+
+		[UIHint("MultilineText")]
 		public string? About { get; set; }
 
 		[Required]
