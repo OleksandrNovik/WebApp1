@@ -63,7 +63,7 @@ namespace WebProject
 		{
 			// Виділяю усі лінії з тексту
 			var rawLinesList = value
-					.Split(new string[] { "\n\t", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+					.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 			// Далі кожну лінію об'єдную назад у спільну строку
 			var listItems = string.Join("", rawLinesList
 										// Дивлюся на перші 3 символи лінії
@@ -83,7 +83,7 @@ namespace WebProject
         {
 			// Виділяю усі лінії з введеного тексту
             var rawLinesList = input
-                    .Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
+                    .Split('\n', StringSplitOptions.RemoveEmptyEntries).ToList();
             
 			// Вибираю серед строк ті, де декілька разів підряд попадає $, що є символом початку коду
 			/*

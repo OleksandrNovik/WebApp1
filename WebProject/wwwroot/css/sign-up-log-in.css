@@ -1,6 +1,95 @@
-﻿.role-choice {
+﻿/*
+===============================================================
+                         Спільне 
+===============================================================
+*/
+/*
+===============================================================
+                         Реєстрація 
+===============================================================
+*/
+
+.role-choice {
+    margin-top: 25px;
     display: flex;
-    width: 180px;
+    width: 210px;
     justify-content: space-between;
+    align-items: center;
+    margin-left: 30px;
+
+}
+.role-choice-padding {
+    background-color: white;
+    padding: 12px;
+    padding-bottom: 5px;
+    margin-bottom: -2.3px;
+}
+.chousen-item {
+    border-bottom: none;
+    font-weight: 500;
+}
+/*
+===============================================================
+            Стилізація форми створення курсу
+===============================================================
+*/
+.form-proj {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 580px;
+}
+.form-holder-proj {
+    background-color: white;
+    padding: 50px;
+}
+.form-content {
+    display: flex;
+    justify-content: space-between;
+}
+.form-inputs-group {
+    display: flex;
+    flex-direction: column;
+}
+.input-area {
+    display: block;
+    resize: none;
+    height: 120px;
+    width: 100%;
+    padding: 10px 15px;
+}
+.form-group{
+    margin: 15px 0;
+}
+.form-control, input-area {
+    transition: border-color 0.15s;
+    border-width: 2px;
+}
+.form-control:focus, .input-area:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: initial;
+    border: 2px var(--main-color) solid;
+}
+.control-label{
+    transition: color 0.1s;
+}
+.form-group.focused .control-label {
+    color: var(--main-color);
+    animation: MoveLable 0.5s ease forwards;
+}
+
+@keyframes MoveLable{
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-0.5rem);
+    }
+}
+.submit-field{
+    display: flex;
+    gap: 20px;
     align-items: center;
 }

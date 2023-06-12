@@ -5,7 +5,7 @@
 @{
 	ViewData["Title"] = Model.CourseInfo.Name;
 	Layout = "/Views/Shared/_Layout.cshtml";
-	string avatarRoute = "/avatar/" + Model.AuthorId;
+	string avatarRoute = "/avatar/" + Model.AuthorNickName;
 }
 
 <div class="one-course-container">
@@ -28,7 +28,14 @@
 				<img src="@avatarRoute" class="thumbnail author-thumbnail" />
             </div>
             <div class="author-info">
-				@Html.ActionLink(Model.AuthorNickName, "View", "User", new {id = Model.AuthorId, isViewMode = false })
+				@if (Model.AuthorNickName == User.Identity?.Name)
+				{
+					<span>@Model.AuthorNickName</span>
+				}
+				else
+				{
+					@Html.ActionLink(Model.AuthorNickName, "View", "User", new {id = Model.AuthorId, isViewMode = false })
+				}
 			</div>
         </div>
 		<div class="course-description-container"> 

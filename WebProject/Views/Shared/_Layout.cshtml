@@ -2,8 +2,9 @@
 @{
     bool IsAuthorized = User.Identity != null && User.Identity.IsAuthenticated;
     bool CanCreateCourses = User.IsInRole(UserRole.Admin.ToString()) || User.IsInRole(UserRole.Mentor.ToString());
+    //;
+    var avatarStr = $"/avatar/{User.Identity?.Name}";
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,11 +61,11 @@
                                                 {
                                                     <li class="hover-item">
                                                         <i class="fas fa-caret-right"></i>
-                                                        @Html.ActionLink("Мої курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                        @Html.ActionLink("Мої курси", "MyCourses", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
                                                     </li>
                                                     <li class="hover-item">
                                                         <i class="fas fa-caret-right"></i>
-                                                        @Html.ActionLink("Створити курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
+                                                        @Html.ActionLink("Створити курси", "Create", "Courses", new { }, new { @class = "nav-link text-dark link-item" })
                                                     </li>
                                                 }
                                             </ul>
@@ -141,16 +142,26 @@
                         </div>
                     </div>
                     <div class="login-signup">
-                        <div> Приєднайтесь до нас: </div>
-                        <a asp-controller="Account" asp-action="LogIn">LogIn</a>
-                        <a asp-controller="Account" asp-action="SignUpStud">SignUp</a>
+                        @if (!IsAuthorized)
+                        {
+                            <div> Приєднайтесь до нас: </div>
+                            <a asp-controller="Account" asp-action="LogIn">LogIn</a>
+                            <a asp-controller="Account" asp-action="SignUpStud">SignUp</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Edit" asp-controller="User">
+                                <img src="@avatarStr" class="thumbnail author-thumbnail"/>
+                            </a>
+                            <a asp-controller="Account" asp-action="LogOut">Вийти</a>
+                        }
                     </div>
                 </div>
             </div>
         </nav>
     </header>
     <div>
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>

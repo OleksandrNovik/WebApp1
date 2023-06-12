@@ -16,6 +16,40 @@ namespace WebProject.Controllers
 			_logger = logger;
 			_dbContext = dbContext;
 		}
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (User.Identity == null)
+			{
+				return RedirectToAction("LogIn", "Account");
+			}
+			User user;
+			if (id == null)
+			{
+				user = await _dbContext.Users
+					.Include(u => u.UserPhoto)
+                    .Include(u => u.Mentor)
+					.ThenInclude(m => m.Courses)
+					.ThenInclude(c => c.Options)
+					.ThenInclude(o => o.AdditionalInfo)
+                    .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+			}
+			else
+			{
+                user = await _dbContext.Users
+					.Include(u => u.UserPhoto)
+					.Include(u => u.Mentor)
+					.ThenInclude(m => m.Courses)
+					.ThenInclude(c => c.Options)
+					.ThenInclude(o => o.AdditionalInfo)
+					.FirstOrDefaultAsync(u => u.Id == id);
+            }
+			return View("View", new UserViewModel
+			{
+				ShownUser = user,
+				UserMentor = user.Mentor,
+				EditProfile = true,
+			});
+		}
 		/// <summary>
 		/// Показ інформації про користувача
 		/// </summary>
@@ -26,7 +60,7 @@ namespace WebProject.Controllers
 		/// Для користувачів, що переглядають свій профіль
 		/// </param>
 		/// <returns> Відповідне представлення </returns>
-		public async Task<IActionResult> View(int id, bool isViewMode = false)
+		public async Task<IActionResult> View(int id)
 		{
 			var viewModel = new UserViewModel();
 			var user = await _dbContext.Users
@@ -44,7 +78,7 @@ namespace WebProject.Controllers
 
 			viewModel.ShownUser = user;
 			viewModel.UserMentor = user.Mentor;
-			viewModel.EditProfile = isViewMode;
+			viewModel.EditProfile = false;
 			/*
 			 * TODO:
 			 * viewModel.CommonCourses = user.Mentor.Courses
@@ -58,23 +92,23 @@ namespace WebProject.Controllers
 		/// Метод який повертає фото для тегу <img> при запиті
 		/// </summary>
 		/// <returns> Фото користувача </returns>
-		[HttpGet("/avatar/{userId}")]
-		public IActionResult GetUserPhoto(int userId)
+		[HttpGet("/avatar/{userName}")]
+		public IActionResult GetUserPhoto(string userName)
 		{
-			_logger.LogInformation($"Пошук користувача за id = {userId}.");
+			_logger.LogInformation($"Пошук користувача за ім\'я = {userName}.");
 			var user = _dbContext.Users
 				.Include(u => u.UserPhoto)
-				.FirstOrDefault(u => u.Id == userId);
+				.FirstOrDefault(u => u.UserName == userName);
 			if (user == null)
 			{
 				_logger.LogError($"Помилка у {nameof(GetUserPhoto)}!\nКористувача не знайдено!");
 				return NotFound();
 			}
-			_logger.LogInformation($"Виявлено користувача за id = {userId}.");
+			_logger.LogInformation($"Виявлено користувача за ім\'я = {userName}.");
 			if (user.UserPhoto == null)
 			{
 				_logger.LogInformation("Користувач не поставив собі аватар, тому взято стандартну картинку.");
-				return File("~/resources/TestPhoto.png", "image/png");
+				return File("~/resources/UserImg.png", "image/png");
 			}
 			var imageType = "image/" + user.UserPhoto.FileType.ToString();
 			_logger.LogInformation($"У користувача є аватар, з розширенням \"{imageType}\".");

@@ -34,6 +34,7 @@
 }
 .courses-other-info{
     padding: 20px;
+    min-height: 570px;
 }
 .profile-thumbnail {
     object-fit: contain;

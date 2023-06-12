@@ -87,15 +87,7 @@ namespace WebProject.Controllers
 			// Виконання входу
 			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
 		}
-		/// <summary>
-		/// Виведення форми реєстрації як студента
-		/// </summary>
-		/// <returns> Перехід до форми реєстрації </returns>
-		//[HttpGet]
-		//public IActionResult SignUp()
-		//{
-		//	return View("SignUpStud");
-		//}
+
 		[HttpGet]
 		public IActionResult SignUpStud()
 		{

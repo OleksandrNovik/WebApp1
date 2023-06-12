@@ -1,3 +1,7 @@
+:root {
+    --main-color: #40d669;
+}
+
 html {
   font-size: 14px;
 }
@@ -54,7 +58,14 @@ body {
 .code-line{
     margin: 4px 0;
 }
-
+.link-proj {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+.link-proj:hover{
+    color: var(--main-color);
+}
 /*
 ====================================================================
        Складність курсу (уся стилізація міні-блоку складності) 
@@ -170,8 +181,10 @@ body {
     flex: 1;
     display: flex;
     justify-content: space-between;
+    margin-right: 10px;
 }
 .sub-menu {
+    z-index: 100;
     display: none;
     opacity: 0;
     background-color: rgb(255, 255, 255);
@@ -197,7 +210,6 @@ body {
     padding: 0;
     padding-top: 7px;
     padding-bottom: 7px;
-    border-radius: 3px;
     border-bottom: 3px rgba(0, 0, 0, 0) solid;
     transition: border-bottom 0.35s;
 }
@@ -214,7 +226,7 @@ body {
     }
 }
 .nav-item-hv:hover .menu-item, .menu-item:hover {
-    border-bottom: 3px #40d669 solid;
+    border-bottom: 3px var(--main-color) solid;
 }
 
 .login-signup{

@@ -4,56 +4,67 @@
 @{
 	ViewData["Title"] = "Реєстрація";
 	Layout =  "/Views/Shared/_Layout.cshtml";
-	//ViewData["Role"] = BLL.Person_entities.UserFolder.UserRole.Student;
 }
+<style>
+    body{
+         background-color: #f0f3f7;
+    }
+</style>
 
-<h1> Реєстрація </h1>
-
-<div class="role-choice">
-	<a> Я студент </a>
-	<a asp-action="SignUpMentor"> Я викладач </a>
-</div>
-
-<form asp-action="SignUp">
+<form asp-action="SignUp" class="form-proj">
     <div class="text-danger" asp-validation-summary="ModelOnly"></div>
     <div>
-        <h3> Дані користувача </h3>
-        <div class="form-group">
-            <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
-            <input asp-for="UserName" class="form-control" type="text" style="width: 350px" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
+        <div class="role-choice">
+	        <span class="boder-solid-2p-light role-choice-padding chousen-item"> Я студент </span>
+	        <a asp-action="SignUpMentor" class="boder-solid-2p-light role-choice-padding link-proj"> Я викладач </a>
         </div>
-        <div class="form-group">
-            <label asp-for="Password" class="control-label"> Пароль </label>
-            <input asp-for="Password" class="form-control" type="text" style="width: 350px" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="ComfirmPassword" class="control-label"> Підтвердіть пароль </label>
-            <input asp-for="ComfirmPassword" class="form-control" type="text" style="width: 350px" />
-            <span asp-validation-for="ComfirmPassword" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Email" class="control-label"> Електронна пошта </label>
-            <input asp-for="Email" class="form-control" type="text" style="width: 350px" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <h3> Дані студента </h3>
-        <div class="form-group">
-            <label asp-for="FirstName" class="control-label"> Ваше ім'я </label>
-            <input asp-for="FirstName" class="form-control" type="text" style="width: 350px" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="LastName" class="control-label"> Ваше прізвище </label>
-            <input asp-for="LastName" class="form-control" type="text" style="width: 350px" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-        <div>
-            <input asp-for="Role" class="form-control" type="hidden" value="0"/>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Зареєструватись" class="btn btn-primary"/> 
+        <div class="form-holder-proj boder-solid-2p-light" style="width: 890px; padding: 20px 50px;">
+            <h1> Реєстрація Студент </h1>
+            <div class="form-content">
+                <div class="form-inputs-group">      
+                    <h3> Дані студента </h3>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"> Ваше ім'я </label>
+                        <input asp-for="FirstName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"> Ваше прізвище </label>
+                        <input asp-for="LastName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"> Електронна пошта </label>
+                        <input asp-for="Email" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <input asp-for="Role" class="form-control" type="hidden" value="0"/>
+                    </div>
+                    <div class="form-group submit-field">
+                        <input type="submit" value="Зареєструватись" class="btn btn-success"/> 
+                        <a asp-action="LogIn" class="link-proj"> Ввійти в обліковий запис </a>
+                    </div>
+                </div>
+                <div class="form-inputs-group">
+                    <h3> Дані користувача </h3>
+                    <div class="form-group">
+                        <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
+                        <input asp-for="UserName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"> Пароль </label>
+                        <input asp-for="Password" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ComfirmPassword" class="control-label"> Підтвердіть пароль </label>
+                        <input asp-for="ComfirmPassword" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="ComfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>   
+            </div>
         </div>
     </div>
 </form>

@@ -4,7 +4,8 @@
 @{
 	ViewData["Title"] = Model.ShownUser.UserName;
 	Layout = "/Views/Shared/_Layout.cshtml";
-	string avatarRoute = "/avatar/" +  Model.ShownUser.Id;
+	string avatarRoute = $"/avatar/{Model.ShownUser.UserName}";
+	string coursesStr = Model.EditProfile ? "Мої курси" : "Публічні курси";
 	///TODO: Зробити деякі візуальні доповнення
 }
 
@@ -29,7 +30,7 @@
 		<div>
 			@{
 				string htmlElement = "";
-				if (Model.UserMentor.About is not null)
+				if (Model.UserMentor?.About is not null)
 				{
 					<h2> Про мене </h2>
 					htmlElement = HelperHTML.GenerateUnorderedList(Model.UserMentor.About);
@@ -37,7 +38,7 @@
 			}
 			@Html.Raw(htmlElement)
 		</div>
-		<h2> Публічні курси </h2>
+		<h2> @coursesStr </h2>
 		@{
 			if (Model.UserMentor is null || Model.UserMentor.Courses is null)
 			{

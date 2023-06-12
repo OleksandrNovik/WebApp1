@@ -1,0 +1,55 @@
+﻿@using BLL.Educational_entities.Organization;
+@using BLL.ViewModels.Create_Models;
+
+@model CourseCreateModel
+@{
+    ViewData["Title"] = "Створити курс";
+    Layout =  "/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body{
+         background-color: #f0f3f7;
+    }
+</style>
+
+<form asp-action="Create" class="form-proj">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-holder-proj boder-solid-2p-light" style="width: 890px;">
+            <h1> Створення нового курсу</h1>
+            <div class="form-content">
+                <div class="form-inputs-group">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"> Назва нового курсу </label>
+                        <input asp-for="Name" class="form-control" type="text" style="width: 350px"  onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="Name" class="text-danger validation-text"> </span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label"> Виберіть тип курсу </label>
+                        <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<CourseType>()" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Level" class="control-label"> Рівень складності курсу </label>
+                        <select asp-for="Level" class="form-control" asp-items="Html.GetEnumSelectList<CourseLevel>()" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')"></select>
+                    </div>        
+                   <div class="form-check">
+                        @Html.EditorFor(m => m.IsPublic)
+                        <label asp-for="IsPublic" class="control-label"> Чи буде курс публічним </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Створити" class="btn btn-success"/> 
+                    </div>
+                </div>
+                <div class="form-inputs-group">
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"> Опис курсу (Необов'язково) </label>
+                        @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "input-area", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Additional" class="control-label"> Додаткова інформація через пробіл (Необов'язково) </label>
+                        @Html.EditorFor(m => m.Additional, new { htmlAttributes = new { @class = "input-area", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+

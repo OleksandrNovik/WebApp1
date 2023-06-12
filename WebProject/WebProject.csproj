@@ -4,11 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>ff57cd62-e629-4212-88ac-6450a05a1b90</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\resources\TestPhoto.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />

@@ -4,10 +4,10 @@ namespace BLL.ViewModels
 {
 	public class LogInViewModel
 	{
-		[Required]
+		[Required (ErrorMessage = "Ім'я користувача є обов'язковим")]
 		public string UserName { get; set; }
 
-		[Required]
+		[Required (ErrorMessage = "Пароль є обов'язковим")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 	}

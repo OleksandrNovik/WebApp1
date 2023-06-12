@@ -105,11 +105,14 @@ namespace DAL.Data
 		// Це може бути щось, що допоможе швидше знайти курс серед інших
 		// Вони виводяться після основних характеристик курсу
 		public DbSet<CourseAdditionalCharacteristics> CoursesAdditionalCharacteristics { get; set; }
-		
-		/// Educational
-		
-		// Таблиця розгорнутого практичного завдання з кодом
-		public DbSet<Assignment> Assignments { get; set; } 
+
+        // Групи студентів
+        public DbSet<Group> StudentGroups { get; set; }
+
+        /// Educational
+
+        // Таблиця розгорнутого практичного завдання з кодом
+        public DbSet<Assignment> Assignments { get; set; } 
 
 		// Таблиця оцінок за завдання різного типу
 		public DbSet<Mark> Marks { get; set; }
