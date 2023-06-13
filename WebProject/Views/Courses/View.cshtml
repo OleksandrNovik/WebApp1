@@ -48,9 +48,11 @@
 		</div>
 	</div>
 	<div class="course-topic-container">
-		@if (Model.Topics is null)
+		@if (Model.Topics is null || Model.Topics.Count() == 0)
 		{
-			<div> No topics</div>
+			<div class="no-topics-container">
+				<div class="no-topics-message"> На даний момент курс не має тем </div>
+			</div>
 		}
 		else
 		{

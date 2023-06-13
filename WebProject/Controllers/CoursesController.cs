@@ -5,7 +5,6 @@ using BLL.ViewModels.Create_Models;
 using DAL.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebProject.Controllers
@@ -54,9 +53,10 @@ namespace WebProject.Controllers
 			var model = await _helper.GetCourseDataById(id);
 			if (model == null)
 			{
+				_logger.LogError($"Помилка! Курс за id = {id} не знайдено!");
 				return NotFound();
 			}
-            ViewData["EditMode"] = false;
+			_logger.LogInformation($"Знайдено курс за id = {id}. Створено модель та показано у режимі перегляду.");
             return View(model);
 		}
 		/// <summary>
@@ -210,17 +210,23 @@ namespace WebProject.Controllers
 		{
 			if (User.Identity == null)
 			{
+				_logger.LogInformation("Незареєстрований користувач спробував доступитися до контенту, який вимагає реєстрації. Перехід на Log In сторінку.");
 				return RedirectToAction("LogIn", "Account");
 			}
             var model = await _helper.GetCourseDataById(id);
             if (model == null)
             {
-                return NotFound();
+				_logger.LogError($"Помилка! Курс за id = {id} не знайдено!");
+				return NotFound();
             }
-            ViewData["EditMode"] = true;
+			_logger.LogInformation($"Знайдено курс за id = {id}. Створено модель та показано у режимі редагування.");
 			return View(model);
 		}
-
+		/// <summary>
+		/// Редагуємо вибраний курс
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		[HttpPost]
 		[Authorize(Roles = "Mentor, Admin")]
 		public async Task<IActionResult> Edit(CourseInfoViewModel model)
@@ -231,9 +237,10 @@ namespace WebProject.Controllers
 			// Курс не знайдено - це помилка 
 			if (thisCourse == null)
 			{
+				_logger.LogError($"Помилка! Курс за id = {model.CourseId} не знайдено!");
 				return NotFound();
 			}
-			var errors = ModelState.ToList();
+			_logger.LogInformation($"Знайдено курс за id = {model.CourseId}. Перевірка моделі на валідність.");
 			if (ModelState.IsValid)
 			{ 
 				// Інформацію про курс якось змінено
@@ -242,12 +249,14 @@ namespace WebProject.Controllers
 					|| thisCourse.Name != model.CourseName
 					)
 				{
+					_logger.LogInformation($"Модель є валідною та у ній змінена інформація, змінюється і редагований курс.");
 					thisCourse.Description = model.CourseDescription;
 					thisCourse.Name = model.CourseName;
 					await _dbContext.SaveChangesAsync();
 					return RedirectToAction("MyCourses");
 				}
 			}
+			_logger.LogInformation($"Модель невалідна збираються необхідні дані для її повторного показу.");
 			var options = await _dbContext
 				.CoursesOptions
 				.Include(o => o.AdditionalInfo)
@@ -260,6 +269,7 @@ namespace WebProject.Controllers
 				.ToListAsync();
 			if(options == null)
 			{
+				_logger.LogError($"Помилка! Курс за id = {model.CourseId} не має прив'язаних до нього характеристик!");
 				return NotFound();
 			}
 			model.Options = options;

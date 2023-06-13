@@ -47,9 +47,15 @@
 		</div>
 	</div>
 	<div class="course-topic-container">
-		@if (Model.Topics is null)
+		@if (Model.Topics is null || Model.Topics.Count() == 0)
 		{
-			<div> No topics</div>
+			<div class="no-topics-container">
+				<div class="no-topics-message"> На даний момент курс не має тем </div>
+				<a href="@Url.Action("Create", "Topic", new {courseId = Model.CourseInfo.Id })" class="link-proj add-topic-link">
+					<i class="far fa-plus-square"></i>
+					Додати
+				</a>
+			</div>
 		}
 		else
 		{
@@ -57,13 +63,22 @@
 			{
 				<div class="topic-info-container bg-light-programe">
 					<div class="topic-title">
-						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id })
+						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id }, new { @style = "margin-right: 10px;" })
+						<a href="@Url.Action("Edit", "Topic", new { id = topic.Id} )">
+							<i class="fas fa-edit"></i>
+						</a>
 					</div>
 					<div> @topic.Description </div>
 					<hr class="line" />
 					<div> Кількість завдань в темі: @topic.Tasks?.Count() </div>
 				</div>
 			}
+			<div class="add-container-topics-more-zero">
+				<a href="@Url.Action("Create", "Topic", new {courseId = Model.CourseInfo.Id })" class="link-proj add-topic-link">
+					<i class="far fa-plus-square"></i>
+					Додати				
+				</a>
+			</div>
 		}
 	</div>
 	<input asp-for="AuthorId" value="@Model.AuthorId" hidden />

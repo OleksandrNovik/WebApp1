@@ -1,0 +1,33 @@
+﻿@using BLL.ViewModels.Create_Models;
+@model CreateTopicModel
+@{
+    ViewData["Title"] = "Додати тему";
+    Layout = "/Views/Shared/_Layout.cshtml";
+    int courseId = (int)(ViewData["courseId"] ?? 0);
+}
+
+<style>
+    body {
+        background-color: #f0f3f7;
+    }
+</style>
+
+<form asp-action="Create" class="form-proj">
+    <div class="form-holder-proj boder-solid-2p-light" style="width: 470px;">
+        <h1> Додання теми </h1>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"> Назва теми </label>
+            <input asp-for="Title" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"> Опис (Необов'язкова) </label>
+            @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "input-area", @style = "height: 220px;", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+        </div>
+        <input asp-for="CourseId" value="@courseId" hidden />
+        <div class="form-group">
+            <input type="submit" value="Додати" class="btn btn-success" />
+        </div>
+    </div>
+</form>
