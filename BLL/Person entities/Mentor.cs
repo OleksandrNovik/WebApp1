@@ -6,7 +6,7 @@ namespace BLL.Person_entities
 {
 	public class Mentor
 	{
-		public int Id { get; set; }
+        [Key]
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string? About{ get; set; }
