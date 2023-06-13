@@ -3,18 +3,22 @@
 @model CourseInfoViewModel
 
 @{
-	ViewData["Title"] = Model.CourseInfo.Name;
+	ViewData["Title"] = "Редагувати курс";
 	Layout = "/Views/Shared/_Layout.cshtml";
 	string avatarRoute = "/avatar/" + Model.AuthorNickName;
+	Model.CourseDescription = Model.CourseInfo.Description;
 }
 
-<div class="one-course-container">
+<form asp-action="Edit" class="one-course-container">
 	<div class="one-course-general-info boder-solid-2p-light bg-light-programe">
-		<h3> @Model.CourseInfo.Name </h3>
+		<div class="form-group">
+			<input asp-for="CourseName" class="h3-input" type="text" value="@Model.CourseInfo.Name"/>
+			<span asp-validation-for="CourseName" class="text-danger validation-text"> </span>
+		</div>
 		<div class="courses-additional-info gap7">
 			<div class="course-charact @Model.Options.Level.ToString() course-level-border"> @Model.Options.Level </div>
-            <div class="course-charact @Model.Options.Type.ToString()"> @Model.Options.Type </div>
-                                
+			<div class="course-charact @Model.Options.Type.ToString()"> @Model.Options.Type </div>
+
 			@if (Model.Options.AdditionalInfo is not null)
 			{
 				foreach (var info in Model.Options.AdditionalInfo)
@@ -24,26 +28,21 @@
 			}
 		</div>
 		<div class="course-author-content">
-            <div>
+			<div>
 				<img src="@avatarRoute" class="thumbnail author-thumbnail" />
-            </div>
-            <div class="author-info">
+			</div>
+			<div class="author-info">
 				@Html.ActionLink(Model.AuthorNickName, "View", "User", new { id = Model.AuthorId })
 			</div>
-        </div>
-		<div class="course-description-container"> 
-			@{
-				string htmlList = "";
-				if (Model.CourseInfo.Description is not null)
-				{
-					htmlList = HelperHTML.GenerateUnorderedList(Model.CourseInfo.Description);
-				}
-			}
-			@Html.Raw(htmlList)
 		</div>
-		@* TODO: При створенні юзерів додати так, щоб показувало відвідувати лише тоді, 
-			коли користувач не відвідав курс *@
+		@Html.EditorFor(m => m.CourseDescription, new { htmlAttributes = new { @class = "description-area" } })
+
+		@* TODO: При створенні юзерів додати так, щоб показувало відвідувати лише тоді,
+		коли користувач не відвідав курс *@
 		<div class="course-buttons-container">
+			<div class="form-group">
+				<input type="submit" value="Зберегти" class="btn btn-success" />
+			</div>
 			<a href="#"> Відвідати </a>
 		</div>
 	</div>
@@ -54,10 +53,10 @@
 		}
 		else
 		{
-			foreach(var topic in Model.Topics)
+			foreach (var topic in Model.Topics)
 			{
 				<div class="topic-info-container bg-light-programe">
-					<div class="topic-title"> 
+					<div class="topic-title">
 						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id })
 					</div>
 					<div> @topic.Description </div>
@@ -67,4 +66,8 @@
 			}
 		}
 	</div>
-</div>
+	<input asp-for="AuthorId" value="@Model.AuthorId" hidden />
+	<input asp-for="AuthorNickName" value="@Model.AuthorNickName" hidden />
+	<input asp-for="CourseId" value="@Model.CourseInfo.Id" hidden />
+</form>
+

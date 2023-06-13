@@ -5,8 +5,8 @@ using BLL.ViewModels.Create_Models;
 using DAL.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using System.Xml;
 
 namespace WebProject.Controllers
 {
@@ -40,6 +40,7 @@ namespace WebProject.Controllers
 			}
 			_logger.LogInformation("Передано та створено список моделей для показу курсів.");
 			ViewData["Title"] = "Публічні курси";
+			ViewData["IsEditModel"] = false;
             return View(model);
 		}
 		/// <summary>
@@ -49,46 +50,14 @@ namespace WebProject.Controllers
 		/// <returns> Представлення з відповідним курсом </returns>
 		public async Task<IActionResult> View(int id)
 		{
-			// Проходжуся по них та шукаю відповідний курс
-			var course = await _dbContext.Courses
-				.Include(c => c.Options)
-				.ThenInclude(o => o.AdditionalInfo)
-				.FirstOrDefaultAsync(c => c.Id == id);
-
-			_logger.LogInformation($"Було вибрано курс за Id {id}.");
-
-			if (course == default(Courses))
+			// Дістаю дані курсу за його id
+			var model = await _helper.GetCourseDataById(id);
+			if (model == null)
 			{
-				//TODO: Зробити показ помилки при неіснуючому курсі
-				_logger.LogError($"Помилка! Курс за Id {id} не знайдено!");
-				return RedirectToAction("Index", "Home");
+				return NotFound();
 			}
-			var authorId = await _helper.GetAuthorId(course);
-			var author = await _dbContext.Users
-				.FirstOrDefaultAsync(user => user.Id == authorId);
-			if (author == null)
-			{
-				_logger.LogError($"Помилка! Автора курсу id = {id} не знайдено!");
-				return RedirectToAction("Index", "Home");
-			}
-			// Дістаю теми для курсу, з урахуванням завдань у них
-			var topics = await _dbContext.Topics
-				.Include(tops => tops.Tasks)
-				.Include(tops => tops.Tests)
-				.Where(tops => tops.Course.Id == course.Id)
-				.ToListAsync();
-
-			_logger.LogInformation($"Дістаю теми для курса id = {course.Id} з урахуванням їх завдань.");
-
-			var model = new CourseInfoViewModel
-			{
-				CourseInfo = course,
-				AuthorNickName = author.UserName,
-				AuthorId = authorId,
-				Options = course.Options,
-				Topics = topics
-			};
-			return View(model);
+            ViewData["EditMode"] = false;
+            return View(model);
 		}
 		/// <summary>
 		/// Метод фільтрації курсів по характеристикам
@@ -105,6 +74,10 @@ namespace WebProject.Controllers
 			return Ok(new {filterByLevel, filterByType, filterByLessons });
 			//return View("Index", _helper.SetModel(SampleData.sampleCourses));
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		[HttpPost]
 		public IActionResult Search()
 		{
@@ -224,7 +197,75 @@ namespace WebProject.Controllers
 
 			var model = await _helper.CreateModel(courses);
 			ViewData["Title"] = "Мої курси";
-			return View("Index",  model);
+            ViewData["IsEditModel"] = true;
+            return View("Index",  model);
 		}
-	}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Mentor, Admin")]
+        public async Task<IActionResult> Edit(int id)
+		{
+			if (User.Identity == null)
+			{
+				return RedirectToAction("LogIn", "Account");
+			}
+            var model = await _helper.GetCourseDataById(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            ViewData["EditMode"] = true;
+			return View(model);
+		}
+
+		[HttpPost]
+		[Authorize(Roles = "Mentor, Admin")]
+		public async Task<IActionResult> Edit(CourseInfoViewModel model)
+		{
+			var thisCourse = await _dbContext
+					.Courses
+					.FirstOrDefaultAsync(c => c.Id == model.CourseId);
+			// Курс не знайдено - це помилка 
+			if (thisCourse == null)
+			{
+				return NotFound();
+			}
+			var errors = ModelState.ToList();
+			if (ModelState.IsValid)
+			{ 
+				// Інформацію про курс якось змінено
+				if (
+					thisCourse.Description != model.CourseDescription
+					|| thisCourse.Name != model.CourseName
+					)
+				{
+					thisCourse.Description = model.CourseDescription;
+					thisCourse.Name = model.CourseName;
+					await _dbContext.SaveChangesAsync();
+					return RedirectToAction("MyCourses");
+				}
+			}
+			var options = await _dbContext
+				.CoursesOptions
+				.Include(o => o.AdditionalInfo)
+				.FirstOrDefaultAsync(o => o.Id == thisCourse.OptionsId);
+			var topics = await _dbContext
+				.Topics
+				.Include(t => t.Tasks)
+				.Include(t => t.Tests)
+				.Where(t => t.Course.Id == thisCourse.Id)
+				.ToListAsync();
+			if(options == null)
+			{
+				return NotFound();
+			}
+			model.Options = options;
+			model.Topics = topics;
+			return View(model);
+		}
+
+    }
 }

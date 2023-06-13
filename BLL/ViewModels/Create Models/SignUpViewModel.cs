@@ -26,7 +26,7 @@ namespace BLL.ViewModels
 		[StringLength(20, MinimumLength = 8, 
 			ErrorMessage = "Пароль повинен складатися з від 8 до 20 символів")]
 		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%_-]).{8,}$", 
-			ErrorMessage = "Пароль має містити великі малі букви, цифри та унікальні символи (@#$%_-)")]
+			ErrorMessage = "Пароль має містити великі малі букви, цифри та унікальні символи (@#$%_-) Приклад 6y_12e-45Fg")]
 		public string Password { get; set; }
 		
 		[Required (ErrorMessage = "Повторне введення паролю є обов'язковим")]

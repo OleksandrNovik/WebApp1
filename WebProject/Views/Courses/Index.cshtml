@@ -5,6 +5,7 @@
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     string avatarRoute = ""; // Таким чином буду формувати маршрут для прогрузки аватару
+    bool isEdit = (bool)(ViewData["IsEditModel"] ?? false);
 }
 
 <div class="content">
@@ -103,9 +104,15 @@
                             <div class="courses-info-container bg-light-programe">
                             <div class="courses-additional-info details-style">
                                 <h4> @courseInfo.CourseInfo.Name </h4>
+                                    @if (isEdit)
+                                    {
+                                        <a href="@Url.Action("Edit", "Courses", new { id = courseInfo.CourseInfo.Id })">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    }
                                 @Html.ActionLink("Детальніше", "View", "Courses", new { id = courseInfo.CourseInfo.Id  })
                                 <a href="#"> Відвідати </a>
-                            </div>
+                                </div>
                             <div class="courses-additional-info gap7">
                                 <div class="course-charact @courseInfo.Options.Level.ToString() course-level-border"> @courseInfo.Options.Level </div>
                                 <div class="course-charact @courseInfo.Options.Type.ToString()"> @courseInfo.Options.Type </div>
@@ -122,14 +129,7 @@
                                     <img src="@avatarRoute" class="author-thumbnail" />
                                 </div>
                                 <div class="author-info">
-                                        @if (courseInfo.AuthorNickName == User.Identity?.Name)
-                                        {
-                                            <span>@courseInfo.AuthorNickName</span>
-                                        }
-                                        else
-                                        {
-                                            @Html.ActionLink(courseInfo.AuthorNickName, "View", "User", new {id = courseInfo.AuthorId, isViewMode = false })
-                                        } 
+                                    @Html.ActionLink(courseInfo.AuthorNickName, "View", "User", new { id = courseInfo.AuthorId })
                                 </div>
                             </div>
                             <div> 

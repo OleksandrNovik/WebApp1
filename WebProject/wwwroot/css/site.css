@@ -261,3 +261,33 @@ body {
         transform: translateX(0.5rem);
     }
 }
+
+/*
+==================================================================
+                    Підказка при наведенні
+==================================================================
+*/
+.edit-profile {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.edit-tooltip-text {
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.76);
+    color: #000;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    transform: translateX(-70%);
+    white-space: nowrap;
+    bottom: -70%;
+}
+
+.edit-profile:hover .edit-tooltip-text {
+    opacity: 1;
+}

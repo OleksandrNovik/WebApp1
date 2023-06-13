@@ -54,7 +54,6 @@ namespace WebProject.Controllers
 		/// Показ інформації про користувача
 		/// </summary>
 		/// <param name="id"> id користувача інформацію про якого ми дивимось </param>
-		/// <param name="isViewMode"> 
 		/// Чи це є просто показ, або ж налаштування профіля
 		/// При значенні true буде виведено розширене view з редагуванням профіля
 		/// Для користувачів, що переглядають свій профіль
@@ -78,7 +77,7 @@ namespace WebProject.Controllers
 
 			viewModel.ShownUser = user;
 			viewModel.UserMentor = user.Mentor;
-			viewModel.EditProfile = false;
+			viewModel.EditProfile = user.UserName == User.Identity?.Name;
 			/*
 			 * TODO:
 			 * viewModel.CommonCourses = user.Mentor.Courses

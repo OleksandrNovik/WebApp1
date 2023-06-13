@@ -32,7 +32,9 @@
                     <div class="form-group">
                         <label asp-for="Password" class="control-label"> Пароль </label>
                         <input asp-for="Password" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div style="max-width: 300px;">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="ComfirmPassword" class="control-label"> Підтвердіть пароль </label>

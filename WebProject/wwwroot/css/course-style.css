@@ -7,8 +7,8 @@
     padding: 0;
 }
 .details-style {
-    width: 340px;
-    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
 }
 .courses-view-grid {
     display: grid;
@@ -29,6 +29,24 @@ b {
 }
 .line{
     margin: 10px 0;
+}
+.h3-input {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+.description-area, .h3-input {
+    border: none;
+    width: 100%;
+    background-color: inherit;
+    transition: all 0.2s ease-in-out;
+}
+.h3-input:focus, .description-area:focus {
+    outline: none;
+    background-color: #f0f0f0;
+}
+.description-area {
+    padding: 10px 12px;
+    flex: 1;
 }
 /*
 ====================================================================
@@ -168,6 +186,7 @@ b {
 .course-buttons-container{
     display: flex;
     align-items: center;
+    gap: 25px;
     height: 60px;
 }
 .course-topic-container {
@@ -187,4 +206,8 @@ b {
     font-weight: bold;
     margin-bottom: 16px;
     font-size: 18px;
+}
+
+.fa-edit{
+    margin-left: -10px;
 }

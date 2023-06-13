@@ -25,5 +25,15 @@ namespace BLL.Injections
 			await Task.Delay(100);
 			return -1;
 		}
-	}
+		/// <summary>
+		/// Дістаємо усю інформацію про курс, за його id
+		/// </summary>
+		/// <param name="id"> id курсу</param>
+		/// <returns> Модель курсу створену на основі його даних </returns>
+        public async Task<CourseInfoViewModel?> GetCourseDataById(int id)
+        {
+            await Task.Delay(1000);
+            return null;
+        }
+    }
 }

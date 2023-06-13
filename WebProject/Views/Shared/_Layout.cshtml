@@ -150,8 +150,9 @@
                         }
                         else
                         {
-                            <a asp-action="Edit" asp-controller="User">
+                            <a asp-action="Edit" asp-controller="User" class="edit-profile">
                                 <img src="@avatarStr" class="thumbnail author-thumbnail"/>
+                                <span class="edit-tooltip-text"> Мій профіль </span>
                             </a>
                             <a asp-controller="Account" asp-action="LogOut">Вийти</a>
                         }

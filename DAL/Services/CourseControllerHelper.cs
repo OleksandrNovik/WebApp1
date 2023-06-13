@@ -57,5 +57,51 @@ namespace DAL.Services
 			}
 			return list;
 		}
+        /// <summary>
+        /// Дістаємо усю інформацію про курс, за його id
+        /// </summary>
+        /// <param name="id"> id курсу</param>
+        /// <returns> Модель курсу створену на основі його даних </returns>
+        public async Task<CourseInfoViewModel?> GetCourseDataById (int id)
+		{
+            // Проходжуся по них та шукаю відповідний курс
+            var course = await _context.Courses
+				.Include(c => c.Options)
+				.ThenInclude(o => o.AdditionalInfo)
+				.FirstOrDefaultAsync(c => c.Id == id);
+
+            _logger.LogInformation($"Було вибрано курс за Id {id}.");
+
+            if (course == default(Courses))
+            {
+                //TODO: Зробити показ помилки при неіснуючому курсі
+                _logger.LogError($"Помилка! Курс за Id {id} не знайдено!");
+                return null;
+            }
+            var authorId = await GetAuthorId(course);
+            var author = await _context.Users
+                .FirstOrDefaultAsync(user => user.Id == authorId);
+            if (author == null)
+            {
+                _logger.LogError($"Помилка! Автора курсу id = {id} не знайдено!");
+                return null;
+            }
+            // Дістаю теми для курсу, з урахуванням завдань у них
+            var topics = await _context.Topics
+                .Include(tops => tops.Tasks)
+                .Include(tops => tops.Tests)
+                .Where(tops => tops.Course.Id == course.Id)
+                .ToListAsync();
+
+            _logger.LogInformation($"Дістаю теми для курса id = {course.Id} з урахуванням їх завдань.");
+            return new CourseInfoViewModel
+            {
+                CourseInfo = course,
+                AuthorNickName = author.UserName,
+                AuthorId = authorId,
+                Options = course.Options,
+                Topics = topics
+            };
+        }
 	}
 }
