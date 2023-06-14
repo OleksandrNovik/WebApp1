@@ -1,4 +1,5 @@
-﻿using BLL.Person_entities.UserFolder;
+﻿using BLL.Person_entities;
+using BLL.Person_entities.UserFolder;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BLL.Educational_entities.Education
@@ -18,9 +19,9 @@ namespace BLL.Educational_entities.Education
 
 		[ForeignKey("Users")]
 		public int UserId { get; set; }
-		public User WorkAuthor { get; set; }
+		public Student WorkAuthor { get; set; }
 		public Mark? Mark { get; set; }
-		public string Code { get; set; }
+		public string? Code { get; set; }
 		public string? ProgramingLanguage { get; set; }
 		public DateTime SubmitDate { get; set; }
 	}

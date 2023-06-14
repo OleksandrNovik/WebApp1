@@ -30,24 +30,6 @@ b {
 .line{
     margin: 10px 0;
 }
-.h3-input {
-    font-size: 1.5em;
-    font-weight: 500;
-}
-.description-area, .h3-input {
-    border: none;
-    width: 100%;
-    background-color: inherit;
-    transition: all 0.2s ease-in-out;
-}
-.h3-input:focus, .description-area:focus {
-    outline: none;
-    background-color: #f0f0f0;
-}
-.description-area {
-    padding: 10px 12px;
-    flex: 1;
-}
 /*
 ====================================================================
                     Фільтр характеристик курсу

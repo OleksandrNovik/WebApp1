@@ -19,11 +19,11 @@
 	        <a asp-action="SignUpStud"  class="boder-solid-2p-light role-choice-padding link-proj"> Я студент </a>
 	        <span class="boder-solid-2p-light role-choice-padding chousen-item"> Я викладач </span>
         </div>
-        <div class="form-holder-proj boder-solid-2p-light" style="width: 1290px; padding: 20px 50px;"> 
+        <div class="form-holder-proj boder-solid-2p-light" style="width: 890px; padding: 20px 50px;"> 
            <h1> Реєстрація Викладач </h1>
             <div class="form-content" style="justify-content: start; gap: 30px;">
                 <div class="form-inputs-group">
-                    <h3> Дані користувача </h3>
+
                     <div class="form-group">
                         <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
                         <input asp-for="UserName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
@@ -49,29 +49,15 @@
                         <a asp-action="LogIn" class="link-proj"> Ввійти в обліковий запис </a>
                     </div>
                 </div>
-                <div class="form-inputs-group">
-                    <h3> Дані викладача </h3>
-                    <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"> Ваше ім'я </label>
-                        <input asp-for="FirstName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label"> Ваше прізвище </label>
-                        <input asp-for="LastName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
+                <div style="flex: 1;">
                     <div class="form-group">
                         <label asp-for="Email" class="control-label"> Електронна пошта </label>
                         <input asp-for="Email" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                </div>
-                <div style="flex: 1;">
-                    <h3> Про Себе </h3>
                     <div class="form-group">
                         <label asp-for="About" class="control-label"> Інформація про себе (Необов'язкова) </label>
-                        @Html.EditorFor(m => m.About, new { htmlAttributes = new { @class = "input-area", @style = "height: 320px;", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+                        @Html.EditorFor(m => m.About, new { htmlAttributes = new { @class = "input-area", @style = "height: 200px;", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
                     </div>
                 </div>
             </div>       

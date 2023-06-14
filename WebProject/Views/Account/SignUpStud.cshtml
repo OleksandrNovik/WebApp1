@@ -18,20 +18,14 @@
 	        <span class="boder-solid-2p-light role-choice-padding chousen-item"> Я студент </span>
 	        <a asp-action="SignUpMentor" class="boder-solid-2p-light role-choice-padding link-proj"> Я викладач </a>
         </div>
-        <div class="form-holder-proj boder-solid-2p-light" style="width: 890px; padding: 20px 50px;">
+        <div class="form-holder-proj boder-solid-2p-light" style="width: 850px; padding: 20px 50px;">
             <h1> Реєстрація Студент </h1>
             <div class="form-content">
-                <div class="form-inputs-group">      
-                    <h3> Дані студента </h3>
+                <div class="form-inputs-group">
                     <div class="form-group">
-                        <label asp-for="FirstName" class="control-label"> Ваше ім'я </label>
-                        <input asp-for="FirstName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label"> Ваше прізвище </label>
-                        <input asp-for="LastName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                        <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
+                        <input asp-for="UserName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Email" class="control-label"> Електронна пошта </label>
@@ -47,12 +41,6 @@
                     </div>
                 </div>
                 <div class="form-inputs-group">
-                    <h3> Дані користувача </h3>
-                    <div class="form-group">
-                        <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
-                        <input asp-for="UserName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
                     <div class="form-group">
                         <label asp-for="Password" class="control-label"> Пароль </label>
                         <input asp-for="Password" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
@@ -65,7 +53,7 @@
                         <input asp-for="ComfirmPassword" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
                         <span asp-validation-for="ComfirmPassword" class="text-danger"></span>
                     </div>
-                </div>   
+                </div>
             </div>
         </div>
     </div>

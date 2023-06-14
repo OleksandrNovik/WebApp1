@@ -1,15 +1,14 @@
-﻿@model Assignment
+﻿@using BLL.ViewModels;
+@model AssignmentViewModel
 @{
     ViewData["Title"] = Model.Name;
     Layout =  "/Views/Shared/_Layout.cshtml";
     string setLanguage = "ace/mode/";
     var allowedLanguages = Model.ProgramingLanguages?.ToLower().Split(new char[]
-	{
+    {
         ' ', ',', '.', ';', ':', '\t'
-    }).Where(str => !string.IsNullOrEmpty(str)).ToArray();
-    ///TODO: зробити мапу (назва мови) -> (опція ace/mode/language)
+    }).Where(str => !string.IsNullOrEmpty(str)).ToArray();    
 }
-<a asp-action="Index" asp-controller="Home"> To Index </a>
 <div class="editor-task-container">
     <div class="task-description boder-solid-2p-light">
         @{
@@ -58,12 +57,12 @@
             </select>
             <div> </div>
             <div class="editor-upper-buttons">
-               <button onclick="G()"> Очистити </button>
+                <button onclick="GetChosenLanguage()"> Очистити </button>
             </div>
         </div>
         <div class="editor-container">
             <div id="editor">@(
-                string.IsNullOrEmpty(Model.StarterCode) ? "" : Model.StarterCode
+                    string.IsNullOrEmpty(Model.UserCode) ? Model.StarterCode : Model.UserCode
             )</div>
         </div>
         <div class="editor-lower-menu">
@@ -115,6 +114,9 @@
       SetNewLanguage(selectedText);
     });
 
+    GetChosenTheme();
+    GetChosenLanguage();
+
     // Функція зміни мови на нову
     function SetNewLanguage(selectLanguage){
         let newLanguage = "@setLanguage" + selectLanguage;
@@ -126,33 +128,60 @@
         console.log(newTheme);
         editor.setTheme(newTheme);
     }
-    function G(){
-        let editorText = document.querySelector('.ace_content').innerText;
-        console.log(editorText);
+    // Вибір мови для користувача (береться з попереднього сеансу)
+    function GetChosenLanguage() {
+        let userLanguage = "@Model.SelectedLanguage";
+        // Якщо мову вибрано у попередній сесії, то ставимо її як вибрану у списку
+        if (userLanguage){
+            for (var i = 0; i < languageList.options.length; i++) {
+                if (languageList.options[i].value === userLanguage){
+                    languageList.options[i].selected = true;
+                    break;
+                }
+            }
+            SetNewLanguage(userLanguage);
+        }
     }
+    // Вибір теми редактора для коритсувача (береться з поперенього сеансу)
+    function GetChosenTheme(){
+        let userTheme = "@Model.SelectedEditorTheme";
+        // Якщо тему вибрано у попередній сесії, то ставимо її як вибрану у списку
+        if (userTheme){
+            for (var i = 0; i < themeList.options.length; i++) {
+                console.log(themeList.options[i].value + " -> " + userTheme);
+                if (themeList.options[i].value === userTheme){
+                    themeList.options[i].selected = true;
+                    break;
+                }
+            }
+            SetNewTheme(userTheme);
+        }
+    }
+    // Метод збереження контенту, коли користувач перезодить на іншу сторінку
+    window.addEventListener('beforeunload', () => {
+        // Зберігаю обрану тему редактора
+        let selectedTheme = document.getElementById("dropdown-themes").value;
+        // Зберігаю код у редакторі
+        let editorText = document.querySelector('.ace_content').innerText;
+        // Вибрана мова (якщо є вибір серед мов програмування)
+        let selectedLanguage = document.getElementById('dropdown-languages').value;
 
-    //window.addEventListener('beforeunload', () => {
-    //    // Зберігаю обрану тему редактора
-    //    let selectedTheme = document.getElementById("dropdown-themes").value;
-    //    // Зберігаю код у редакторі
-    //    let editorText = document.querySelector('.ace_content').innerText;
-    //    //
-    //    let selectedLanguage = document.getElementById('dropdown-languages').value;
-
-    //    $.ajax({
-    //      url: '/Controller/Action',
-    //      method: 'POST',
-    //      data: { 
-    //          selectedTheme: selectedTheme
-    //          editor: editorText
-    //          language: selectedLanguage
-    //      },
-    //      success: function(response) {
-    //        // Обробка успішної відповіді
-    //      },
-    //      error: function(xhr, status, error) {
-    //        // Обробка помилки
-    //      }
-    //    });
-    //});
+        $.ajax({
+          url: '/User/TaskSaveChanges',
+          method: 'POST',
+          data: { 
+              selectedTheme: selectedTheme,
+              editor: editorText,
+              language: selectedLanguage,
+              taskId: @Model.AssessmentId
+          },
+          success: function(response) {
+            console.log('Надіслано');
+          },
+          error: function(xhr, status, error) {
+            console.log('Помилка! ');
+            console.log(status + "\n\n" + error);
+          }
+        });
+    });
 </script>

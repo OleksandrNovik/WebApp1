@@ -55,17 +55,21 @@ body {
     border-radius: 8px;
     margin: 0;
 }
+
 .code-line{
     margin: 4px 0;
 }
+
 .link-proj {
     text-decoration: none;
     color: inherit;
     transition: color 0.2s;
 }
+
 .link-proj:hover{
     color: var(--main-color);
 }
+
 .fa-edit {
     margin-left: -10px;
 }
@@ -293,4 +297,31 @@ body {
 
 .edit-profile:hover .edit-tooltip-text {
     opacity: 1;
+}
+.h3-input {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+.h2-input {
+    font-size: 2em;
+    font-weight: 500;
+}
+.description-area, .h3-input, .h2-input {
+    border: none;
+    width: 100%;
+    background-color: inherit;
+    transition: all 0.2s ease-in-out;
+}
+
+.h2-input:focus, .h3-input:focus, .description-area:focus {
+    outline: none;
+    background-color: #f0f0f0;
+}
+.height-100pc{
+    height: 100%;
+}
+.description-area {
+    resize: none;
+    padding: 10px 12px;
+    flex: 1;
 }

@@ -8,12 +8,6 @@ namespace BLL.ViewModels
 		[Required (ErrorMessage = "Ім'я користувача є обов'язковим")]
 		public string UserName { get; set; }
 		
-		[Required (ErrorMessage = "Введіть ваше ім'я (це обов'язкове поле)")]
-		public string FirstName { get; set; }
-		
-		[Required (ErrorMessage = "Введіть ваше прізвище (це обов'язкове поле)")]
-		public string LastName { get; set; }
-		
 		[Required (ErrorMessage = "Електронна пошта є обов'язковою")]
 		[DataType(DataType.EmailAddress)]
 		public string Email { get; set; }

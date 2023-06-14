@@ -23,7 +23,7 @@
 			</div>
 			<div class="task-block">
 				@{
-					if (Model.Assignments is not null)
+					if (Model.Assignments != null && Model.Assignments.Count() > 0)
 					{
 						<h3>Практичні завдання</h3>
 						<div class="topic-task-grid">
@@ -67,13 +67,17 @@
 					}
 					else
 					{
-					<div> No tasks</div>
+					<div class="no-content-in-topic">
+						<div class="no-content-font">
+							На даний момент практичних завдань немає
+						</div>
+					</div>
 				}
 			}
 		</div>
 		<div>
 			@{
-				if (Model.Tests is not null)
+				if (Model.Tests != null && Model.Tests.Count() > 0)
 				{
 					<h3>Тести</h3>
 					<div class="topic-task-grid">
@@ -95,7 +99,11 @@
 				}
 				else
 				{
-					
+					<div class="no-content-in-topic">
+						<div class="no-content-font">
+							На даний момент тестів немає
+						</div>
+					</div>
 				}
 			}
 		</div>

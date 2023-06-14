@@ -201,10 +201,10 @@ namespace WebProject.Controllers
             return View("Index",  model);
 		}
         /// <summary>
-        /// 
+        /// Редагувати курс
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id"> id курсу, який редагується </param>
+        /// <returns> Форма редагування курсу</returns>
         [Authorize(Roles = "Mentor, Admin")]
         public async Task<IActionResult> Edit(int id)
 		{
@@ -225,8 +225,8 @@ namespace WebProject.Controllers
 		/// <summary>
 		/// Редагуємо вибраний курс
 		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
+		/// <param name="model"> Модель отримана з форми </param>
+		/// <returns> Повернення до форми, якщо модель невалідна </returns>
 		[HttpPost]
 		[Authorize(Roles = "Mentor, Admin")]
 		public async Task<IActionResult> Edit(CourseInfoViewModel model)

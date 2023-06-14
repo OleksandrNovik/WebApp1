@@ -71,15 +71,19 @@ namespace DAL.Services
 				Email = "admin@gmail.com",
 				Password = hashGenerator.GenerateHash("adminpass")
 			};
-
+			var student = new Student
+			{
+				User = userAdmin,
+				UserId = 1,
+			};
+			userAdmin.Student = student;
 			// Створюю роль ментора під нього
 			var mentorAdmin = new Mentor
 			{
-				FirstName = "Admin",
-				LastName = "OfWebSite",
 				About = "Акаунт адміна для виконання робіт та тестування вебстайту",
 				User = userAdmin,
-				Courses = new List<Courses> { course }
+				Courses = new List<Courses> { course },
+				UserId = 1,
 			};
 			course.Author = mentorAdmin;
 			userAdmin.Info = adminInfo;

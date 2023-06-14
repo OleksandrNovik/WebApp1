@@ -1,4 +1,5 @@
 ﻿using BLL.Educational_entities.Education;
+using BLL.ViewModels;
 using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,10 @@ namespace WebProject.Controllers
         }
         public async Task<IActionResult> CodeEditor(int assignmentID)
         {
+            if (User.Identity == null)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
             var assignment = await _dbContext.Assignments.FirstOrDefaultAsync(assign => assign.Id == assignmentID);
             if (assignment == default(Assignment))
             {
@@ -28,59 +33,35 @@ namespace WebProject.Controllers
                 return Error();
             }
             _logger.LogInformation("Завдання типу Assignment за id = {0} знайдено та передано представленню.", assignmentID);
-            
+
             //TODO: Після того як додав авторизацію зробити таке
-            //var currentUser = await _dbContext.Users
-            //    .Include(u => u.Info)
-            //    .FirstOrDefaultAsync(user => user.UserName == User.Identity.Name);
-            //if (currentUser == null)
-            //{
-            //    return NotFound();
-            //}
-            //ViewData["EditorTheme"] = currentUser.Info.EditorTheme;
+            var currentUser = await _dbContext.Users
+                .Include(u => u.Info)
+                .FirstOrDefaultAsync(user => user.UserName == User.Identity.Name);
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            var currentStudWork = await _dbContext
+                .StudentWorks
+                .Include(w => w.OnTask)
+                .Where(w => w.UserId == currentUser.Id)
+                .FirstOrDefaultAsync(w => w.OnTask.Id == assignmentID);
+            
+            return View(new AssignmentViewModel 
+            { 
+                AssessmentId = assignmentID,
+                Description = assignment.Description,
+                MainTask = assignment.MainTask,
+                ProgramingLanguages = assignment.ProgramingLanguages,
+                SelectedEditorTheme = currentUser.Info.EditorTheme,
+                StarterCode = assignment.StarterCode,
+                UserCode = currentStudWork?.Code,
+                SelectedLanguage = currentStudWork?.ProgramingLanguage,
+                Name = assignment.Name,
+            });
 
-            return View(assignment);
         }
-
-   //     [HttpPost]
-   //     public async Task<IActionResult> SaveChanges(int assignmentId, string selectedTheme, string editor, string language)
-   //     {
-   //         var currentUser = await _dbContext.Users
-   //             .Include(u => u.Info)
-   //             .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-
-   //         currentUser.Info.EditorTheme = selectedTheme;
-
-   //         var studentWork = await _dbContext.StudentWorks
-   //             .FirstOrDefaultAsync(w => w.WorkAuthor == currentUser);
-
-   //         if (studentWork == null)
-   //         {
-   //             var assingment = await _dbContext.Assignments.FirstOrDefaultAsync();
-   //             if (assingment == null)
-   //             {
-   //                 return Json(new { success = false });
-   //             }
-			//	studentWork = new Work
-   //             {
-   //                 Code = editor,
-   //                 ProgramingLanguage = language,
-   //                 OnTask = assingment,
-   //                 Status = WorkStatus.NotComplited,
-   //                 WorkAuthor = currentUser,
-   //                 SubmitDate = DateTime.Now,
-   //                 UserId = currentUser.Id
-			//	};
-			//	await _dbContext.StudentWorks.AddAsync(studentWork);
-			//}
-   //         else
-   //         {
-   //             studentWork.Code = editor;
-   //             studentWork.ProgramingLanguage = language;
-   //         }
-   //         await _dbContext.SaveChangesAsync();
-   //         return Json(new { success = true });
-   //     }
         public IActionResult Error()
         {
             return View();

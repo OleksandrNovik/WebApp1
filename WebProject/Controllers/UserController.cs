@@ -1,6 +1,7 @@
 ﻿using BLL.Person_entities.UserFolder;
 using BLL.ViewModels;
 using DAL.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -112,6 +113,66 @@ namespace WebProject.Controllers
 			var imageType = "image/" + user.UserPhoto.FileType.ToString();
 			_logger.LogInformation($"У користувача є аватар, з розширенням \"{imageType}\".");
 			return File(user.UserPhoto.PhotoByteCode, imageType);
+		}
+		[HttpPost]
+		[Authorize]
+		public async Task<IActionResult> TaskSaveChanges(string selectedTheme, string editor, string language, int taskId)
+		{
+			if (User.Identity == null)
+			{
+				return Json(new { success = false });
+			}
+			var user = await _dbContext
+				.Users
+				.Include(u => u.Info)
+				.Include(u => u.Student)
+				.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            var task = await _dbContext
+				.Assignments
+				.FirstOrDefaultAsync(t => t.Id == taskId);
+            
+			if (user == null || user.Student == null || task == null)
+			{
+                return Json(new { success = false });
+            }
+
+			// Запам'ятовую вибрану користувачем тему редактора
+			user.Info.EditorTheme = selectedTheme;
+
+            var works = await _dbContext
+				.StudentWorks
+				.Include(w => w.OnTask)
+				.Where(w => w.WorkAuthor == user.Student)
+				.ToListAsync();
+			
+			if (works == null)
+			{
+				works = new List<BLL.Educational_entities.Education.Work> ();
+			}
+			// Якщо у таблиці уже є елемент який відповідає за роботу на цьому таску
+			var currentWork = works.FirstOrDefault(w => w.OnTask.Id == taskId);
+			if (currentWork != null)
+			{
+				currentWork.Code = editor;
+				currentWork.ProgramingLanguage = language;
+				currentWork.SubmitDate = DateTime.Now;
+			}
+			// Якщо немає, то додаємо його
+			else
+			{
+				await _dbContext.StudentWorks.AddAsync(new BLL.Educational_entities.Education.Work
+				{
+					Status = BLL.Educational_entities.Education.WorkStatus.NotComplited,
+					Code = editor,
+					UserId = user.Id,
+					ProgramingLanguage = language,
+					WorkAuthor = user.Student,
+					OnTask = task,
+					SubmitDate = DateTime.Now,
+				});
+            }
+            await _dbContext.SaveChangesAsync();
+			return Json(new { success = true });
 		}
 	}
 }

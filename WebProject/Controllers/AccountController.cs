@@ -120,42 +120,38 @@ namespace WebProject.Controllers
 					{
 						UserName = model.UserName,
 					};
-					// Якщо користувач реєструється як студент
-					if (model.Role == UserRole.Student)
+                    // Створюю інформаю
+                    var info = new UserInfo
+                    {
+                        Email = model.Email,
+                        Password = _hashGenerator.GenerateHash(model.Password),
+                        OnUser = newUser,
+                        Role = model.Role
+                    };
+                    newUser.Info = info;
+                    await _dbContext.Users.AddAsync(newUser);
+                    await _dbContext.UsersInfo.AddAsync(info);
+                    await _dbContext.SaveChangesAsync();
+                    // Якщо користувач реєструється як ментор
+                    if (model.Role == UserRole.Mentor)
 					{
-						var student = new Student
-						{
-							FirstName = model.FirstName,
-							LastName = model.LastName,
-							User = newUser
-						};
-						newUser.Student = student;
-						await _dbContext.Students.AddAsync(student);
-					}
-					// Будь який ментор або адмін є ментором
-					else
-					{
-						var mentor = new Mentor
-						{
-							FirstName = model.FirstName,
-							LastName = model.LastName,
-							About = model.About,
-							User = newUser
-						};
-						newUser.Mentor = mentor;
-						await _dbContext.Mentors.AddAsync(mentor);
-					}
-					// Створюю інформаю
-					var info = new UserInfo
-					{
-						Email = model.Email,
-						Password = _hashGenerator.GenerateHash(model.Password),
-						OnUser = newUser,
-						Role = model.Role
-					};
-					newUser.Info = info;
-					await _dbContext.Users.AddAsync(newUser);
-					await _dbContext.UsersInfo.AddAsync(info);
+                        var mentor = new Mentor
+                        {
+                            About = model.About,
+                            User = newUser,
+                            UserId = newUser.Id
+                        };
+                        newUser.Mentor = mentor;
+                        await _dbContext.Mentors.AddAsync(mentor);
+                    }
+					// Щоб ментори мали і можливості студента
+                    var student = new Student
+                    {
+                        User = newUser,
+						UserId = newUser.Id
+                    };
+                    newUser.Student = student;
+                    await _dbContext.Students.AddAsync(student);
 					await _dbContext.SaveChangesAsync();
 					await Authenticate(newUser);
 					return RedirectToAction("Index", "Courses");

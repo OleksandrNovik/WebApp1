@@ -12,6 +12,7 @@ namespace WebProject.Controllers
 	{
 		private readonly ILogger<TopicController> _logger;
 		private readonly DbContextProject _dbContext;
+
 		public TopicController(ILogger<TopicController> logger, DbContextProject dbContext) 
 		{
 			_logger = logger;
@@ -62,6 +63,7 @@ namespace WebProject.Controllers
 		/// <param name="model"> Модель отримана з форми </param>
 		/// <returns> Якщо модель валідна перехід назад на редагування курсу
 		/// Інакше перехід назад на форму</returns>
+		[Authorize(Roles = "Mentor, Admin")]
 		public async Task<IActionResult> Create(CreateTopicModel model)
 		{
             if (ModelState.IsValid)
@@ -70,8 +72,10 @@ namespace WebProject.Controllers
 					.Courses
 					.Include(c => c.Topics)
 					.FirstOrDefaultAsync(c => c.Id == model.CourseId);
+				_logger.LogInformation($"Модель валідна, тому шукається курс за id {model.CourseId}");
                 if (onCourse == null)
                 {
+					_logger.LogError($"Помилка! Курс за id {model.CourseId} не знайдено!");
                     return NotFound();
                 }
 				var topic = new Topic
@@ -87,9 +91,52 @@ namespace WebProject.Controllers
                 onCourse.Topics.Add(topic);
 				await _dbContext.Topics.AddAsync(topic);
 				await _dbContext.SaveChangesAsync();
+				_logger.LogInformation($"Усі дані для створення теми були успішно збережені.");
 				return RedirectToAction("Edit", "Courses", new { id = model.CourseId });
             }
 			ViewData["courseId"] = model.CourseId;
+			return View(model);
+		}
+		/// <summary>
+		/// Редагування теми за її id
+		/// </summary>
+		/// <param name="id"> id теми </param>
+		/// <returns> Форма редагування теми </returns>
+		[Authorize(Roles = "Mentor, Admin")]
+		public async Task<IActionResult> Edit(int id)
+		{
+			var topic = await _dbContext
+				.Topics
+				.Include(t => t.Tasks)
+				.Include(t => t.Tests)
+				.Include(t => t.Course)
+				.FirstOrDefaultAsync(t => t.Id == id);
+			_logger.LogInformation($"Пошук теми за id {id} та додаткової інформації про неї.");
+			if (topic == null)
+			{
+				_logger.LogError($"Помилка! Тему за id {id} не знайдено!");
+				return NotFound();
+			}
+			_logger.LogInformation($"Тему id = {id} знайдено та створено модель для неї.");
+			return View(new CreateTopicModel
+			{
+				TopicId = topic.Id,
+				Title = topic.Title,
+				Description = topic.Description,
+				Assignments = topic.Tasks,
+				Tests = topic.Tests,
+				CourseId = topic.Course.Id,
+				CourseName = $"{topic.Course.Name} (Редагування)",
+			});
+		}
+		[HttpPost]
+		[Authorize(Roles = "Mentor, Admin")]
+		public async Task<IActionResult> Edit(CreateTopicModel model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
 			return View(model);
 		}
 	}
