@@ -17,7 +17,7 @@
                 <div class="courses-search-input">
                     <input class="courses-search-bar" type="text"/>
                 </div>
-                <button type="submit"> Submit </button>
+                <button type="submit" class="btn btn-success"> Пошук </button>
             </form>
         </div>
         <div class="courses-ordering">
@@ -48,7 +48,7 @@
                         /// Створюю для них checkbox, щоб можна було вибрати фільтрацію по рівню складності
                         var levelStr = level.ToString();
                         <div>
-                            <input type="checkbox" name="filterByLevel" id="@levelStr" value="@levelStr">
+                            <input class="filter-checkboxes" type="checkbox" name="filterByLevel" id="@levelStr" value="@levelStr">
                             <label for="@levelStr"> @levelStr </label>
                         </div>
                     }
@@ -60,28 +60,28 @@
                     {
                         var typeStr = type.ToString();
                         <div>
-                            <input type="checkbox" name="filterByType" id="@typeStr" value="@typeStr">
+                                <input class="filter-checkboxes" type="checkbox" name="filterByType" id="@typeStr" value="@typeStr">
                             <label for="@typeStr"> @typeStr </label>
                         </div>
                     }
                     <hr />
                     <b> К-сть уроків </b>
                     <div>
-                        <input type="checkbox" name="filterByLessons" id="0 - 4" value="0 - 4">
+                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="0 - 4" value="0 - 4">
                         <lable for="0 - 4"> 0 - 4 </lable>
                     </div>
                     <div>
-                        <input type="checkbox" name="filterByLessons" id="5 - 16" value="5 - 16">
+                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="5 - 16" value="5 - 16">
                         <lable for="5 - 16"> 5 - 16 </lable>
                     </div>
                     <div>
-                        <input type="checkbox" name="filterByLessons" id="16+" value="16+">
+                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="16+" value="16+">
                         <lable for="16+"> 16+ </lable>
                     </div>
                 }
             </div>
             <div class="courses-filter-actions">
-                <button type="submit"> Фільтрувати </button>
+                <button type="submit" class="btn btn-success"> Фільтрувати </button>
                 <a href="#"> Очистити фільтр </a>
             </div>
         </form>
@@ -103,14 +103,14 @@
                            avatarRoute = "/avatar/" + courseInfo.AuthorNickName;
                             <div class="courses-info-container bg-light-programe">
                             <div class="courses-additional-info details-style">
-                                <h4> @courseInfo.CourseInfo.Name </h4>
+                                <h4> @courseInfo.CourseInfo?.Name </h4>
                                     @if (isEdit)
                                     {
                                         <a href="@Url.Action("Edit", "Courses", new { id = courseInfo.CourseInfo.Id })">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     }
-                                @Html.ActionLink("Детальніше", "View", "Courses", new { id = courseInfo.CourseInfo.Id  })
+                                @Html.ActionLink("Детальніше", "View", "Courses", new { id = courseInfo.CourseInfo.Id  }, new {@class = "link-proj"})
                                 <a href="#"> Відвідати </a>
                                 </div>
                             <div class="courses-additional-info gap7">
@@ -129,7 +129,7 @@
                                     <img src="@avatarRoute" class="author-thumbnail" />
                                 </div>
                                 <div class="author-info">
-                                    @Html.ActionLink(courseInfo.AuthorNickName, "View", "User", new { id = courseInfo.AuthorId })
+                                        @Html.ActionLink(courseInfo.AuthorNickName, "View", "User", new { id = courseInfo.AuthorId }, new {@class = "link-proj"})
                                 </div>
                             </div>
                             <div> 

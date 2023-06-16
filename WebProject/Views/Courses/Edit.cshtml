@@ -12,7 +12,7 @@
 <form asp-action="Edit" class="one-course-container">
 	<div class="one-course-general-info boder-solid-2p-light bg-light-programe">
 		<div class="form-group">
-			<input asp-for="CourseName" class="h3-input" type="text" value="@Model.CourseInfo.Name"/>
+			<input asp-for="CourseName" class="h3-input input-text-html" type="text" value="@Model.CourseInfo.Name" />
 			<span asp-validation-for="CourseName" class="text-danger validation-text"> </span>
 		</div>
 		<div class="courses-additional-info gap7">
@@ -35,7 +35,7 @@
 				@Html.ActionLink(Model.AuthorNickName, "View", "User", new { id = Model.AuthorId })
 			</div>
 		</div>
-		@Html.EditorFor(m => m.CourseDescription, new { htmlAttributes = new { @class = "description-area" } })
+		@Html.EditorFor(m => m.CourseDescription, new { htmlAttributes = new { @class = "description-area input-text-html" } })
 
 		@* TODO: При створенні юзерів додати так, щоб показувало відвідувати лише тоді,
 		коли користувач не відвідав курс *@

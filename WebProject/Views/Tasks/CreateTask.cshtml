@@ -1,0 +1,59 @@
+﻿@using BLL.ViewModels.Create_Models;
+@model AssignmentCreateModel
+
+@{
+    ViewData["Title"] = "Створення завдання з кодом"; 
+    Layout = "/Views/Shared/_Layout.cshtml";
+    int topicID = (int)(ViewData["TopicId"] ?? 0);
+}
+<style>
+    body {
+        background-color: #f0f3f7;
+    }
+</style>
+
+<form class="form-proj" asp-action="CreateTask">
+    <div class="form-holder-proj boder-solid-2p-light" style="width: 1240px; padding: 30px 50px; margin-top: 35px;">
+        <h1>Створення нового завдання</h1>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-content" style="justify-content: start; gap: 30px;">
+            <div class="form-inputs-group">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"> Назва завдання </label>
+                    <input asp-for="Name" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"> Опис до завдання (Необов'язкова) </label>
+                    @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "input-area", @style = "height: 157px;", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+                </div>
+                <div class="form-check" style="display: flex; align-items: center; gap: 7px;">
+                    @Html.EditorFor(m => m.IsStarterCode)
+                    <label asp-for="IsStarterCode" class="control-label"> Чи бажаєте додатки стартовий код </label>
+                </div>
+                <div class="form-group submit-field">
+                    <input type="submit" value="Створити" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="form-inputs-group" style="width: 500px;">
+                <div class="form-group">
+                    <label asp-for="MainTask" class="control-label"> Формулювання задачі </label>
+                    @Html.EditorFor(m => m.MainTask, new { htmlAttributes = new { @class = "input-area", @style = "height: 257px;", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+                    <span asp-validation-for="MainTask" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-inputs-group">
+                <div class="form-group">
+                    <label asp-for="ProgramingLanguages" class="control-label"> Мови програмування (Необов'язкова) </label>
+                    <input asp-for="ProgramingLanguages" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+                    <span asp-validation-for="ProgramingLanguages" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LinkForInfo" class="control-label"> Посилання на ресурси кожен з нового рядка (Необов'язкова) </label>
+                    @Html.EditorFor(m => m.LinkForInfo, new { htmlAttributes = new { @class = "input-area", @style = "height: 140px;", @onfocus = "this.parentNode.classList.add('focused')", @onblur="this.parentNode.classList.remove('focused')" } })
+                </div>
+            </div>
+        </div>
+    </div>
+    <input hidden asp-for="TopicId" value="@topicID" />
+</form>

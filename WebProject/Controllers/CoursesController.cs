@@ -79,7 +79,7 @@ namespace WebProject.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpPost]
-		public IActionResult Search()
+		public IActionResult Search(string searchRequest)
 		{
 			return View();
 		}

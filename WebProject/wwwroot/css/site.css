@@ -306,17 +306,16 @@ body {
     font-size: 2em;
     font-weight: 500;
 }
-.description-area, .h3-input, .h2-input {
+.input-text-html {
     border: none;
     width: 100%;
     background-color: inherit;
     transition: all 0.2s ease-in-out;
 }
-
-.h2-input:focus, .h3-input:focus, .description-area:focus {
-    outline: none;
-    background-color: #f0f0f0;
-}
+.input-text-html:focus {
+        outline: none;
+        background-color: #f0f0f0;
+    }
 .height-100pc{
     height: 100%;
 }
@@ -324,4 +323,11 @@ body {
     resize: none;
     padding: 10px 12px;
     flex: 1;
+}
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+}
+input[type="checkbox"]:checked {    
+    accent-color: green;
 }

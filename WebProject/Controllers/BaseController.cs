@@ -10,7 +10,7 @@ namespace WebProject.Controllers
     public class BaseController : Controller
     {
         //TODO: задати для авторизованого користувача ту культуру, яку вибрав він
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuted(ActionExecutedContext context) 
         {
             base.OnActionExecuted(context);
             var culture = CultureInfo.GetCultureInfo("en-US");

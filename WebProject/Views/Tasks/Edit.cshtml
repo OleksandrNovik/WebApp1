@@ -1,0 +1,257 @@
+﻿@using BLL.ViewModels.Create_Models;
+@model AssignmentCreateModel
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    bool isCodeEdit = (bool)(ViewData["CodeEdit"] ?? false);
+    string setLanguage = "ace/mode/";
+    var allowedLanguages = Model.ProgramingLanguages?.ToLower().Split(new char[]
+    {
+        ' ', ',', '.', ';', ':', '\t'
+    }).Where(str => !string.IsNullOrEmpty(str)).ToArray();
+}
+
+@if (isCodeEdit)
+{
+    <div class="editor-task-container">
+        <div class="task-description boder-solid-2p-light">
+            @{
+                <h4>Завдання</h4>
+                string rawCodeLines = HelperHTML.GenerateCodeLines(Model.MainTask);
+                string htmlElement = HelperHTML.GenerateUnorderedList(rawCodeLines);
+                string htmlList = "";
+                if (Model.Description is not null)
+                {
+                    htmlList = HelperHTML.GenerateUnorderedList(Model.Description);
+                }
+            }
+            @Html.Raw(htmlElement)
+            <h4>Опис</h4>
+            @Html.Raw(htmlList)
+        </div>
+
+        <div class="editor-info">
+            <div class="editor-upper-menu">
+                <div></div>
+                <select id="dropdown-themes">
+                    <option value="textmate"> TextMate (Стандартна) </option>
+                    <option value="chrome"> Chrome (Світла) </option>
+                    <option value="dawn"> Dawn (Світла) </option>
+                    <option value="eclipse"> Eclipse (Світла) </option>
+                    <option value="iplastic"> IPlastic (Світла) </option>
+                    <option value="xcode"> XCode (Світла) </option>
+
+                    <option value="dracula"> Dracula (Темна) </option>
+                    <option value="gruvbox"> Gruvbox (Темна) </option>
+                    <option value="idle_fingers"> idle Fingers (Темна) </option>
+                    <option value="monokai"> Monokai (Темна) </option>
+                    <option value="nord_dark"> Nord Dark (Темна) </option>
+                    <option value="one_dark"> One Dark (Темна) </option>
+                    <option value="pastel_on_dark"> Pastel On Dark (Темна) </option>
+                    <option value="solarized_dark"> Solarized Dark (Темна) </option>
+                    <option value="tomorrow_night_eighties"> Tomorrow Night 80s (Темна) </option>
+
+                </select>
+                <select id="dropdown-languages">
+                    @{
+                        var languages = HelperHTML.SetAllowedLanguages(allowedLanguages);
+                    }
+                    @Html.Raw(languages)
+
+                </select>
+                <div> </div>
+                @*TODO: Розробити функцію очистки*@
+                <div class="editor-upper-buttons">
+                    <button onclick="GetChosenLanguage()"> Очистити </button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <div id="editor">@Model.StarterCode</div>
+            </div>
+            <div class="editor-lower-menu">
+                <div></div>
+                <button class="btn btn-success" onclick="SaveCode()"> Задати код </button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <form class="editor-task-container" asp-action="Edit">
+        <div class="task-description boder-solid-2p-light">
+            <h4>Назва</h4>
+            <div class="form-group">
+                <input asp-for="Name" type="text" value="@Model.Name" class="input-text-html" />
+                <span asp-validation-for="Name" class="text-danger validation-text"> </span>
+            </div>
+            <h4>Завдання</h4>
+            <div>
+                @Html.EditorFor(m => m.MainTask, new { htmlAttributes = new { @class = "description-area input-text-html", @style = "height: 180px;"  } })
+                <span asp-validation-for="MainTask" class="text-danger validation-text"> </span>
+            </div>
+            <h4>Опис</h4>
+            <div>
+                @Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "description-area input-text-html", @style = "height: 180px;" } })
+            </div>
+            <h4>Посилання з інформацією</h4>
+            <div>
+                @Html.EditorFor(m => m.LinkForInfo, new { htmlAttributes = new { @class = "description-area input-text-html", @style = "height: 100px;" } })
+            </div>
+        </div>
+
+        <div class="editor-info">
+            <div class="editor-upper-menu">
+                <div></div>
+                <select id="dropdown-themes">
+                    <option value="textmate"> TextMate (Стандартна) </option>
+                    <option value="chrome"> Chrome (Світла) </option>
+                    <option value="dawn"> Dawn (Світла) </option>
+                    <option value="eclipse"> Eclipse (Світла) </option>
+                    <option value="iplastic"> IPlastic (Світла) </option>
+                    <option value="xcode"> XCode (Світла) </option>
+
+                    <option value="dracula"> Dracula (Темна) </option>
+                    <option value="gruvbox"> Gruvbox (Темна) </option>
+                    <option value="idle_fingers"> idle Fingers (Темна) </option>
+                    <option value="monokai"> Monokai (Темна) </option>
+                    <option value="nord_dark"> Nord Dark (Темна) </option>
+                    <option value="one_dark"> One Dark (Темна) </option>
+                    <option value="pastel_on_dark"> Pastel On Dark (Темна) </option>
+                    <option value="solarized_dark"> Solarized Dark (Темна) </option>
+                    <option value="tomorrow_night_eighties"> Tomorrow Night 80s (Темна) </option>
+
+                </select>
+                <select id="dropdown-languages">
+                    @{
+                        var languages = HelperHTML.SetAllowedLanguages(allowedLanguages);
+                    }
+                    @Html.Raw(languages)
+
+                </select>
+                <div> </div>
+                @*TODO: Розробити функцію очистки*@
+                <div class="editor-upper-buttons">
+                    <button class="btn btn-light" onclick="GetChosenLanguage()"> Очистити </button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <div id="editor">@Model.StarterCode</div>
+            </div>
+            <div class="editor-lower-menu">
+                <div>
+                    <a href="@Url.Action("Edit", "Tasks", new { assignmentID = Model.AssignmentId, isEditCode = true })">
+                        Редагувати стартовий код
+                    </a>
+                </div>
+                <button class="btn btn-success" onclick="SaveCode()"> Зберегти зміни </button>
+            </div>
+        </div>
+        <input hidden asp-for="AssignmentId" value="@Model.AssignmentId" />
+        <input hidden asp-for="TopicId" value="@Model.TopicId" />
+        <input hidden asp-for="StarterCode" value="@Model.StarterCode" />
+	</form>
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ace.js" integrity="sha512-SW4evx3QqQEkHMJWqXaoYJYoVQZaMPc/5ZBwcwBprOWexxVa/izjqIaw+SwrGdp6hckpyxIWgPq8ZX45H3viAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.19.0/ext-language_tools.min.js" integrity="sha512-+Ttimfp41T7n7OqGBac2sbnV999KBsqR48DfkjLSJHAo6yMaAq9HodpM54dYLnkO45dTGsDWQ3TYtl8qXEQxFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //Задаю стартові дані для редактора (щоб використовував доповнення коду)
+    ace.require("ace/ext/language_tools");
+
+    // Вибираю у змінну редактор коду, щоб його конфігурувати
+    var editor = ace.edit("editor");
+
+    SetNewLanguage("@HelperHTML.SetFirstLanguage(allowedLanguages)");
+
+    // Задаю наалштування для редактора (автодоповнення, показ можливих фраз, та скорочення написання коду)
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableLiveAutocompletion: true,
+        enableSnippets: true
+    });
+    var themeList = document.getElementById("dropdown-themes");
+    themeList.addEventListener("change", () => {
+        // Отримуэться вибрана тему для редактора
+        let selectedTheme = themeList.options[themeList.selectedIndex];
+        // Дістаю з неї значення
+        let themeName = selectedTheme.value;
+        // Змінюю тему на нову
+        SetNewTheme(themeName);
+    });
+    editor.setReadOnly(@Json.Serialize(!isCodeEdit));
+    GetChosenTheme();
+
+    // Функція зміни мови на нову
+    function SetNewLanguage(selectLanguage) {
+        let newLanguage = "@setLanguage" + selectLanguage;
+        editor.session.setMode(newLanguage);
+    }
+    // Функція зміни теми для редактора
+    function SetNewTheme(selectTheme) {
+        let newTheme = "ace/theme/" + selectTheme;
+        console.log(newTheme);
+        editor.setTheme(newTheme);
+    }
+    // Вибір теми редактора для коритсувача (береться з поперенього сеансу)
+    function GetChosenTheme() {
+        let userTheme = "@Model.SelectedTheme";
+        // Якщо тему вибрано у попередній сесії, то ставимо її як вибрану у списку
+        if (userTheme) {
+            for (var i = 0; i < themeList.options.length; i++) {
+                if (themeList.options[i].value === userTheme) {
+                    themeList.options[i].selected = true;
+                    break;
+                }
+            }
+            SetNewTheme(userTheme);
+        }
+    }
+    // Функція зміни теми для редактора
+    function SetNewTheme(selectTheme) {
+        let newTheme = "ace/theme/" + selectTheme;
+        console.log(newTheme);
+        editor.setTheme(newTheme);
+    }
+    // Збереження заданого стартового коду
+    function SaveCode() {
+        let editorText = document.querySelector('.ace_content').innerText;
+        $.ajax({
+            url: '/Tasks/SaveStarterCode',
+            method: 'POST',
+            data: {
+                starterCode: editorText,
+                taskId: @Model.AssignmentId
+                },
+            success: function (response) {
+                window.location.href = '/Tasks/CodeEditor?assignmentID=@Model.AssignmentId';
+            },
+            error: function (xhr, status, error) {
+                console.log('Помилка! ');
+                console.log(status + "\n\n" + error);
+            }
+        });
+    }
+
+    // Метод збереження контенту, коли користувач перезодить на іншу сторінку
+    window.addEventListener('beforeunload', () => {
+        // Зберігаю обрану тему редактора
+        let selectedTheme = document.getElementById("dropdown-themes").value;
+        // Якщо є, що зберігати
+        if (selectedTheme){
+            $.ajax({
+                url: '/User/SaveTheme',
+                method: 'POST',
+                data: {
+                    selectedTheme: selectedTheme
+                },
+                success: function (response) {
+                    console.log('Надіслано');
+                },
+                error: function (xhr, status, error) {
+                    console.log('Помилка! ');
+                    console.log(status + "\n\n" + error);
+                }
+            });
+        }
+    });
+</script>
+

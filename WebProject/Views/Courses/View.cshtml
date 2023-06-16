@@ -28,7 +28,7 @@
 				<img src="@avatarRoute" class="thumbnail author-thumbnail" />
             </div>
             <div class="author-info">
-				@Html.ActionLink(Model.AuthorNickName, "View", "User", new { id = Model.AuthorId })
+				@Html.ActionLink(Model.AuthorNickName, "View", "User", new { id = Model.AuthorId }, new { @class = "link-proj" })
 			</div>
         </div>
 		<div class="course-description-container"> 
@@ -59,8 +59,8 @@
 			foreach(var topic in Model.Topics)
 			{
 				<div class="topic-info-container bg-light-programe">
-					<div class="topic-title"> 
-						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id })
+					<div class="topic-title">
+						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id }, new { @class = "link-proj" } )
 					</div>
 					<div> @topic.Description </div>
 					<hr class="line" />

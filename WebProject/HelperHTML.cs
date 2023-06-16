@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace WebProject
 {
@@ -29,14 +28,14 @@ namespace WebProject
 		{
 			// Немає обмежень на мови
 			if (allowed == null || allowed.Length == 0)
-				return Languages["javasript"].Split('\"')[1];
+				return Languages["javasсript"].Split('\"')[1];
 
 			string? item;
 			Languages.TryGetValue(allowed[0], out item);
 
 			// Не змогли знайти відповідної мови
 			if (item == null)
-                return Languages["javasript"].Split('\"')[1];
+                return Languages["javasсript"].Split('\"')[1];
 
 			// Таким чином я виділяю частину, що треба вказати редактору як вибрану мову
             return item.Split('\"')[1];

@@ -66,6 +66,7 @@
             )</div>
         </div>
         <div class="editor-lower-menu">
+           <div></div>
            <a href="#"> #Submit </a>
         </div>
     </div>
@@ -148,7 +149,6 @@
         // Якщо тему вибрано у попередній сесії, то ставимо її як вибрану у списку
         if (userTheme){
             for (var i = 0; i < themeList.options.length; i++) {
-                console.log(themeList.options[i].value + " -> " + userTheme);
                 if (themeList.options[i].value === userTheme){
                     themeList.options[i].selected = true;
                     break;

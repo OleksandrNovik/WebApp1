@@ -2,7 +2,6 @@
 @{
     bool IsAuthorized = User.Identity != null && User.Identity.IsAuthenticated;
     bool CanCreateCourses = User.IsInRole(UserRole.Admin.ToString()) || User.IsInRole(UserRole.Mentor.ToString());
-    //;
     var avatarStr = $"/avatar/{User.Identity?.Name}";
 }
 <!DOCTYPE html>
@@ -16,12 +15,11 @@
     <link rel="stylesheet" href="~/css/home-page.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebProject.styles.css" asp-append-version="true" />
     
-    
     <link rel="stylesheet" href="~/css/course-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/editor-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/topic-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/user-style.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/sign-up-log-in.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sign-up-log-in.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
@@ -39,13 +37,19 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between nav-bar-proj">
                             <ul class="navbar-nav flex-grow-1 gap15">
                                 <li class="navbar-item nav-item-hv">
-                                    <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Index"> Головна </a>
+                                    <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Index">
+                                        <i class="fas fa-home"></i>
+                                        Головна
+                                    </a>
                                 </li>
                                 <li class="navbar-item nav-item-hv">
                                     @*Користувач є авторизованим*@
                                     @if (IsAuthorized)
                                     {
-                                        <div class="nav-link text-dark menu-item"> Курси </div>
+                                        <div class="nav-link text-dark menu-item">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            Курси
+                                            </div>
                                         <div class="sub-menu">
                                             <ul style="padding: 0;">
                                                 <li class="hover-item">
@@ -73,14 +77,20 @@
                                     }
                                     else
                                     {
-                                        @Html.ActionLink("Публічні курси", "Index", "Courses", new { }, new { @class = "nav-link text-dark menu-item" })
+                                        <a href="@Url.Action("Index", "Courses")" class="nav-link text-dark menu-item">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            Публічні курси
+                                        </a>
                                     }
                                 </li>
                                 @*Якщо користувач не є зареєстрованим, то він і не може переглядати завдання*@
                                 @if (IsAuthorized)
                                 {
                                     <li class="navbar-item nav-item-hv">
-                                        <div class="nav-link text-dark menu-item"> Завдання </div>
+                                        <div class="nav-link text-dark menu-item"> 
+                                            <i class="fas fa-tasks"></i>
+                                            Завдання
+                                            </div>
                                         <div class="sub-menu">
                                             <ul style="padding: 0;">
                                                 <li class="hover-item">
@@ -110,7 +120,10 @@
                                 @if (IsAuthorized)
                                 {
                                     <li class="navbar-item nav-item-hv">
-                                        <div class="nav-link text-dark menu-item"> Успішність </div>
+                                        <div class="nav-link text-dark menu-item"> 
+                                            <i class="fas fa-award"></i>
+                                            Успішність
+                                        </div>
                                         <div class="sub-menu">
                                             <ul style="padding: 0;">
                                                 <li class="hover-item">
@@ -132,11 +145,17 @@
                                 @if (IsAuthorized && User.IsInRole(UserRole.Admin.ToString()))
                                 {
                                     <li class="navbar-item nav-item-hv">
-                                        <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy"> Користувачі </a>
+                                        <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy"> 
+                                            <i class="fas fa-users"></i>
+                                            Користувачі
+                                            </a>
                                     </li>
                                 }
                                 <li class="navbar-item nav-item-hv">
-                                    <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy"> Приватність </a>
+                                    <a class="nav-link text-dark menu-item" asp-area="" asp-controller="Home" asp-action="Privacy"> 
+                                        <i class="fas fa-info-circle"></i>
+                                        Приватність
+                                        </a>
                                 </li>
                             </ul>
                         </div>
@@ -145,8 +164,8 @@
                         @if (!IsAuthorized)
                         {
                             <div> Приєднайтесь до нас: </div>
-                            <a asp-controller="Account" asp-action="LogIn">LogIn</a>
-                            <a asp-controller="Account" asp-action="SignUpStud">SignUp</a>
+                            <a asp-controller="Account" asp-action="LogIn" class="link-proj" style="display: flex; align-items: center; gap: 4px;"><i class="fas fa-sign-in-alt"></i>LogIn</a>
+                            <a asp-controller="Account" asp-action="SignUpStud" class="link-proj" style="display: flex; align-items: center; gap: 4px;"><i class="fas fa-user-plus"></i>SignUp</a>
                         }
                         else
                         {
@@ -154,7 +173,10 @@
                                 <img src="@avatarStr" class="thumbnail author-thumbnail"/>
                                 <span class="edit-tooltip-text"> Мій профіль </span>
                             </a>
-                            <a asp-controller="Account" asp-action="LogOut">Вийти</a>
+                            <a asp-controller="Account" asp-action="LogOut" class="link-proj" style="display: flex; align-items: center; gap: 7px;">
+                                Вийти
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
                         }
                     </div>
                 </div>

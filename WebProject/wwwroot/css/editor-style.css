@@ -60,7 +60,8 @@
 }
 .editor-lower-menu {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px 26px;
     height: 83px;
 }

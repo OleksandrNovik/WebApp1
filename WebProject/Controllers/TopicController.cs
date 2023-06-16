@@ -129,14 +129,45 @@ namespace WebProject.Controllers
 				CourseName = $"{topic.Course.Name} (Редагування)",
 			});
 		}
+		/// <summary>
+		/// Редагувати тему, після отримання даних з форми
+		/// </summary>
+		/// <param name="model"> Модель з даними, отримана з форми </param>
+		/// <returns> Форму, при невалідності моделі </returns>
 		[HttpPost]
 		[Authorize(Roles = "Mentor, Admin")]
 		public async Task<IActionResult> Edit(CreateTopicModel model)
 		{
+			var topic = await _dbContext
+				.Topics
+				.Include(t => t.Tasks)
+				.Include(t => t.Tests)
+				.Include(t => t.Course)
+				.FirstOrDefaultAsync(t => t.Id == model.TopicId);
+
+			_logger.LogInformation($"Беруться задні для теми за id = {model.TopicId}.");
+			if (topic == null)
+			{
+				_logger.LogError($"Помилка! Тему за id = {model.TopicId} не знайдено!");
+				return NotFound();
+			}
+			_logger.LogInformation($"Знайдено тему за id = {model.TopicId}. Перевірка моделі на валідність.");
 			if (ModelState.IsValid)
 			{
-
+				if (topic.Title != model.Title || topic.Description != model.Description) 
+				{
+					_logger.LogInformation($"Модель є валідною та у ній змінена інформація, змінюється і редагована тема.");
+					topic.Title = model.Title;
+					topic.Description = model.Description;
+					await _dbContext.SaveChangesAsync();
+					return RedirectToAction("View", new { id = model.TopicId });
+				}
 			}
+			_logger.LogInformation($"Модель невалідна збираються необхідні дані для її повторного показу.");
+
+			model.Assignments = topic.Tasks;
+			model.Tests = topic.Tests;
+
 			return View(model);
 		}
 	}

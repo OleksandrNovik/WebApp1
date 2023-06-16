@@ -114,13 +114,41 @@ namespace WebProject.Controllers
 			_logger.LogInformation($"У користувача є аватар, з розширенням \"{imageType}\".");
 			return File(user.UserPhoto.PhotoByteCode, imageType);
 		}
+
+		[HttpPost]
+		[Authorize]
+		public async Task<IActionResult> SaveTheme(string selectedTheme)
+		{
+			if (User.Identity == null)
+			{
+				_logger.LogError($"Помилка в {nameof(UserController)}, метод {nameof(SaveTheme)}! Незареєстрований корисутвач зберігає дані!");
+                return Json(new { success = false });
+            }
+            var user = await _dbContext
+								.Users
+								.Include(u => u.Info)
+								.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+			_logger.LogInformation("Пошук користувача у поточному сеансі.");
+			if (user == null)
+			{
+				_logger.LogError($"Помилка в {nameof(UserController)}, метод {nameof(SaveTheme)}! Користувача не знайдено!");
+                return Json(new { success = false });
+            }
+            // Запам'ятовую вибрану користувачем тему редактора
+            user.Info.EditorTheme = selectedTheme;
+			await _dbContext.SaveChangesAsync();
+			_logger.LogInformation("Дані для задання теми редактора користувача успішно збережено.");
+            return Json(new { success = true });
+		}
+
 		[HttpPost]
 		[Authorize]
 		public async Task<IActionResult> TaskSaveChanges(string selectedTheme, string editor, string language, int taskId)
 		{
 			if (User.Identity == null)
 			{
-				return Json(new { success = false });
+                _logger.LogError($"Помилка в {nameof(UserController)}, метод {nameof(TaskSaveChanges)}! Незареєстрований корисутвач зберігає дані!");
+                return Json(new { success = false });
 			}
 			var user = await _dbContext
 				.Users
@@ -133,6 +161,7 @@ namespace WebProject.Controllers
             
 			if (user == null || user.Student == null || task == null)
 			{
+                _logger.LogError($"Помилка в {nameof(UserController)}, метод {nameof(TaskSaveChanges)}! Не вдалося завантажити необхідні дані!");
                 return Json(new { success = false });
             }
 
@@ -153,14 +182,16 @@ namespace WebProject.Controllers
 			var currentWork = works.FirstOrDefault(w => w.OnTask.Id == taskId);
 			if (currentWork != null)
 			{
-				currentWork.Code = editor;
+                _logger.LogInformation($"Для роботи id = {taskId} задано нові характеристики.");
+                currentWork.Code = editor;
 				currentWork.ProgramingLanguage = language;
 				currentWork.SubmitDate = DateTime.Now;
 			}
 			// Якщо немає, то додаємо його
 			else
 			{
-				await _dbContext.StudentWorks.AddAsync(new BLL.Educational_entities.Education.Work
+                _logger.LogInformation($"Створено нову роботу для збереження усіх даних.");
+                await _dbContext.StudentWorks.AddAsync(new BLL.Educational_entities.Education.Work
 				{
 					Status = BLL.Educational_entities.Education.WorkStatus.NotComplited,
 					Code = editor,

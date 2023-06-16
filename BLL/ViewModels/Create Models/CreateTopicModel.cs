@@ -15,7 +15,6 @@ namespace BLL.ViewModels.Create_Models
 		[UIHint("MultilineText")]
 		public string? Description { get; set; }
 
-
 		public string? CourseName { get; set; }
 		public ICollection<Assignment>? Assignments { get; set; }
 		public ICollection<Test>? Tests { get; set; }
