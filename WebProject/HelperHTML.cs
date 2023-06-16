@@ -28,17 +28,17 @@ namespace WebProject
 		{
 			// Немає обмежень на мови
 			if (allowed == null || allowed.Length == 0)
-				return Languages["javasсript"].Split('\"')[1];
+				return Languages.Values.First().Split('\"')[1];
 
 			string? item;
 			Languages.TryGetValue(allowed[0], out item);
 
 			// Не змогли знайти відповідної мови
 			if (item == null)
-                return Languages["javasсript"].Split('\"')[1];
+				return Languages.Values.First().Split('\"')[1];
 
 			// Таким чином я виділяю частину, що треба вказати редактору як вибрану мову
-            return item.Split('\"')[1];
+			return item.Split('\"')[1];
         }
         public static string SetAllowedLanguages(string[]? allowed)
 		{

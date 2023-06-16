@@ -61,6 +61,7 @@ namespace WebProject.Controllers
                 UserCode = currentStudWork?.Code,
                 SelectedLanguage = currentStudWork?.ProgramingLanguage,
                 Name = assignment.Name,
+                Links = assignment.LinkForInfo
             });
 
         }

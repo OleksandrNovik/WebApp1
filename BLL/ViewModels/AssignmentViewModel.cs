@@ -13,5 +13,6 @@
         public string? SelectedEditorTheme { get; set; }
         public string? UserCode { get; set; } 
 
+        public string? Links { get; set; }
     }
 }

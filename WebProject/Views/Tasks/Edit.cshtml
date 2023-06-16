@@ -129,10 +129,6 @@ else
 
                 </select>
                 <div> </div>
-                @*TODO: Розробити функцію очистки*@
-                <div class="editor-upper-buttons">
-                    <button class="btn btn-light" onclick="GetChosenLanguage()"> Очистити </button>
-                </div>
             </div>
             <div class="editor-container">
                 <div id="editor">@Model.StarterCode</div>
@@ -230,7 +226,6 @@ else
             }
         });
     }
-
     // Метод збереження контенту, коли користувач перезодить на іншу сторінку
     window.addEventListener('beforeunload', () => {
         // Зберігаю обрану тему редактора
