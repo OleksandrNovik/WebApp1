@@ -17,7 +17,7 @@ namespace BLL.ViewModels
 
         // Частина для показу 
         public Courses? CourseInfo { get; set; }
-        public IEnumerable<Topic>? Topics { get; set; }
+        public ICollection<Topic>? Topics { get; set; }
         public string AuthorNickName { get; set; }
         public int AuthorId { get; set; }
         public CourseOptions? Options { get; set; }

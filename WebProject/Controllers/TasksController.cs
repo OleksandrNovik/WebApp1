@@ -36,7 +36,6 @@ namespace WebProject.Controllers
             }
             _logger.LogInformation("Завдання типу Assignment за id = {0} знайдено та передано представленню.", assignmentID);
 
-            //TODO: Після того як додав авторизацію зробити таке
             var currentUser = await _dbContext.Users
                 .Include(u => u.Info)
                 .FirstOrDefaultAsync(user => user.UserName == User.Identity.Name);

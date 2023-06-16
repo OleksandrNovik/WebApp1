@@ -6,6 +6,7 @@
     Layout = "/Views/Shared/_Layout.cshtml";
     string avatarRoute = ""; // Таким чином буду формувати маршрут для прогрузки аватару
     bool isEdit = (bool)(ViewData["IsEditModel"] ?? false);
+    bool checkBoxes = (bool)(ViewData["CheckBoxes"] ?? false);
 }
 
 <div class="content">
@@ -13,19 +14,56 @@
     <h1 style="margin-left: 30px;"> @ViewData["Title"] </h1>
     <div class="courses-search-options boder-solid-2p-light">
         <div class="courses-search">
-            <form class="courses-form">
+            <form class="courses-form" asp-action="Search">
                 <div class="courses-search-input">
-                    <input class="courses-search-bar" type="text"/>
+                    <input class="courses-search-bar" type="text" name="searchRequest" />
                 </div>
+                <input type="hidden" name="isEdit" value="@isEdit.ToString()" />
                 <button type="submit" class="btn btn-success"> Пошук </button>
             </form>
         </div>
         <div class="courses-ordering">
             <span> Впорядкування за: </span>
             <div class="courses-ordering-actions">
-                <a href="#"> Назва </a>
-                <a href="#"> Нікнейм автора </a>
-                <a href="#"> Кількість тем </a>
+                <a class="link-proj" asp-action="OrderCourses" asp-route-sortOrder="@ViewData["SortByName"]" asp-route-isEdit="@isEdit">
+                        Назва
+                        @{
+                            if (ViewData["SortByName"]?.ToString() == "")
+                            {
+                                <i class="fas fa-sort-amount-up-alt"></i>
+                            }
+                            else if (ViewData["SortByName"]?.ToString() == "NameDesc")
+                            {
+                                <i class="fas fa-sort-amount-up"></i>
+                            }
+                        }
+                    </a>
+                <a class="link-proj" asp-action="OrderCourses" asp-route-sortOrder="@ViewData["SortByNickName"]" asp-route-isEdit="@isEdit"> 
+                    Нікнейм автора
+                        @{
+                            if (ViewData["SortByNickName"]?.ToString() == "NickName")
+                            {
+                                <i class="fas fa-sort-amount-up-alt"></i>
+                            }
+                            else if (ViewData["SortByNickName"]?.ToString() == "NickNameDesc")
+                            {
+                                <i class="fas fa-sort-amount-up"></i>
+                            }
+                        }
+                </a>
+                    <a class="link-proj" asp-action="OrderCourses" asp-route-sortOrder="@ViewData["SortByTheme"]" asp-route-isEdit="@isEdit">
+                        Кількість тем
+                        @{
+                            if (ViewData["SortByTheme"]?.ToString() == "Topic")
+                            {
+                                <i class="fas fa-sort-amount-up-alt"></i>
+                            }
+                            else if (ViewData["SortByTheme"]?.ToString() == "TopicDesc")
+                            {
+                                <i class="fas fa-sort-amount-up"></i>
+                            }
+                        }
+                </a>
             </div>
         </div>
     </div>
@@ -35,9 +73,10 @@
 	<div class="courses-filter boder-solid-2p-light">
         <div class="courses-filter-header">
             <h4> Фільтр </h4>
-            <a href="#"> Повний список </a>
+            <a class="link-proj" asp-action="Index"> Повний список </a>
         </div>
         <form method="post" asp-action="FilterCourses" asp-controller="Courses" class="courses-filer-checkbox">
+            <input type="hidden" name="isEdit" value="@isEdit.ToString()"/>
             <div class="courses-checkbox-container">
                 @{
                     <b> Складність </b>
@@ -62,27 +101,26 @@
                         <div>
                                 <input class="filter-checkboxes" type="checkbox" name="filterByType" id="@typeStr" value="@typeStr">
                             <label for="@typeStr"> @typeStr </label>
+                            </div>
+                        }
+                        <hr />
+                        <b> К-сть уроків </b>
+                        <div>
+                            <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="0 - 4" value="0 - 4">
+                            <lable for="0 - 4"> 0 - 4 </lable>
                         </div>
-                    }
-                    <hr />
-                    <b> К-сть уроків </b>
-                    <div>
-                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="0 - 4" value="0 - 4">
-                        <lable for="0 - 4"> 0 - 4 </lable>
+                        <div>
+                            <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="5 - 10" value="5 - 10">
+                            <lable for="5 - 10"> 5 - 10 </lable>
                     </div>
                     <div>
-                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="5 - 16" value="5 - 16">
-                        <lable for="5 - 16"> 5 - 16 </lable>
-                    </div>
-                    <div>
-                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="16+" value="16+">
-                        <lable for="16+"> 16+ </lable>
+                        <input class="filter-checkboxes" type="checkbox" name="filterByLessons" id="10+" value="10+">
+                        <lable for="10+"> 10+ </lable>
                     </div>
                 }
             </div>
             <div class="courses-filter-actions">
                 <button type="submit" class="btn btn-success"> Фільтрувати </button>
-                <a href="#"> Очистити фільтр </a>
             </div>
         </form>
 	</div>
@@ -150,5 +188,37 @@
     </div>
 </div>
 </div>
+
+<script>
+    var checkboxes = document.querySelectorAll('.filter-checkboxes');
+
+    // Додати обробник події для кожного чекбокса
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            // Отримати id чекбокса
+            let checkboxId = checkbox.id;
+            // Та чи був він вибраний/забраний
+            let isChecked = checkbox.checked;
+            // Зберегти стан чекбокса у local storage
+            sessionStorage.setItem(checkboxId, isChecked);
+        });
+    });
+
+    // Функція, яка дістає стани чекбоксів з local storage
+    function restoreCheckboxState() {
+        let isRestored = @Json.Serialize(checkBoxes);
+        console.log(isRestored);
+        if (!isRestored){
+            checkboxes.forEach(function (checkbox) {
+                let checkboxId = checkbox.id;
+                let isChecked = sessionStorage.getItem(checkboxId);
+                // Надаю значення відносно того, чи був він нажатий
+                checkbox.checked = isChecked === 'true';
+            });
+        }
+    }
+
+    restoreCheckboxState();
+</script>
 
 

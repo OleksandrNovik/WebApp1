@@ -14,6 +14,7 @@ namespace WebProject.Controllers
 		private readonly ILogger<CoursesController> _logger;
 		private readonly ICourseControllerHelper _helper;
 		private readonly DbContextProject _dbContext;
+		private static List<CourseInfoViewModel> currentCourseList;
 		public CoursesController(ILogger<CoursesController> logger, ICourseControllerHelper helper, DbContextProject context) 
 		{
 			_logger = logger;
@@ -28,11 +29,12 @@ namespace WebProject.Controllers
 				//.ThenInclude(m => m.User)
 				.Include(c => c.Options)
 				.ThenInclude(o => o.AdditionalInfo)
+				.Include(c => c.Topics)
 				.ToListAsync();
 
-			var model = await _helper.CreateModel(list);
+            currentCourseList = await _helper.CreateModel(list);
 
-			if (model.Any(mod => string.IsNullOrEmpty(mod.AuthorNickName)))
+			if (currentCourseList.Any(mod => string.IsNullOrEmpty(mod.AuthorNickName)))
 			{
 				_logger.LogError("Помилка! При показі списку курсів у одному виявлено помилку пошуку автора!");
 				return RedirectToAction("Index", "Home");
@@ -40,7 +42,8 @@ namespace WebProject.Controllers
 			_logger.LogInformation("Передано та створено список моделей для показу курсів.");
 			ViewData["Title"] = "Публічні курси";
 			ViewData["IsEditModel"] = false;
-            return View(model);
+			ViewData["CheckBoxes"] = true;
+            return View(currentCourseList);
 		}
 		/// <summary>
 		/// Додаткова інформація про курс
@@ -65,23 +68,111 @@ namespace WebProject.Controllers
 		/// <param name="filterByLevel"> Рівень складності </param>
 		/// <param name="filterByType"> Типу курсу (може бути математичний, історичний, програмування і тд)</param>
 		/// <param name="filterByLessons"> Кількість уроків </param>
+		/// <param name="isEdit"> Чи переглядається у режимі редагування </param>
 		/// <returns> Повертається до Index view але з відфільтрованим списком </returns>
 		[HttpPost]
-		public IActionResult FilterCourses(string[] filterByLevel, string[] filterByType, string[] filterByLessons)
+		public IActionResult FilterCourses(string[] filterByLevel, string[] filterByType, string[] filterByLessons, string isEdit)
 		{
-			//TODO: Зробити так, щоб при фільтрації chechbox, які попередньо були нажаті зберігали статус того, що вони є нажаті
-			ViewBag.fileter = filterByLevel;
-			return Ok(new {filterByLevel, filterByType, filterByLessons });
-			//return View("Index", _helper.SetModel(SampleData.sampleCourses));
+            //TODO: Зробити так, щоб при фільтрації chechbox, які попередньо були нажаті зберігали статус того, що вони є нажаті
+            ViewData["Title"] = "Знайдені курси";
+			ViewData["IsEditModel"] = bool.Parse(isEdit);
+			IEnumerable<CourseInfoViewModel> collection = currentCourseList;			
+			// Задано фільтр для рівня курсу
+			if (filterByLevel.Length != 0)
+			{
+				collection = collection
+                    .Where(model => filterByLevel.Contains(model.Options.Level.ToString()));
+			}
+			// Задано фільр для типу курсів
+			if (filterByType.Length != 0)
+			{
+				collection = collection
+					.Where(model => filterByType.Contains(model.Options.Type.ToString()));
+            }
+			// Задано фільтр на к-сть уроків
+			if (filterByLessons.Length != 0)
+			{
+				foreach(string condition in filterByLessons)
+				{
+					switch (condition)
+					{
+						case "0 - 4":
+							collection = collection.Where(model => model.CourseInfo.Topics.Count < 5);
+							break;
+
+						case "5 - 10":
+                            collection = collection.Where(model => model.CourseInfo.Topics.Count > 4 && model.CourseInfo.Topics.Count < 11);
+                            break;
+
+						case "10+":
+                            collection = collection.Where(model => model.CourseInfo.Topics.Count > 10);
+                            break;
+
+						default: 
+							break;
+					}
+                }
+            }
+			_logger.LogInformation("Виконано фільтрацію курсів.");
+            return View("Index", collection.ToList());
 		}
 		/// <summary>
-		/// 
+		/// Метод пошуку за фразою з поля введення
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="searchRequest"> Фраза, яка була у пошуковому полі</param>
+		/// <param name="isEdit"> Чи це режим редагування </param>
+		/// <returns> Список курсів, який має у собі лише курси, що мають в назві фразу</returns>
 		[HttpPost]
-		public IActionResult Search(string searchRequest)
+		public IActionResult Search(string searchRequest, string isEdit)
 		{
-			return View();
+            ViewData["Title"] = "Знайдені курси";
+            ViewData["IsEditModel"] = bool.Parse(isEdit);
+            currentCourseList = currentCourseList
+				.Where(model => model.CourseInfo.Name.Contains(searchRequest))
+				.ToList();
+			_logger.LogInformation("Виконано пошук курсів.");
+            return View("Index", currentCourseList);
+		}
+		/// <summary>
+		/// Сортування за певною умовою
+		/// </summary>
+		/// <param name="sortOrder"> Умова сортування </param>
+		/// <param name="isEdit"> Чи режим редагування </param>
+		/// <returns>Відсортований список </returns>
+		public IActionResult OrderCourses(string sortOrder, bool isEdit)
+		{
+            ViewData["Title"] = "Відсортовані курси";
+			ViewData["SortByName"] = string.IsNullOrEmpty(sortOrder) ? "NameDesc" : "";
+			ViewData["SortByNickName"] = sortOrder == "NickName" ? "NickNameDesc" : "NickName";
+			ViewData["SortByTheme"] = sortOrder == "Topic" ? "TopicDesc" : "Topic";
+            ViewData["IsEditModel"] = isEdit;
+
+            IEnumerable<CourseInfoViewModel> collection = currentCourseList;
+
+			switch (sortOrder)
+			{
+				case "NameDesc":
+					collection = collection.OrderByDescending(model => model.CourseInfo.Name);
+					break;
+				case "NickName":
+					collection = collection.OrderBy(model => model.AuthorNickName);
+					break;
+				case "NickNameDesc":
+					collection = collection.OrderByDescending(model => model.AuthorNickName); 
+					break;
+				case "Topic":
+					collection = collection.OrderBy(model => model.CourseInfo.Topics.Count);
+					break;
+				case "TopicDesc":
+                    collection = collection.OrderByDescending(model => model.CourseInfo.Topics.Count);
+                    break;
+				default:
+                    collection = collection.OrderBy(model => model.CourseInfo.Name);
+                    break;
+
+            }
+			currentCourseList = collection.ToList();
+            return View("Index", currentCourseList);
 		}
 		/// <summary>
 		/// Створення нового курсу
@@ -93,12 +184,12 @@ namespace WebProject.Controllers
 		{
 			return View();
 		}
-		/// <summary>
-		/// Створити новий курс
-		/// </summary>
-		/// <param name="course"> Модель, що прийшла з форми </param>
-		/// <returns></returns>
-		[HttpPost]
+        /// <summary>
+        /// Створити новий курс
+        /// </summary>
+        /// <param name="model"> Модель, що прийшла з форми </param>
+        /// <returns></returns>
+        [HttpPost]
 		[Authorize(Roles = "Mentor, Admin")]
 		public async Task<IActionResult> Create(CourseCreateModel model)
 		{
@@ -188,6 +279,7 @@ namespace WebProject.Controllers
 			}
 			// Дістаю курси даного користувача
 			var courses = await _dbContext.Courses
+				.Include(c => c.Topics)
 				.Include(c => c.Options)
 				.ThenInclude(o => o.AdditionalInfo)
 				.Include(c => c.Author)
@@ -195,10 +287,10 @@ namespace WebProject.Controllers
 				.Where(c => c.Author.User.UserName == User.Identity.Name)
 				.ToListAsync();
 
-			var model = await _helper.CreateModel(courses);
+			currentCourseList = await _helper.CreateModel(courses);
 			ViewData["Title"] = "Мої курси";
             ViewData["IsEditModel"] = true;
-            return View("Index",  model);
+            return View("Index", currentCourseList);
 		}
         /// <summary>
         /// Редагувати курс
