@@ -1,0 +1,88 @@
+﻿@using BLL.Educational_entities.Organization;
+@using BLL.ViewModels;
+@model CourseInfoViewModel
+
+@{
+	ViewData["Title"] = "Редагувати курс";
+	Layout = "/Views/Shared/_Layout.cshtml";
+	string avatarRoute = "/avatar/" + Model.AuthorNickName;
+	Model.CourseDescription = Model.CourseInfo.Description;
+}
+
+<form asp-action="Edit" class="one-course-container">
+	<div class="one-course-general-info boder-solid-2p-light bg-light-programe">
+		<div class="form-group">
+			<input asp-for="CourseName" class="h3-input input-text-html" type="text" value="@Model.CourseInfo.Name" />
+			<span asp-validation-for="CourseName" class="text-danger validation-text"> </span>
+		</div>
+		<div class="courses-additional-info gap7">
+			<div class="course-charact @Model.Options.Level.ToString() course-level-border"> @Model.Options.Level </div>
+			<div class="course-charact @Model.Options.Type.ToString()"> @Model.Options.Type </div>
+
+			@if (Model.Options.AdditionalInfo is not null)
+			{
+				foreach (var info in Model.Options.AdditionalInfo)
+				{
+					<div class="course-charact other-characters w100"> @info.Name </div>
+				}
+			}
+		</div>
+		<div class="course-author-content">
+			<div>
+				<img src="@avatarRoute" class="thumbnail author-thumbnail" />
+			</div>
+			<div class="author-info">
+				@Html.ActionLink(Model.AuthorNickName, "View", "User", new { id = Model.AuthorId })
+			</div>
+		</div>
+		@Html.EditorFor(m => m.CourseDescription, new { htmlAttributes = new { @class = "description-area input-text-html" } })
+
+		@* TODO: При створенні юзерів додати так, щоб показувало відвідувати лише тоді,
+		коли користувач не відвідав курс *@
+		<div class="course-buttons-container">
+			<div class="form-group">
+				<input type="submit" value="Зберегти" class="btn btn-success" />
+			</div>
+			<a href="#"> Відвідати </a>
+		</div>
+	</div>
+	<div class="course-topic-container">
+		@if (Model.Topics is null || Model.Topics.Count() == 0)
+		{
+			<div class="no-topics-container">
+				<div class="no-topics-message"> На даний момент курс не має тем </div>
+				<a href="@Url.Action("Create", "Topic", new {courseId = Model.CourseInfo.Id })" class="link-proj add-topic-link">
+					<i class="far fa-plus-square"></i>
+					Додати
+				</a>
+			</div>
+		}
+		else
+		{
+			foreach (var topic in Model.Topics)
+			{
+				<div class="topic-info-container bg-light-programe">
+					<div class="topic-title">
+						@Html.ActionLink(topic.Title, "View", "Topic", new { id = topic.Id }, new { @style = "margin-right: 10px;" })
+						<a href="@Url.Action("Edit", "Topic", new { id = topic.Id} )">
+							<i class="fas fa-edit"></i>
+						</a>
+					</div>
+					<div> @topic.Description </div>
+					<hr class="line" />
+					<div> Кількість завдань в темі: @topic.Tasks?.Count() </div>
+				</div>
+			}
+			<div class="add-container-topics-more-zero">
+				<a href="@Url.Action("Create", "Topic", new {courseId = Model.CourseInfo.Id })" class="link-proj add-topic-link">
+					<i class="far fa-plus-square"></i>
+					Додати				
+				</a>
+			</div>
+		}
+	</div>
+	<input asp-for="AuthorId" value="@Model.AuthorId" hidden />
+	<input asp-for="AuthorNickName" value="@Model.AuthorNickName" hidden />
+	<input asp-for="CourseId" value="@Model.CourseInfo.Id" hidden />
+</form>
+

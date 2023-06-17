@@ -3,7 +3,7 @@
 
 @{
 	ViewData["Title"] = Model.TopicTitle;
-	Layout = "/Views/Shared/_TopicLayout.cshtml";
+	Layout = "/Views/Shared/_Layout.cshtml";
 }
 
 <div class="topic-container">
@@ -23,7 +23,7 @@
 			</div>
 			<div class="task-block">
 				@{
-					if (Model.Assignments is not null)
+					if (Model.Assignments != null && Model.Assignments.Count() > 0)
 					{
 						<h3>Практичні завдання</h3>
 						<div class="topic-task-grid">
@@ -36,7 +36,32 @@
 										</div>
 										<div class="task-characteristics-holder gap7">
 											<div class="course-charact @task.Type">@task.Type</div>
-											<div class="course-charact other-characters border-task-char">@task.ProgramingLanguage</div>
+											@{
+												var allowed = task.ProgramingLanguages?.Split(new char[]
+												{
+													' ', ',', '.', ';', ':', '\t'
+												}).Where(str => !string.IsNullOrEmpty(str)).ToArray();
+											}
+											<div class="course-charact other-characters border-task-char"> 
+												@if (allowed is not null)
+												{
+													if (allowed.Length == 1)
+													{
+														<div> @allowed[0]</div>
+													}
+													else
+													{
+														<div> 
+															@allowed.Length
+															мови на вибір
+													</div>
+												}
+											}
+											else
+											{
+												<div>Без обмежень на мови</div>
+											}
+										</div>
 										</div>
 									</div>
 									<div> @task.Description </div>
@@ -46,13 +71,17 @@
 					}
 					else
 					{
-					<div> No tasks</div>
+					<div class="no-content-in-topic">
+						<div class="no-content-font">
+							На даний момент практичних завдань немає
+						</div>
+					</div>
 				}
 			}
 		</div>
 		<div>
 			@{
-				if (Model.Tests is not null)
+				if (Model.Tests != null && Model.Tests.Count() > 0)
 				{
 					<h3>Тести</h3>
 					<div class="topic-task-grid">
@@ -74,7 +103,11 @@
 				}
 				else
 				{
-					
+					<div class="no-content-in-topic">
+						<div class="no-content-font">
+							На даний момент тестів немає
+						</div>
+					</div>
 				}
 			}
 		</div>

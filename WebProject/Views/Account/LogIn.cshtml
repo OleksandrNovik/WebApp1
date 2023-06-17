@@ -1,0 +1,33 @@
+﻿@using BLL.ViewModels;
+@model LogInViewModel;
+
+@{
+	ViewData["Title"] = "LogIn";
+	Layout = "/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body{
+         background-color: #f0f3f7;
+    }
+</style>
+
+<form asp-action="LogIn" class="form-proj">
+    <div class="form-holder-proj boder-solid-2p-light" style="width: 470px;">
+        <h1>Вхід</h1>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="UserName" class="control-label"> Ім'я користувача </label>
+            <input asp-for="UserName" class="form-control" type="text" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label"> Пароль </label>
+            <input asp-for="Password" class="form-control" type="password" style="width: 350px" onfocus="this.parentNode.classList.add('focused')" onblur="this.parentNode.classList.remove('focused')" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <a asp-action="SignUpStud" class="link-proj"> Я вперше на сайті </a>
+        <div class="form-group">
+            <input type="submit" value="Ввійти" class="btn btn-success"/> 
+        </div>
+    </div>
+</form>

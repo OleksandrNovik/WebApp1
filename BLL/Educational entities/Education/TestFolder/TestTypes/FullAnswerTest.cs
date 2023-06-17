@@ -5,6 +5,6 @@
 		public int Id { get; set; }
 		public string Question { get; set; }
 		public string Answers { get; set; }
-		public Question OnQuestion { get; set; }
+		public Questions OnQuestion { get; set; }
 	}
 }

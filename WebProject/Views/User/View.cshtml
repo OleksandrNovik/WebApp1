@@ -2,15 +2,17 @@
 @model UserViewModel
 
 @{
-    ViewData["Title"] = Model.ShownUser.UserName;
-	Layout = "/Views/Shared/_UserInfoLayout.cshtml";
+	ViewData["Title"] = Model.ShownUser.UserName;
+	Layout = "/Views/Shared/_Layout.cshtml";
+	string avatarRoute = $"/avatar/{Model.ShownUser.UserName}";
+	string coursesStr = Model.EditProfile ? "Мої курси" : "Публічні курси";
 	///TODO: Зробити деякі візуальні доповнення
 }
 
 <div class="profile-info-container">
 	<div class="profile-photo-description">
 		<div class="profile-picture">
-			<img src="~/resources/TestPhoto.png" class="profile-thumbnail" />
+			<img src="@avatarRoute" class="profile-thumbnail" />
 		</div>
 		<div class="user-name"> @Model.ShownUser.UserName </div>
 		<div class="user-action-container">
@@ -28,7 +30,7 @@
 		<div>
 			@{
 				string htmlElement = "";
-				if (Model.UserMentor.About is not null)
+				if (Model.UserMentor?.About is not null)
 				{
 					<h2> Про мене </h2>
 					htmlElement = HelperHTML.GenerateUnorderedList(Model.UserMentor.About);
@@ -36,7 +38,7 @@
 			}
 			@Html.Raw(htmlElement)
 		</div>
-		<h2> Публічні курси </h2>
+		<h2> @coursesStr </h2>
 		@{
 			if (Model.UserMentor is null || Model.UserMentor.Courses is null)
 			{

@@ -1,3 +1,7 @@
+:root {
+    --main-color: #40d669;
+}
+
 html {
   font-size: 14px;
 }
@@ -36,6 +40,9 @@ body {
 .gap7 {
     gap: 7px;
 }
+.gap15{
+    gap: 15px;
+}
 
 .bg-light-programe {
     background-color: #faf9f7;
@@ -48,8 +55,23 @@ body {
     border-radius: 8px;
     margin: 0;
 }
+
 .code-line{
     margin: 4px 0;
+}
+
+.link-proj {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.link-proj:hover{
+    color: var(--main-color);
+}
+
+.fa-edit {
+    margin-left: -10px;
 }
 /*
 ====================================================================
@@ -98,43 +120,43 @@ body {
         background-color: rgba(234, 187, 240, 0.5);
     }
 
-.Programming {
+.Desktop {
     background-color: #fce7cf;
 }
 
-    .Programming:hover {
+    .Desktop:hover {
         background-color: #fce5c2;
     }
 
-.Language {
+.Web {
     background-color: #cfe3fc;
 }
 
-    .Language:hover {
+    .Web:hover {
         background-color: #cbe0f7;
     }
 
-.Historical {
+.Database {
     background-color: #e5defc;
 }
 
-    .Historical:hover {
+    .Database:hover {
         background-color: #dbd2f7;
     }
 
-.Geographical {
+.Mobile {
     background-color: #d2fad3;
 }
 
-    .Geographical:hover {
+    .Mobile:hover {
         background-color: #cbf5cf;
     }
 
-.Calculus {
+.Gamedev {
     background-color: #fad4cf;
 }
 
-    .Calculus:hover {
+    .Gamedev:hover {
         background-color: #f7ccc6;
     }
 
@@ -146,4 +168,166 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin: 5px 0;
+}
+/*
+================================================================
+                Спільне навігаційне меню
+================================================================
+*/
+.upper-menu-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 10fr 128fr;
+    padding: 0 10px;
+}
+.nav-links-flex {
+    display: flex;
+    justify-content: space-between;
+}
+.menu-items-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+.sub-menu {
+    z-index: 100;
+    display: none;
+    opacity: 0;
+    background-color: rgb(255, 255, 255);
+}
+.nav-bar-proj ul {
+    list-style: none;
+}
+.nav-bar-proj ul li:hover .sub-menu {
+    display: block;
+    position: absolute;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.1);
+    animation: fadeIn 0.7s 1;
+    animation-fill-mode: forwards;
+}
+.nav-bar-proj ul li:hover .sub-menu ul{
+    display: block;
+    margin: 10px;
+}
+.nav-item-hv {
+    font-size: 17px;
+}
+.menu-item {
+    padding: 0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-bottom: 3px rgba(0, 0, 0, 0) solid;
+    transition: border-bottom 0.35s;
+}
+.link-item {
+    margin: 0;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+.nav-item-hv:hover .menu-item, .menu-item:hover {
+    border-bottom: 3px var(--main-color) solid;
+}
+
+.login-signup{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/*
+================================================================
+         Непоодинокі елементи навігаційного посилання
+================================================================
+*/
+.hover-item {
+    width: 220px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+.hover-item:hover {
+    background-color: #faf9f7;
+    animation: hover-item-animation 0.5s ease forwards;
+}
+@keyframes hover-item-animation {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(0.5rem);
+    }
+}
+
+/*
+==================================================================
+                    Підказка при наведенні
+==================================================================
+*/
+.edit-profile {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.edit-tooltip-text {
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.76);
+    color: #000;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    transform: translateX(-70%);
+    white-space: nowrap;
+    bottom: -70%;
+}
+
+.edit-profile:hover .edit-tooltip-text {
+    opacity: 1;
+}
+.h3-input {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+.h2-input {
+    font-size: 2em;
+    font-weight: 500;
+}
+.input-text-html {
+    border: none;
+    width: 100%;
+    background-color: inherit;
+    transition: all 0.2s ease-in-out;
+}
+.input-text-html:focus {
+        outline: none;
+        background-color: #f0f0f0;
+    }
+.height-100pc{
+    height: 100%;
+}
+.description-area {
+    resize: none;
+    padding: 10px 12px;
+    flex: 1;
+}
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+}
+input[type="checkbox"]:checked {    
+    accent-color: green;
 }

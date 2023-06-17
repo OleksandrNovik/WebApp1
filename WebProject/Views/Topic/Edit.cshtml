@@ -1,0 +1,139 @@
+﻿@using BLL.ViewModels.Create_Models;
+@model CreateTopicModel
+@{
+	ViewData["Title"] = "Редагувати теми";
+	Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<form class="topic-container" asp-action="Edit">
+	<div class="topic-general-info bg-light-programe boder-solid-2p-light">
+		<h1> @Model.CourseName </h1>
+		<hr />
+		<div class="form-group">
+			<input asp-for="Title" class="h2-input input-text-html" type="text" value="@Model.Title" />
+			<span asp-validation-for="Title" class="text-danger validation-text"> </span>
+		</div>
+		<div style="margin-bottom: 25px; height: 120px;">
+			@Html.EditorFor(m => m.Description, new { htmlAttributes = new { @class = "description-area height-100pc input-text-html" } })
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Зберегти" class="btn btn-success" />
+		</div>
+		<div class="task-block">
+			@{
+				if (Model.Assignments != null && Model.Assignments.Count > 0)
+				{
+					<h3>Практичні завдання</h3>
+					<div class="topic-task-grid">
+						@foreach (var task in Model.Assignments)
+						{
+							<div class="task-holder boder-solid-2p-light">
+								<div class="name-and-characteristics">
+									<div class="task-name-link">
+										@Html.ActionLink(@task.Name, "CodeEditor", "Tasks", new { assignmentID = task.Id })
+										<a href="@Url.Action("Edit", "Tasks", new { assignmentID = task.Id })">
+											<i class="fas fa-edit" style="margin-left: 2px;"></i>
+										</a>
+									</div>
+									<div class="task-characteristics-holder gap7">
+										<div class="course-charact @task.Type">@task.Type</div>
+										@{
+											var allowed = task.ProgramingLanguages?.Split(new char[]
+											{
+												' ', ',', '.', ';', ':', '\t'
+											}).Where(str => !string.IsNullOrEmpty(str)).ToArray();
+										}
+										<div class="course-charact other-characters border-task-char">
+											@if (allowed is not null)
+											{
+												if (allowed.Length == 1)
+												{
+													<div> @allowed[0]</div>
+												}
+												else
+												{
+													<div>
+														@allowed.Length
+														мови на вибір
+													</div>
+												}
+											}
+											else
+											{
+												<div>Без обмежень на мови</div>
+											}
+										</div>
+									</div>
+								</div>
+								<div> @task.Description </div>
+							</div>
+						}
+					</div>
+					<div class="add-button-topic">
+						<a href="@Url.Action("CreateTask", "Tasks", new {topicId = Model.TopicId })" class="link-proj add-topic-link" style="background-color: #ebedf0">
+							<i class="far fa-plus-square"></i>
+							Додати
+						</a>
+					</div>
+				}
+				else
+				{
+					<div class="no-content-in-topic">
+						<div class="no-content-font">
+							На даний момент практичних завдань немає
+						</div>
+						<a href="@Url.Action("CreateTask", "Tasks", new {topicId = Model.TopicId })" class="link-proj add-topic-link" style="background-color: #ebedf0">
+							<i class="far fa-plus-square"></i>
+							Додати
+						</a>
+					</div>
+				}
+			}
+		</div>
+		<div>
+			@{
+				if (Model.Tests != null && Model.Tests.Count > 0)
+				{
+					<h3>Тести</h3>
+					<div class="topic-task-grid">
+						@foreach (var test in Model.Tests)
+						{
+							<div class="task-holder boder-solid-2p-light">
+								<div class="name-and-characteristics">
+									<div class="task-name-link">
+										@Html.ActionLink(@test.Name, "CodeEditor", "Tasks", new { assignmentID = test.Id })
+									</div>
+									<div class="test-holder">
+										<div class="course-charact @test.Type">@test.Type</div>
+									</div>
+								</div>
+								<div> @test.Description </div>
+							</div>
+						}
+					</div>
+					<div class="add-button-topic">
+						<a href="@Url.Action("CreateTest", "Tasks", new {topicId = Model.TopicId })" class="link-proj add-topic-link" style="background-color: #ebedf0">
+							<i class="far fa-plus-square"></i>
+							Додати
+						</a>
+					</div>
+				}
+				else
+				{
+					<div class="no-content-in-topic">
+						<div class="no-content-font">
+							На даний момент тестів немає
+						</div>
+						<a href="@Url.Action("CreateTest", "Tasks", new { topicId = Model.TopicId })" class="link-proj add-topic-link" style="background-color: #ebedf0">
+							<i class="far fa-plus-square"></i>
+							Додати
+						</a>
+					</div>
+				}
+			}
+		</div>
+	</div>
+	<input hidden asp-for="CourseId" value="@Model.CourseId" />
+	<input hidden asp-for="CourseName" value="@Model.CourseName" />
+	<input hidden asp-for="TopicId" value="@Model.TopicId" />
+</form>

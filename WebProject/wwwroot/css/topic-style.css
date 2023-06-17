@@ -64,3 +64,21 @@
     .Test:hover {
         background-color: rgba(104, 237, 104, 0.35);
     }
+
+.add-button-topic, .no-content-in-topic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add-button-topic{
+    margin: 20px 0;
+}
+.no-content-in-topic {
+    flex-direction: column;
+    gap: 15px;
+    margin: 50px 0;
+}
+.no-content-font{
+    font-size: 25px;
+    font-weight: 500;
+}
